@@ -521,6 +521,243 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .spinner { width: 20px; height: 20px; border: 2px solid var(--gray2); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
 
+  /* PLANNER TABS */
+  .planner-tabs-wrap {
+    max-width: 860px;
+    margin: 0 auto 28px;
+  }
+
+  .planner-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--white);
+    border: 1px solid var(--gray2);
+    border-radius: 14px;
+    padding: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .ptab {
+    flex: 1;
+    padding: 10px 8px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .ptab:hover { background: var(--gray); color: var(--text); }
+  .ptab.active { background: var(--black); color: #fff; }
+
+  .ptab-content { display: none; max-width: 860px; margin: 0 auto; }
+  .ptab-content.active { display: block; }
+
+  /* SECTION TABS (inside ideas) */
+  .section-tabs-wrap {
+    margin-bottom: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .section-tabs {
+    display: flex;
+    gap: 6px;
+    min-width: max-content;
+  }
+
+  .stab {
+    padding: 8px 16px;
+    border: 1.5px solid var(--gray2);
+    border-radius: 20px;
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .stab:hover { border-color: var(--green); color: var(--green); }
+  .stab.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+  /* IDEA SECTION */
+  .idea-section { display: none; }
+  .idea-section.active { display: block; }
+
+  .idea-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 16px;
+    border-bottom: 2px solid var(--gray2);
+    margin-bottom: 4px;
+  }
+
+  .idea-section-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 3px;
+  }
+
+  .idea-section-header p { font-size: 0.8rem; color: var(--muted); }
+
+  .idea-list { margin-bottom: 4px; }
+
+  .idea-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 4px;
+    border-bottom: 1px solid #f2f2f0;
+    transition: background 0.1s;
+    border-radius: 8px;
+  }
+
+  .idea-item:hover { background: #fafaf8; padding-left: 8px; }
+  .idea-item .idea-text { flex: 1; font-size: 0.92rem; font-weight: 500; color: var(--text); }
+
+  /* HOOK TAB CONTENT */
+  .hooks-intro {
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 0.86rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .hook-tab-content { display: none; }
+  .hook-tab-content.active { display: block; }
+
+  .hook-tab-header {
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--gray2);
+    margin-bottom: 16px;
+  }
+
+  .hook-tab-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 6px;
+  }
+
+  .hook-tab-header p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+
+  .hook-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .hook-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--white);
+    border: 1px solid var(--gray2);
+    border-radius: 12px;
+    padding: 13px 15px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    transition: box-shadow 0.12s, border-color 0.12s;
+  }
+
+  .hook-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.08); border-color: var(--green-border); }
+
+  .hc-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--black);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .hc-text { font-size: 0.85rem; color: var(--text); line-height: 1.5; font-style: italic; }
+  .hc-text em { color: var(--green); font-style: normal; font-weight: 600; }
+
+  .hook-tip {
+    background: #fffbf0;
+    border: 1px solid #ffe8a0;
+    border-radius: 10px;
+    padding: 11px 16px;
+    font-size: 0.82rem;
+    color: #664d00;
+    line-height: 1.5;
+  }
+
+  /* GROWTH GRID */
+  .growth-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .growth-card {
+    background: var(--white);
+    border: 1px solid var(--gray2);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .gc-emoji { font-size: 1.4rem; display: block; margin-bottom: 10px; }
+  .growth-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 7px; }
+  .growth-card p { font-size: 0.82rem; color: #666; line-height: 1.6; }
+  .growth-card strong { color: var(--text); }
+
+  /* HASHTAG SECTIONS */
+  .hashtag-section {
+    background: var(--white);
+    border: 1px solid var(--gray2);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .hashtag-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+
+  .hashtag-section p { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; }
+  .hashtag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hashtag-list.big .hashtag { font-size: 0.9rem; padding: 7px 16px; }
+
+  .hashtag {
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    border-radius: 20px;
+    padding: 5px 13px;
+    font-size: 0.82rem;
+    color: var(--green);
+    font-weight: 600;
+  }
+
   /* CUSTOM IDEAS */
   .custom-ideas-container { padding: 0 24px; }
 
@@ -629,353 +866,339 @@
   <div class="header">
     <div class="flag">🇯🇲</div>
     <h1>Content <span>Planner</span></h1>
-    <p>Ideas · Hooks · Growth Principles · Hashtags</p>
+    <p>Ideas · Hooks · Growth · Hashtags</p>
   </div>
 
-  <!-- GROWTH PRINCIPLES -->
-  <div class="research-panel">
-    <div class="research-header">
-      <h2>Growth Principles 🌱</h2>
-      <p>What consistently works — stay in your own lane</p>
+  <!-- PLANNER TABS -->
+  <div class="planner-tabs-wrap">
+    <div class="planner-tabs">
+      <button class="ptab active" onclick="showPTab('ideas', this)">💡 Ideas</button>
+      <button class="ptab" onclick="showPTab('hooks', this)">⚡ Hooks</button>
+      <button class="ptab" onclick="showPTab('growth', this)">🌱 Growth</button>
+      <button class="ptab" onclick="showPTab('hashtags', this)">＃ Hashtags</button>
     </div>
-    <div class="research-grid">
-      <div class="research-card">
-        <span class="rc-emoji">🎭</span>
+  </div>
+
+  <!-- ===== IDEAS TAB ===== -->
+  <div id="ptab-ideas" class="ptab-content active">
+
+    <!-- Section tabs -->
+    <div class="section-tabs-wrap">
+      <div class="section-tabs">
+        <button class="stab active" onclick="showSection('everyday', this)">☀️ Everyday Life</button>
+        <button class="stab" onclick="showSection('jamaican', this)">🇯🇲 Jamaican Culture</button>
+        <button class="stab" onclick="showSection('relatable', this)">😭 Relatable</button>
+        <button class="stab" onclick="showSection('youtube', this)">🎬 YouTube Crossover</button>
+      </div>
+    </div>
+
+    <!-- Everyday Life -->
+    <div id="section-everyday" class="idea-section active">
+      <div class="idea-section-header">
+        <div>
+          <h3>Everyday Life</h3>
+          <p>Easy, low-effort daily content from your real life</p>
+        </div>
+        <span class="tag tag-daily">Daily</span>
+      </div>
+      <div class="idea-list">
+        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">Get ready with me — morning routine</span><span class="tag tag-daily">Daily</span></div>
+        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">A rant about something that annoyed you</span><span class="tag tag-easy">Easy</span></div>
+        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">A random opinion you have</span><span class="tag tag-easy">Easy</span></div>
+        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">Responding to a comment or question</span><span class="tag tag-daily">Daily</span></div>
+        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">Talking to camera while driving or walking</span><span class="tag tag-easy">Easy</span></div>
+        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">What I ate today</span><span class="tag tag-easy">Easy</span></div>
+      </div>
+      <div id="custom-ideas-Everyday Life" class="custom-ideas-container"></div>
+      <button class="add-idea-btn" onclick="openIdeaModal('Everyday Life')">＋ Add Your Own Idea</button>
+    </div>
+
+    <!-- Jamaican Culture -->
+    <div id="section-jamaican" class="idea-section">
+      <div class="idea-section-header">
+        <div>
+          <h3>Jamaican Culture</h3>
+          <p>Your biggest differentiator — lean into it every video</p>
+        </div>
+        <span class="tag tag-viral">Viral</span>
+      </div>
+      <div class="idea-list">
+        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Jamaican phrases & slang explained</span><span class="tag tag-viral">Viral</span></div>
+        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Things only Jamaicans understand</span><span class="tag tag-viral">Viral</span></div>
+        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Jamaican food reviews or recipes</span><span class="tag tag-niche">Niche</span></div>
+        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Jamaica vs where I live now — comparisons</span><span class="tag tag-viral">Viral</span></div>
+        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Reacting to assumptions about Jamaica</span><span class="tag tag-viral">Viral</span></div>
+        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Things my Jamaican parents said that shaped me</span><span class="tag tag-niche">Niche</span></div>
+      </div>
+      <div id="custom-ideas-Jamaican Culture" class="custom-ideas-container"></div>
+      <button class="add-idea-btn" onclick="openIdeaModal('Jamaican Culture')">＋ Add Your Own Idea</button>
+    </div>
+
+    <!-- Relatable Content -->
+    <div id="section-relatable" class="idea-section">
+      <div class="idea-section-header">
+        <div>
+          <h3>Relatable Content</h3>
+          <p>Real and honest — the more specific, the more it resonates</p>
+        </div>
+        <span class="tag tag-viral">High Engagement</span>
+      </div>
+      <div class="idea-list">
+        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Work frustrations — just vibes, no details needed</span><span class="tag tag-easy">Easy</span></div>
+        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Adulting struggles</span><span class="tag tag-viral">Viral</span></div>
+        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Things that made you laugh today</span><span class="tag tag-daily">Daily</span></div>
+        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">60 second day in my life</span><span class="tag tag-daily">Daily</span></div>
+        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Something that pleasantly surprised you</span><span class="tag tag-easy">Easy</span></div>
+        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Things I wish I knew earlier</span><span class="tag tag-viral">Viral</span></div>
+      </div>
+      <div id="custom-ideas-Relatable Content" class="custom-ideas-container"></div>
+      <button class="add-idea-btn" onclick="openIdeaModal('Relatable Content')">＋ Add Your Own Idea</button>
+    </div>
+
+    <!-- YouTube Crossover -->
+    <div id="section-youtube" class="idea-section">
+      <div class="idea-section-header">
+        <div>
+          <h3>YouTube Crossover</h3>
+          <p>Repurpose your YouTube content to drive traffic from TikTok & Reels</p>
+        </div>
+        <span class="tag tag-daily">Drive Traffic</span>
+      </div>
+      <div class="idea-list">
+        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">Clip from your weekly vlog — best moment</span><span class="tag tag-easy">Easy</span></div>
+        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">Behind the scenes of filming YouTube</span><span class="tag tag-niche">Niche</span></div>
+        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">Horned melon / food teaser clip</span><span class="tag tag-daily">Daily</span></div>
+        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">Stitch or duet a trending video with your reaction</span><span class="tag tag-viral">Viral</span></div>
+        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">"Full video on YouTube" teaser clips</span><span class="tag tag-daily">Daily</span></div>
+      </div>
+      <div id="custom-ideas-YouTube Crossover" class="custom-ideas-container"></div>
+      <button class="add-idea-btn" onclick="openIdeaModal('YouTube Crossover')">＋ Add Your Own Idea</button>
+    </div>
+
+  </div><!-- end ideas tab -->
+
+  <!-- ===== HOOKS TAB ===== -->
+  <div id="ptab-hooks" class="ptab-content">
+
+    <div class="hooks-intro">
+      <p>Use these in the <strong>first 2 seconds</strong> of every video. Pick by the feeling you want to create, or by the type of content you're making.</p>
+    </div>
+
+    <!-- Hook type tabs -->
+    <div class="section-tabs-wrap">
+      <div class="section-tabs">
+        <button class="stab active" onclick="showHookTab('curiosity', this)">🎯 Curiosity</button>
+        <button class="stab" onclick="showHookTab('relatable', this)">😤 Relatable</button>
+        <button class="stab" onclick="showHookTab('culture', this)">🇯🇲 Culture</button>
+        <button class="stab" onclick="showHookTab('opinion', this)">💬 Opinion</button>
+        <button class="stab" onclick="showHookTab('comedy', this)">😂 Comedy</button>
+      </div>
+    </div>
+
+    <!-- Curiosity -->
+    <div id="hooktab-curiosity" class="hook-tab-content active">
+      <div class="hook-tab-header">
+        <h3>🎯 Curiosity Hooks</h3>
+        <p>Make them need to know what happens next. Best for food/reaction videos, trying new things, and story-based content.</p>
+      </div>
+      <div class="hook-cards">
+        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"I tried <em>[thing]</em> and was not prepared for what happened…"</span></div>
+        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"Nobody talks about <em>[topic]</em> but I'm going to…"</span></div>
+        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"Wait until you see the end of this…"</span></div>
+        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"What happened next had me absolutely speechless…"</span></div>
+        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"I found out something today and I had to share it…"</span></div>
+        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">"If you knew what I know right now, you'd be shocked too…"</span></div>
+        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"I tried a horned melon for the first time and my reaction says everything…"</span></div>
+        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"You have to see what happened in this week's vlog…"</span></div>
+      </div>
+      <div class="hook-tip">💡 <strong>Best for:</strong> Food reactions, trying new things, story time, vlog teasers</div>
+    </div>
+
+    <!-- Relatable -->
+    <div id="hooktab-relatable" class="hook-tab-content">
+      <div class="hook-tab-header">
+        <h3>😤 Relatable Hooks</h3>
+        <p>Make them feel seen immediately. Best for rants, adulting content, work frustrations, and day-in-the-life videos.</p>
+      </div>
+      <div class="hook-cards">
+        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"Tell me why <em>[thing]</em> happened to me today…"</span></div>
+        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"If you've ever dealt with <em>[situation]</em>, this video is for you"</span></div>
+        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"The audacity. I cannot. Let me explain…"</span></div>
+        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"Am I wrong for being upset about this?"</span></div>
+        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"The way I walked into work today and immediately regretted it…"</span></div>
+        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">"Nobody told me adulting would feel like this every single day…"</span></div>
+        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"Why does this keep happening to me specifically…"</span></div>
+        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"The way I be minding my business and then…"</span></div>
+      </div>
+      <div class="hook-tip">💡 <strong>Best for:</strong> Rants, work content, adulting, day-in-the-life, frustrations</div>
+    </div>
+
+    <!-- Culture -->
+    <div id="hooktab-culture" class="hook-tab-content">
+      <div class="hook-tab-header">
+        <h3>🇯🇲 Culture Hooks</h3>
+        <p>Your biggest differentiator. Use these for Jamaican culture content, comparisons, food, slang, and Caribbean community content.</p>
+      </div>
+      <div class="hook-cards">
+        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"POV: you're Jamaican and this is just normal life"</span></div>
+        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"Let me teach you something real Jamaicans know…"</span></div>
+        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"Growing up Jamaican hits different and here's why…"</span></div>
+        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"Jamaican woman reacts to <em>[topic]</em>…"</span></div>
+        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"Things my Jamaican parents said that shaped me…"</span></div>
+        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">"Caribbean girlies will understand this instantly…"</span></div>
+        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"Non-Jamaicans, pay attention. Class is in session."</span></div>
+        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"The things people assume about Jamaica… let me address this"</span></div>
+      </div>
+      <div class="hook-tip">💡 <strong>Best for:</strong> Slang videos, food, culture comparisons, reaction content, Jamaica vs abroad</div>
+    </div>
+
+    <!-- Opinion -->
+    <div id="hooktab-opinion" class="hook-tab-content">
+      <div class="hook-tab-header">
+        <h3>💬 Opinion Hooks</h3>
+        <p>Spark debate and drive comments. Best for hot takes, unpopular opinions, and anything you feel strongly about.</p>
+      </div>
+      <div class="hook-cards">
+        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"Unpopular opinion: <em>[statement]</em> — fight me in the comments"</span></div>
+        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"Hot take and I stand by every single word…"</span></div>
+        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"I said what I said. <em>[opinion]</em>."</span></div>
+        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"I'm probably going to get hate for this but…"</span></div>
+        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"Everyone disagrees with me on this and I genuinely don't care…"</span></div>
+        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">"This is my truth and you can take it or leave it…"</span></div>
+        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"Nobody agrees with me on this but here we go…"</span></div>
+        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"I need to say this because nobody else will…"</span></div>
+      </div>
+      <div class="hook-tip">💡 <strong>Best for:</strong> Hot takes, opinion pieces, responding to trends, unpopular views</div>
+    </div>
+
+    <!-- Comedy -->
+    <div id="hooktab-comedy" class="hook-tab-content">
+      <div class="hook-tab-header">
+        <h3>😂 Comedy Hooks</h3>
+        <p>Stop the scroll with humour. Best for funny moments, chaos content, and anything where your personality is the whole point.</p>
+      </div>
+      <div class="hook-cards">
+        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"God was really testing me today…"</span></div>
+        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"I was minding my business when…"</span></div>
+        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"This is not what I planned but here we are…"</span></div>
+        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"I cannot make this up, this actually happened to me today…"</span></div>
+        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"Jamaican chaos for your Thursday…"</span></div>
+        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">Start mid-laugh or mid-reaction — no words needed at all</span></div>
+        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"It's giving chaos and I am here for it…"</span></div>
+        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"Story time because this had me absolutely dead…"</span></div>
+      </div>
+      <div class="hook-tip">💡 <strong>Best for:</strong> Funny moments, chaos days, story time, personality-first content</div>
+    </div>
+
+  </div><!-- end hooks tab -->
+
+  <!-- ===== GROWTH TAB ===== -->
+  <div id="ptab-growth" class="ptab-content">
+    <div class="growth-grid">
+      <div class="growth-card">
+        <span class="gc-emoji">🎭</span>
         <h3>Be Unapologetically You</h3>
         <p>Your accent, your humour, your bluntness — that IS the content. Never tone yourself down. People subscribe to <strong>people they feel connected to</strong>.</p>
       </div>
-      <div class="research-card">
-        <span class="rc-emoji">🪞</span>
+      <div class="growth-card">
+        <span class="gc-emoji">🪞</span>
         <h3>Real Life Over Highlight Reel</h3>
         <p>The messier and more honest, the more it resonates. <strong>Specific and real always outperforms polished and perfect.</strong></p>
       </div>
-      <div class="research-card">
-        <span class="rc-emoji">🇯🇲</span>
+      <div class="growth-card">
+        <span class="gc-emoji">🇯🇲</span>
         <h3>Your Culture Is Your Superpower</h3>
         <p>Patois, Jamaican food, cultural comparisons — <strong>your background is your biggest differentiator.</strong> Use it every video.</p>
       </div>
-      <div class="research-card">
-        <span class="rc-emoji">🎙️</span>
+      <div class="growth-card">
+        <span class="gc-emoji">🎙️</span>
         <h3>Tell Stories, Not Just Updates</h3>
         <p>Build tension, add feeling, land a reaction. <strong>Start in the middle of the story.</strong> Make them feel it.</p>
       </div>
-      <div class="research-card">
-        <span class="rc-emoji">💬</span>
+      <div class="growth-card">
+        <span class="gc-emoji">💬</span>
         <h3>Build Community, Not Just Views</h3>
         <p>Reply to comments with videos. Do Q&As. <strong>Make your audience feel like insiders</strong>, not just viewers.</p>
       </div>
-      <div class="research-card">
-        <span class="rc-emoji">🔁</span>
+      <div class="growth-card">
+        <span class="gc-emoji">🔁</span>
         <h3>Create Recurring Formats</h3>
         <p>Build formats your audience expects. <strong>Formats build habit. Habit builds subscribers.</strong></p>
       </div>
-      <div class="research-card">
-        <span class="rc-emoji">🎵</span>
+      <div class="growth-card">
+        <span class="gc-emoji">🎵</span>
         <h3>Use Trending Audio Weekly</h3>
         <p><strong>Check TikTok's trending audio every week</strong> — especially dancehall and afrobeats for your niche.</p>
       </div>
-      <div class="research-card">
-        <span class="rc-emoji">😂</span>
+      <div class="growth-card">
+        <span class="gc-emoji">😂</span>
         <h3>Humour Makes Everything Land</h3>
         <p>Comedy makes hard truths easier to share. <strong>Your natural wit is a superpower</strong> — don't hold back.</p>
       </div>
+      <div class="growth-card">
+        <span class="gc-emoji">⏰</span>
+        <h3>Post Consistently</h3>
+        <p>Once a week on YouTube, daily on TikTok/Reels when starting. <strong>Consistency beats frequency every time.</strong> Pick a schedule you can actually keep.</p>
+      </div>
+      <div class="growth-card">
+        <span class="gc-emoji">📊</span>
+        <h3>Check Analytics Weekly</h3>
+        <p>Look at watch time and click-through rate above everything else. <strong>Double down on what works.</strong> The data will tell you what your audience loves.</p>
+      </div>
     </div>
-  </div>
+  </div><!-- end growth tab -->
 
-  <!-- Everyday Life -->
-  <div class="section">
-    <div class="section-header">
-      <span class="icon">☀️</span>
-      <h2>Everyday Life</h2>
-      <span class="count">Daily content</span>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">Get ready with me — morning routine</span><span class="tag tag-daily">Daily</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"It's 7am and I'm already tired but let's go…"</div>
-        <div class="hook-pill">"My morning routine is not what you'd expect…"</div>
-        <div class="hook-pill">"Getting ready while I tell you about my week…"</div>
-        <div class="hook-pill">"Come get ready with a Jamaican girl…"</div>
+  <!-- ===== HASHTAGS TAB ===== -->
+  <div id="ptab-hashtags" class="ptab-content">
+    <div class="hashtag-section">
+      <h3>Your 5 Go-To Tags</h3>
+      <p>Use these on every single post — TikTok and Reels. Copy and paste every time.</p>
+      <div class="hashtag-list big">
+        <span class="hashtag">#jamaicancreator</span>
+        <span class="hashtag">#dayinmylife</span>
+        <span class="hashtag">#lifevlog</span>
+        <span class="hashtag">#vlogger</span>
+        <span class="hashtag">#contentcreator</span>
       </div>
     </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">A rant about something that annoyed you</span><span class="tag tag-easy">Easy</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"I need to talk about what just happened to me…"</div>
-        <div class="hook-pill">"The audacity. I cannot. Let me explain…"</div>
-        <div class="hook-pill">"So this actually happened and I'm still angry…"</div>
-        <div class="hook-pill">"Tell me why [thing] happened to me today…"</div>
+    <div class="hashtag-section">
+      <h3>For Jamaican Culture Videos</h3>
+      <p>Add these when the content is specifically about Jamaica or Caribbean culture.</p>
+      <div class="hashtag-list">
+        <span class="hashtag">#jamaicantiktok</span>
+        <span class="hashtag">#caribbeancreator</span>
+        <span class="hashtag">#jamaicanculture</span>
+        <span class="hashtag">#caribbeangirlsrock</span>
+        <span class="hashtag">#tiktokjamaica</span>
       </div>
     </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">A random opinion you have</span><span class="tag tag-easy">Easy</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"Unpopular opinion and I will not be taking questions…"</div>
-        <div class="hook-pill">"Hot take and I stand by it…"</div>
-        <div class="hook-pill">"I said what I said."</div>
-        <div class="hook-pill">"Nobody agrees with me on this but here we go…"</div>
+    <div class="hashtag-section">
+      <h3>For Relatable / Adulting Content</h3>
+      <p>Add these when your content is about real life, struggles, or everyday moments.</p>
+      <div class="hashtag-list">
+        <span class="hashtag">#relatable</span>
+        <span class="hashtag">#adultingishard</span>
+        <span class="hashtag">#blackgirlmagic</span>
+        <span class="hashtag">#reallife</span>
+        <span class="hashtag">#storytime</span>
       </div>
     </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">Responding to a comment or question</span><span class="tag tag-daily">Daily</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"Someone asked me [question] and honestly…"</div>
-        <div class="hook-pill">"This comment had me thinking all day…"</div>
-        <div class="hook-pill">"Y'all keep asking me this so let me explain…"</div>
-        <div class="hook-pill">"Replying to [name] because this needs addressing…"</div>
+    <div class="hashtag-section">
+      <h3>YouTube Channel Tags</h3>
+      <p>Use these when cross-posting clips to drive people to your YouTube.</p>
+      <div class="hashtag-list">
+        <span class="hashtag">#youtuber</span>
+        <span class="hashtag">#youtubevlog</span>
+        <span class="hashtag">#blackgirlswhoyoutube</span>
+        <span class="hashtag">#weeklylifevlog</span>
+        <span class="hashtag">#yolandamcleod</span>
       </div>
     </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">Talking to camera while driving or walking</span><span class="tag tag-easy">Easy</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"I'm in the car and I just had a thought…"</div>
-        <div class="hook-pill">"Walking and talking because I need to vent…"</div>
-        <div class="hook-pill">"I just left [place] and oh my God…"</div>
-        <div class="hook-pill">"Car talk. No filter. Let's go."</div>
-      </div>
+    <div class="tip-box" style="margin-top:8px">
+      <h3>⚡ Hashtag Reminder</h3>
+      <p><strong>TikTok & Reels only allow 5 hashtags</strong> that really count — always use your 5 go-to tags. Swap one out for a category-specific tag when relevant. Your name <strong>#yolandamcleod</strong> builds searchability over time so include it whenever you can.</p>
     </div>
-    <div id="custom-ideas-Everyday Life" class="custom-ideas-container"></div>
-    <button class="add-idea-btn" onclick="openIdeaModal('Everyday Life')">＋ Add Your Own Idea</button>
-  </div>
-
-  <!-- Jamaican Culture -->
-  <div class="section">
-    <div class="section-header">
-      <span class="icon">🇯🇲</span>
-      <h2>Jamaican Culture</h2>
-      <span class="count">Your secret weapon</span>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Jamaican phrases & slang explained</span><span class="tag tag-viral">Viral</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"If you've ever been confused by Jamaican slang, this is for you…"</div>
-        <div class="hook-pill">"Let me teach you something only Jamaicans say…"</div>
-        <div class="hook-pill">"POV: you just learned your first Jamaican word…"</div>
-        <div class="hook-pill">"Non-Jamaicans, pay attention. Class is in session."</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Things only Jamaicans understand</span><span class="tag tag-viral">Viral</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"POV: you grew up Jamaican and this is just Tuesday…"</div>
-        <div class="hook-pill">"Jamaicans will know exactly what I mean…"</div>
-        <div class="hook-pill">"If your parents are Jamaican, you lived this…"</div>
-        <div class="hook-pill">"Growing up Jamaican be like…"</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Jamaican food reviews or recipes</span><span class="tag tag-niche">Niche</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"Let me show you how we really eat back home…"</div>
-        <div class="hook-pill">"I made a Jamaican classic and I need you to try this…"</div>
-        <div class="hook-pill">"Non-Jamaicans are sleeping on this dish and I'm mad…"</div>
-        <div class="hook-pill">"This is what Sunday smells like in a Jamaican house…"</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Jamaica vs where I live now</span><span class="tag tag-viral">Viral</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"Growing up in Jamaica vs living here… wild difference"</div>
-        <div class="hook-pill">"Things I had to unlearn when I left Jamaica…"</div>
-        <div class="hook-pill">"Jamaica vs [country] — who has it better?"</div>
-        <div class="hook-pill">"I miss Jamaica every single day and here's why…"</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Reacting to assumptions about Jamaica</span><span class="tag tag-viral">Viral</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"The things people assume about Jamaica… let me address this"</div>
-        <div class="hook-pill">"I'm tired of seeing this said about my country…"</div>
-        <div class="hook-pill">"Someone said this about Jamaica and I cannot stay quiet…"</div>
-        <div class="hook-pill">"Jamaican woman here. Let me correct the record."</div>
-      </div>
-    </div>
-    <div id="custom-ideas-Jamaican Culture" class="custom-ideas-container"></div>
-    <button class="add-idea-btn" onclick="openIdeaModal('Jamaican Culture')">＋ Add Your Own Idea</button>
-  </div>
-
-  <!-- Relatable Content -->
-  <div class="section">
-    <div class="section-header">
-      <span class="icon">😭</span>
-      <h2>Relatable Content</h2>
-      <span class="count">High engagement</span>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-pink"></div><span class="idea-text">Work frustrations — just vibes, no details</span><span class="tag tag-easy">Easy</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"The way I walked into work and immediately regretted it…"</div>
-        <div class="hook-pill">"My job is draining me and I need to talk about it…"</div>
-        <div class="hook-pill">"This week at work had me like…"</div>
-        <div class="hook-pill">"If you hate your job, this video is for you…"</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-pink"></div><span class="idea-text">Adulting struggles</span><span class="tag tag-viral">Viral</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"Nobody told me adulting would feel like this every day…"</div>
-        <div class="hook-pill">"Being an adult is a scam and I have receipts…"</div>
-        <div class="hook-pill">"Things I wish someone told me before I grew up…"</div>
-        <div class="hook-pill">"I am not okay and adulting is the reason…"</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-pink"></div><span class="idea-text">Things that made you laugh today</span><span class="tag tag-daily">Daily</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"I cannot make this up, this actually happened…"</div>
-        <div class="hook-pill">"I was minding my business when…"</div>
-        <div class="hook-pill">"Story time because this had me dead…"</div>
-        <div class="hook-pill">"God was really showing off today…"</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-pink"></div><span class="idea-text">60 second day in my life</span><span class="tag tag-daily">Daily</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"A day in my life in 60 seconds — it's a lot…"</div>
-        <div class="hook-pill">"Come live a day with a Jamaican woman…"</div>
-        <div class="hook-pill">"My day was chaotic. Come see."</div>
-        <div class="hook-pill">"Nobody prepared me for this day. Watch."</div>
-      </div>
-    </div>
-    <div id="custom-ideas-Relatable Content" class="custom-ideas-container"></div>
-    <button class="add-idea-btn" onclick="openIdeaModal('Relatable Content')">＋ Add Your Own Idea</button>
-  </div>
-
-  <!-- YouTube Crossover -->
-  <div class="section">
-    <div class="section-header">
-      <span class="icon">🎬</span>
-      <h2>YouTube Crossover</h2>
-      <span class="count">Drive traffic</span>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-blue"></div><span class="idea-text">Clip from your weekly vlog — best moment</span><span class="tag tag-easy">Easy</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">Start mid-reaction — no intro, drop straight in</div>
-        <div class="hook-pill">"You have to see what happened in this week's vlog…"</div>
-        <div class="hook-pill">"I filmed this and knew I had to post it…"</div>
-        <div class="hook-pill">"Full video on YouTube but I had to share this part…"</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-blue"></div><span class="idea-text">Behind the scenes of filming YouTube</span><span class="tag tag-niche">Niche</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"What making a YouTube video actually looks like…"</div>
-        <div class="hook-pill">"The chaos behind my YouTube channel…"</div>
-        <div class="hook-pill">"Nobody shows you this part of being a creator…"</div>
-        <div class="hook-pill">"Come film a YouTube video with me…"</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-blue"></div><span class="idea-text">Horned melon / food teaser clip</span><span class="tag tag-daily">Daily</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">"I tried a horned melon and my reaction says everything…"</div>
-        <div class="hook-pill">"Have you ever seen this fruit? Because I hadn't…"</div>
-        <div class="hook-pill">"I ate something weird and I need to talk about it…"</div>
-        <div class="hook-pill">Drop straight into your first bite — no intro</div>
-      </div>
-    </div>
-    <div class="idea-row">
-      <div class="idea-top"><div class="dot dot-blue"></div><span class="idea-text">Stitch or duet a trending video</span><span class="tag tag-viral">Viral</span></div>
-      <div class="hooks-grid">
-        <div class="hook-pill">Let original play 2 secs, cut to your face</div>
-        <div class="hook-pill">"Wait — I have to respond to this…"</div>
-        <div class="hook-pill">"Jamaican woman's take on this…"</div>
-        <div class="hook-pill">"As a Caribbean woman I cannot stay quiet…"</div>
-      </div>
-    </div>
-    <div id="custom-ideas-YouTube Crossover" class="custom-ideas-container"></div>
-    <button class="add-idea-btn" onclick="openIdeaModal('YouTube Crossover')">＋ Add Your Own Idea</button>
-  </div>
-
-  <!-- Hook Formulas -->
-  <div class="hooks-section">
-    <div class="hooks-section-header">
-      <span style="font-size:1.1rem">⚡</span>
-      <h2>Universal Hook Formulas</h2>
-      <p>Fill in the blanks</p>
-    </div>
-    <div class="hook-cat">
-      <div class="hook-cat-title">🎯 Curiosity</div>
-      <div class="hook-formula-grid">
-        <div class="hook-formula"><span class="hf-num">1</span>"I tried <em>[thing]</em> and was not prepared…"</div>
-        <div class="hook-formula"><span class="hf-num">2</span>"Nobody talks about <em>[topic]</em> but I will…"</div>
-        <div class="hook-formula"><span class="hf-num">3</span>"Wait until you see the end of this…"</div>
-        <div class="hook-formula"><span class="hf-num">4</span>"What happened next had me speechless…"</div>
-        <div class="hook-formula"><span class="hf-num">5</span>"I found out something today and had to share…"</div>
-        <div class="hook-formula"><span class="hf-num">6</span>"If you knew what I know, you'd be shocked too…"</div>
-      </div>
-    </div>
-    <div class="hook-cat">
-      <div class="hook-cat-title">😤 Relatable</div>
-      <div class="hook-formula-grid">
-        <div class="hook-formula"><span class="hf-num">1</span>"Tell me why <em>[thing]</em> happened to me today…"</div>
-        <div class="hook-formula"><span class="hf-num">2</span>"If you've ever dealt with <em>[situation]</em>, this is for you"</div>
-        <div class="hook-formula"><span class="hf-num">3</span>"The audacity. I cannot. Let me explain…"</div>
-        <div class="hook-formula"><span class="hf-num">4</span>"Am I wrong for being upset about this?"</div>
-        <div class="hook-formula"><span class="hf-num">5</span>"The way I be minding my business and then…"</div>
-        <div class="hook-formula"><span class="hf-num">6</span>"Why does this keep happening to me specifically…"</div>
-      </div>
-    </div>
-    <div class="hook-cat">
-      <div class="hook-cat-title">🇯🇲 Culture</div>
-      <div class="hook-formula-grid">
-        <div class="hook-formula"><span class="hf-num">1</span>"POV: you're Jamaican and this is just normal life"</div>
-        <div class="hook-formula"><span class="hf-num">2</span>"Let me teach you something real Jamaicans know…"</div>
-        <div class="hook-formula"><span class="hf-num">3</span>"Growing up Jamaican hits different and here's why…"</div>
-        <div class="hook-formula"><span class="hf-num">4</span>"Jamaican woman reacts to <em>[topic]</em>…"</div>
-        <div class="hook-formula"><span class="hf-num">5</span>"Things my Jamaican parents said that shaped me…"</div>
-        <div class="hook-formula"><span class="hf-num">6</span>"Caribbean girlies will understand this instantly…"</div>
-      </div>
-    </div>
-    <div class="hook-cat">
-      <div class="hook-cat-title">💬 Opinion</div>
-      <div class="hook-formula-grid">
-        <div class="hook-formula"><span class="hf-num">1</span>"Unpopular opinion: <em>[statement]</em> — fight me"</div>
-        <div class="hook-formula"><span class="hf-num">2</span>"Hot take and I stand by every word…"</div>
-        <div class="hook-formula"><span class="hf-num">3</span>"I said what I said. <em>[opinion]</em>."</div>
-        <div class="hook-formula"><span class="hf-num">4</span>"I'm probably going to get hate for this but…"</div>
-        <div class="hook-formula"><span class="hf-num">5</span>"Everyone disagrees with me on this and I don't care…"</div>
-        <div class="hook-formula"><span class="hf-num">6</span>"This is my truth and you can take it or leave it…"</div>
-      </div>
-    </div>
-    <div class="hook-cat">
-      <div class="hook-cat-title">😂 Comedy</div>
-      <div class="hook-formula-grid">
-        <div class="hook-formula"><span class="hf-num">1</span>"God was really testing me today…"</div>
-        <div class="hook-formula"><span class="hf-num">2</span>"I was minding my business when…"</div>
-        <div class="hook-formula"><span class="hf-num">3</span>"This is not what I planned but here we are…"</div>
-        <div class="hook-formula"><span class="hf-num">4</span>"I cannot make this up, this actually happened…"</div>
-        <div class="hook-formula"><span class="hf-num">5</span>"Jamaican chaos for your Thursday…"</div>
-        <div class="hook-formula"><span class="hf-num">6</span>Start mid-laugh or mid-reaction — no words needed</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Growth Tips -->
-  <div class="tip-box">
-    <h3>⚡ Growth Reminders</h3>
-    <p>
-      <strong>First 2 seconds:</strong> Start mid-sentence or mid-action — never "hey guys welcome back" ·
-      <strong>Reply to every comment</strong> in the first 30 mins ·
-      <strong>Use trending sounds</strong> — Caribbean/dancehall performs especially well for your niche ·
-      <strong>Post daily</strong> when starting out, even 15 seconds counts ·
-      <strong>Reply to comments WITH a video</strong> — TikTok's biggest engagement hack ·
-      <strong>Check analytics</strong> weekly and double down on what works
-    </p>
-  </div>
-
-  <!-- Hashtags -->
-  <div class="hashtags">
-    <h3># Your 5 Go-To Hashtags</h3>
-    <div class="hashtag-list">
-      <span class="hashtag">#jamaicancreator</span>
-      <span class="hashtag">#dayinmylife</span>
-      <span class="hashtag">#lifevlog</span>
-      <span class="hashtag">#vlogger</span>
-      <span class="hashtag">#contentcreator</span>
-    </div>
-  </div>
+  </div><!-- end hashtags tab -->
 
 </div><!-- end planner page -->
 
@@ -1178,6 +1401,34 @@
 <script>
   let allEntries = [];
   let currentFilter = 'all';
+
+  // PLANNER TAB SWITCHING
+  function showPTab(name, btn) {
+    document.querySelectorAll('.ptab-content').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+    document.getElementById('ptab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+  window.showPTab = showPTab;
+
+  // SECTION TAB SWITCHING (ideas)
+  function showSection(name, btn) {
+    document.querySelectorAll('.idea-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
+    document.getElementById('section-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+  window.showSection = showSection;
+
+  // HOOK TAB SWITCHING
+  function showHookTab(name, btn) {
+    document.querySelectorAll('.hook-tab-content').forEach(h => h.classList.remove('active'));
+    // Only deactivate stabs within the hooks tab
+    document.querySelectorAll('#ptab-hooks .stab').forEach(t => t.classList.remove('active'));
+    document.getElementById('hooktab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+  window.showHookTab = showHookTab;
 
   // PAGE SWITCHING
   function showPage(name) {
