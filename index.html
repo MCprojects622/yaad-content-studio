@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yaad Content Studio 🇯🇲</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00a846;
+    --green-bg: #f0faf5;
+    --green-border: #b8e8cc;
+    --gold: #c49a00;
+    --pink: #e0457b;
+    --blue: #0099cc;
+    --black: #111;
+    --white: #ffffff;
+    --bg: #f7f7f5;
+    --gray: #f2f2f0;
+    --gray2: #e2e2de;
+    --muted: #888;
+    --text: #1a1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  .nav {
+    background: var(--black);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-logo span { color: var(--green); }
+
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .nav-tab {
+    background: transparent;
+    border: none;
+    color: #777;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+  }
+
+  .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  .nav-tab.active { color: #fff; background: var(--green); }
+
+  /* PAGES */
+  .page { display: none; padding: 40px 20px 80px; }
+  .page.active { display: block; }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 48px; }
+  .flag { font-size: 2rem; margin-bottom: 8px; }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--black);
+    margin-bottom: 6px;
+  }
+  .header h1 span { color: var(--green); }
+  .header p { color: var(--muted); font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* RESEARCH PANEL */
+  .research-panel {
+    max-width: 860px;
+    margin: 0 auto 48px;
+    background: var(--black);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  }
+
+  .research-header { padding: 20px 28px 16px; border-bottom: 1px solid #222; }
+  .research-header h2 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px; }
+  .research-header p { font-size: 0.78rem; color: #777; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .research-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+  .research-card { padding: 20px 24px; border-right: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e; }
+  .research-card:nth-child(even) { border-right: none; }
+  .research-card .rc-emoji { font-size: 1.3rem; margin-bottom: 10px; display: block; }
+  .research-card h3 { font-size: 0.78rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 7px; }
+  .research-card p { font-size: 0.81rem; color: #aaa; line-height: 1.65; }
+  .research-card strong { color: #fff; }
+
+  /* SECTIONS */
+  .section {
+    max-width: 860px;
+    margin: 0 auto 40px;
+    border: 1px solid var(--gray2);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 24px;
+    background: var(--gray);
+    border-bottom: 1px solid var(--gray2);
+  }
+
+  .section-header .icon { font-size: 1.1rem; }
+  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--black); }
+  .section-header .count { margin-left: auto; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .idea-row { border-bottom: 1px solid #f0f0ee; padding: 16px 24px; transition: background 0.12s; }
+  .idea-row:last-of-type { border-bottom: none; }
+  .idea-row:hover { background: #fafaf8; }
+
+  .idea-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: var(--green); }
+  .dot-gold { background: #e6b800; }
+  .dot-pink { background: var(--pink); }
+  .dot-blue { background: var(--blue); }
+
+  .idea-text { font-size: 0.92rem; font-weight: 600; color: var(--text); flex: 1; }
+
+  .tag { font-size: 0.67rem; padding: 3px 9px; border-radius: 20px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; flex-shrink: 0; }
+  .tag-easy { background: #e6f7ee; color: var(--green); }
+  .tag-viral { background: #fff8e0; color: var(--gold); }
+  .tag-niche { background: #fce8f0; color: var(--pink); }
+  .tag-daily { background: #e0f4ff; color: var(--blue); }
+
+  .hooks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 8px; padding-left: 20px; }
+
+  .hook-pill {
+    background: #f8f8f6;
+    border: 1px solid #ebebea;
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 0.77rem;
+    color: #444;
+    line-height: 1.45;
+    font-style: italic;
+  }
+
+  .hook-pill::before { content: '⚡ '; font-style: normal; font-size: 0.68rem; }
+
+  .add-row { display: flex; align-items: center; padding: 11px 24px; border-bottom: 1px dashed #eaeae6; gap: 14px; opacity: 0.45; transition: opacity 0.15s; }
+  .add-row:last-child { border-bottom: none; }
+  .add-row:focus-within { opacity: 1; background: #fafaf8; }
+  .add-dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px dashed #bbb; flex-shrink: 0; }
+  .add-input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.87rem; }
+  .add-input::placeholder { color: #ccc; font-style: italic; }
+
+  /* HOOK FORMULAS */
+  .hooks-section { max-width: 860px; margin: 0 auto 40px; background: var(--white); border: 1px solid var(--gray2); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+  .hooks-section-header { display: flex; align-items: center; gap: 12px; padding: 15px 24px; background: var(--black); }
+  .hooks-section-header h2 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #fff; }
+  .hooks-section-header p { margin-left: auto; font-size: 0.7rem; color: #666; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hook-cat { border-bottom: 1px solid #f0f0ee; }
+  .hook-cat:last-child { border-bottom: none; }
+  .hook-cat-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 11px 24px 5px; background: #fafaf8; border-bottom: 1px solid #f0f0ee; }
+  .hook-formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .hook-formula { padding: 12px 20px; border-right: 1px solid #f0f0ee; border-bottom: 1px solid #f0f0ee; font-size: 0.82rem; color: #444; line-height: 1.5; }
+  .hook-formula:nth-child(3n) { border-right: none; }
+  .hook-formula:hover { background: #fafaf8; }
+  .hook-formula em { color: var(--green); font-style: normal; font-weight: 600; }
+  .hf-num { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--black); color: #fff; font-size: 0.62rem; font-weight: 700; margin-right: 7px; flex-shrink: 0; }
+
+  /* TIP BOX */
+  .tip-box { max-width: 860px; margin: 0 auto 40px; background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 16px; padding: 20px 26px; }
+  .tip-box h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--green); margin-bottom: 10px; }
+  .tip-box p { font-size: 0.86rem; color: #555; line-height: 1.8; }
+  .tip-box strong { color: var(--text); }
+
+  /* HASHTAGS */
+  .hashtags { max-width: 860px; margin: 0 auto 40px; background: var(--white); border: 1px solid var(--gray2); border-radius: 16px; padding: 20px 26px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+  .hashtags h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--black); margin-bottom: 14px; }
+  .hashtag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hashtag { background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 20px; padding: 5px 14px; font-size: 0.82rem; color: var(--green); font-weight: 600; }
+
+  /* =================== VIDEO LOG =================== */
+  .log-header-bar {
+    max-width: 920px;
+    margin: 0 auto 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .log-header-bar h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--black);
+  }
+
+  .log-header-bar p { font-size: 0.82rem; color: var(--muted); }
+
+  .add-entry-btn {
+    margin-left: auto;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+  .add-entry-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* SAVE STATUS */
+  .save-status {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  .save-status.saving { background: #fff8e0; color: var(--gold); }
+  .save-status.saved { background: var(--green-bg); color: var(--green); }
+  .save-status.error { background: #fce8f0; color: var(--pink); }
+
+  /* FILTER BAR */
+  .filter-bar {
+    max-width: 920px;
+    margin: 0 auto 24px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: var(--white);
+    border: 1.5px solid var(--gray2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn:hover { border-color: var(--green); color: var(--green); }
+  .filter-btn.active { background: var(--black); color: #fff; border-color: var(--black); }
+
+  /* ENTRY CARDS */
+  .entries-grid {
+    max-width: 920px;
+    margin: 0 auto;
+    display: grid;
+    gap: 16px;
+  }
+
+  .entry-card {
+    background: var(--white);
+    border: 1px solid var(--gray2);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    transition: box-shadow 0.15s;
+  }
+
+  .entry-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+
+  .entry-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: var(--gray);
+    border-bottom: 1px solid var(--gray2);
+    flex-wrap: wrap;
+  }
+
+  .entry-date-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+    background: var(--white);
+    border: 1px solid var(--gray2);
+    border-radius: 8px;
+    padding: 4px 10px;
+  }
+
+  .entry-platforms { display: flex; gap: 5px; }
+
+  .plat-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .plat-badge.TikTok { background: #000; color: #fff; }
+  .plat-badge.Reels { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
+  .plat-badge.YouTube { background: #ff0000; color: #fff; }
+
+  .entry-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--black);
+    flex: 1;
+  }
+
+  .entry-actions { display: flex; gap: 6px; margin-left: auto; }
+
+  .edit-btn, .delete-btn-card {
+    background: none;
+    border: 1px solid var(--gray2);
+    border-radius: 7px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .edit-btn { color: var(--blue); }
+  .edit-btn:hover { background: #e0f4ff; border-color: var(--blue); }
+  .delete-btn-card { color: #ccc; }
+  .delete-btn-card:hover { background: #fff0f0; color: #e05555; border-color: #fcc; }
+
+  .entry-body { padding: 18px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .entry-field { display: flex; flex-direction: column; gap: 4px; }
+  .entry-field.full { grid-column: 1 / -1; }
+  .entry-field-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .entry-field-value { font-size: 0.86rem; color: var(--text); line-height: 1.5; white-space: pre-wrap; }
+  .entry-field-value.empty { color: #ccc; font-style: italic; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    max-width: 920px;
+    margin: 60px auto;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .empty-state .es-emoji { font-size: 3rem; display: block; margin-bottom: 16px; }
+  .empty-state h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--black); margin-bottom: 8px; }
+  .empty-state p { font-size: 0.88rem; color: var(--muted); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--white);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 660px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px;
+    background: var(--black);
+    border-radius: 18px 18px 0 0;
+    position: sticky;
+    top: 0;
+  }
+
+  .modal-header h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; }
+  .modal-close { margin-left: auto; background: none; border: none; color: #888; font-size: 1.2rem; cursor: pointer; padding: 4px; line-height: 1; }
+  .modal-close:hover { color: #fff; }
+
+  .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+
+  /* MODAL DATE + PLATFORM ROW */
+  .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .modal-row.single { grid-template-columns: 1fr; }
+
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .field-hint { font-weight: 400; text-transform: none; letter-spacing: 0; color: #bbb; font-size: 0.67rem; }
+
+  .field-input, .field-textarea, .field-select {
+    background: var(--bg);
+    border: 1.5px solid var(--gray2);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.86rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+
+  .field-input:focus, .field-textarea:focus, .field-select:focus { border-color: var(--green); background: #fff; }
+  .field-textarea { resize: vertical; }
+
+  .platform-toggles { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .plat-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--gray2);
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.77rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .plat-btn.active { background: var(--black); color: #fff; border-color: var(--black); }
+
+  .modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--gray2);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .btn-cancel {
+    background: none;
+    border: 1.5px solid var(--gray2);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-cancel:hover { background: var(--gray); }
+
+  .btn-save {
+    background: var(--green);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .btn-save:hover { opacity: 0.88; }
+  .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* LOADING */
+  .loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 40px;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { width: 20px; height: 20px; border: 2px solid var(--gray2); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
+
+  /* CUSTOM IDEAS */
+  .custom-ideas-container { padding: 0 24px; }
+
+  .custom-idea-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f5f3;
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .custom-idea-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  .custom-idea-text { flex: 1; font-size: 0.92rem; font-weight: 500; color: var(--text); }
+  .custom-idea-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 20px; background: var(--green-bg); color: var(--green); font-weight: 700; border: 1px solid var(--green-border); }
+  .custom-idea-delete {
+    background: none; border: none; color: #ddd; font-size: 0.8rem;
+    cursor: pointer; padding: 2px 6px; border-radius: 6px; transition: all 0.15s;
+  }
+  .custom-idea-delete:hover { background: #fff0f0; color: #e05555; }
+
+  .add-idea-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 13px 24px;
+    background: none;
+    border: none;
+    border-top: 1px dashed var(--gray2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--green);
+    cursor: pointer;
+    transition: background 0.15s;
+    text-align: left;
+  }
+
+  .add-idea-btn:hover { background: var(--green-bg); }
+
+  /* IDEA MODAL */
+  .idea-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .idea-modal-overlay.open { display: flex; }
+
+  .idea-modal {
+    background: var(--white);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+
+  .idea-modal-header {
+    padding: 16px 20px;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .idea-modal-header h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: #fff; flex: 1; }
+  .idea-modal-section { font-size: 0.72rem; color: var(--green); font-weight: 700; background: rgba(0,168,70,0.15); padding: 3px 10px; border-radius: 20px; }
+  .idea-modal-close { background: none; border: none; color: #888; font-size: 1.1rem; cursor: pointer; }
+  .idea-modal-close:hover { color: #fff; }
+
+  .idea-modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+
+  .idea-modal-footer { padding: 14px 20px; border-top: 1px solid var(--gray2); display: flex; gap: 8px; justify-content: flex-end; }
+
+  @media (max-width: 580px) {
+    .modal-row { grid-template-columns: 1fr; }
+    .entry-body { grid-template-columns: 1fr; }
+    .entry-field.full { grid-column: 1; }
+    .nav-tab { font-size: 0.74rem; padding: 6px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">🇯🇲 <span>Yaad</span> Content Studio</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('planner')">📋 Planner</button>
+    <button class="nav-tab" onclick="showPage('log')">🎬 Video Log</button>
+  </div>
+</nav>
+
+<!-- =================== PLANNER PAGE =================== -->
+<div id="page-planner" class="page active">
+
+  <div class="header">
+    <div class="flag">🇯🇲</div>
+    <h1>Content <span>Planner</span></h1>
+    <p>Ideas · Hooks · Growth Principles · Hashtags</p>
+  </div>
+
+  <!-- GROWTH PRINCIPLES -->
+  <div class="research-panel">
+    <div class="research-header">
+      <h2>Growth Principles 🌱</h2>
+      <p>What consistently works — stay in your own lane</p>
+    </div>
+    <div class="research-grid">
+      <div class="research-card">
+        <span class="rc-emoji">🎭</span>
+        <h3>Be Unapologetically You</h3>
+        <p>Your accent, your humour, your bluntness — that IS the content. Never tone yourself down. People subscribe to <strong>people they feel connected to</strong>.</p>
+      </div>
+      <div class="research-card">
+        <span class="rc-emoji">🪞</span>
+        <h3>Real Life Over Highlight Reel</h3>
+        <p>The messier and more honest, the more it resonates. <strong>Specific and real always outperforms polished and perfect.</strong></p>
+      </div>
+      <div class="research-card">
+        <span class="rc-emoji">🇯🇲</span>
+        <h3>Your Culture Is Your Superpower</h3>
+        <p>Patois, Jamaican food, cultural comparisons — <strong>your background is your biggest differentiator.</strong> Use it every video.</p>
+      </div>
+      <div class="research-card">
+        <span class="rc-emoji">🎙️</span>
+        <h3>Tell Stories, Not Just Updates</h3>
+        <p>Build tension, add feeling, land a reaction. <strong>Start in the middle of the story.</strong> Make them feel it.</p>
+      </div>
+      <div class="research-card">
+        <span class="rc-emoji">💬</span>
+        <h3>Build Community, Not Just Views</h3>
+        <p>Reply to comments with videos. Do Q&As. <strong>Make your audience feel like insiders</strong>, not just viewers.</p>
+      </div>
+      <div class="research-card">
+        <span class="rc-emoji">🔁</span>
+        <h3>Create Recurring Formats</h3>
+        <p>Build formats your audience expects. <strong>Formats build habit. Habit builds subscribers.</strong></p>
+      </div>
+      <div class="research-card">
+        <span class="rc-emoji">🎵</span>
+        <h3>Use Trending Audio Weekly</h3>
+        <p><strong>Check TikTok's trending audio every week</strong> — especially dancehall and afrobeats for your niche.</p>
+      </div>
+      <div class="research-card">
+        <span class="rc-emoji">😂</span>
+        <h3>Humour Makes Everything Land</h3>
+        <p>Comedy makes hard truths easier to share. <strong>Your natural wit is a superpower</strong> — don't hold back.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Everyday Life -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">☀️</span>
+      <h2>Everyday Life</h2>
+      <span class="count">Daily content</span>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">Get ready with me — morning routine</span><span class="tag tag-daily">Daily</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"It's 7am and I'm already tired but let's go…"</div>
+        <div class="hook-pill">"My morning routine is not what you'd expect…"</div>
+        <div class="hook-pill">"Getting ready while I tell you about my week…"</div>
+        <div class="hook-pill">"Come get ready with a Jamaican girl…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">A rant about something that annoyed you</span><span class="tag tag-easy">Easy</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"I need to talk about what just happened to me…"</div>
+        <div class="hook-pill">"The audacity. I cannot. Let me explain…"</div>
+        <div class="hook-pill">"So this actually happened and I'm still angry…"</div>
+        <div class="hook-pill">"Tell me why [thing] happened to me today…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">A random opinion you have</span><span class="tag tag-easy">Easy</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"Unpopular opinion and I will not be taking questions…"</div>
+        <div class="hook-pill">"Hot take and I stand by it…"</div>
+        <div class="hook-pill">"I said what I said."</div>
+        <div class="hook-pill">"Nobody agrees with me on this but here we go…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">Responding to a comment or question</span><span class="tag tag-daily">Daily</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"Someone asked me [question] and honestly…"</div>
+        <div class="hook-pill">"This comment had me thinking all day…"</div>
+        <div class="hook-pill">"Y'all keep asking me this so let me explain…"</div>
+        <div class="hook-pill">"Replying to [name] because this needs addressing…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-green"></div><span class="idea-text">Talking to camera while driving or walking</span><span class="tag tag-easy">Easy</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"I'm in the car and I just had a thought…"</div>
+        <div class="hook-pill">"Walking and talking because I need to vent…"</div>
+        <div class="hook-pill">"I just left [place] and oh my God…"</div>
+        <div class="hook-pill">"Car talk. No filter. Let's go."</div>
+      </div>
+    </div>
+    <div id="custom-ideas-Everyday Life" class="custom-ideas-container"></div>
+    <button class="add-idea-btn" onclick="openIdeaModal('Everyday Life')">＋ Add Your Own Idea</button>
+  </div>
+
+  <!-- Jamaican Culture -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">🇯🇲</span>
+      <h2>Jamaican Culture</h2>
+      <span class="count">Your secret weapon</span>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Jamaican phrases & slang explained</span><span class="tag tag-viral">Viral</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"If you've ever been confused by Jamaican slang, this is for you…"</div>
+        <div class="hook-pill">"Let me teach you something only Jamaicans say…"</div>
+        <div class="hook-pill">"POV: you just learned your first Jamaican word…"</div>
+        <div class="hook-pill">"Non-Jamaicans, pay attention. Class is in session."</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Things only Jamaicans understand</span><span class="tag tag-viral">Viral</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"POV: you grew up Jamaican and this is just Tuesday…"</div>
+        <div class="hook-pill">"Jamaicans will know exactly what I mean…"</div>
+        <div class="hook-pill">"If your parents are Jamaican, you lived this…"</div>
+        <div class="hook-pill">"Growing up Jamaican be like…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Jamaican food reviews or recipes</span><span class="tag tag-niche">Niche</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"Let me show you how we really eat back home…"</div>
+        <div class="hook-pill">"I made a Jamaican classic and I need you to try this…"</div>
+        <div class="hook-pill">"Non-Jamaicans are sleeping on this dish and I'm mad…"</div>
+        <div class="hook-pill">"This is what Sunday smells like in a Jamaican house…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Jamaica vs where I live now</span><span class="tag tag-viral">Viral</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"Growing up in Jamaica vs living here… wild difference"</div>
+        <div class="hook-pill">"Things I had to unlearn when I left Jamaica…"</div>
+        <div class="hook-pill">"Jamaica vs [country] — who has it better?"</div>
+        <div class="hook-pill">"I miss Jamaica every single day and here's why…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-gold"></div><span class="idea-text">Reacting to assumptions about Jamaica</span><span class="tag tag-viral">Viral</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"The things people assume about Jamaica… let me address this"</div>
+        <div class="hook-pill">"I'm tired of seeing this said about my country…"</div>
+        <div class="hook-pill">"Someone said this about Jamaica and I cannot stay quiet…"</div>
+        <div class="hook-pill">"Jamaican woman here. Let me correct the record."</div>
+      </div>
+    </div>
+    <div id="custom-ideas-Jamaican Culture" class="custom-ideas-container"></div>
+    <button class="add-idea-btn" onclick="openIdeaModal('Jamaican Culture')">＋ Add Your Own Idea</button>
+  </div>
+
+  <!-- Relatable Content -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">😭</span>
+      <h2>Relatable Content</h2>
+      <span class="count">High engagement</span>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-pink"></div><span class="idea-text">Work frustrations — just vibes, no details</span><span class="tag tag-easy">Easy</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"The way I walked into work and immediately regretted it…"</div>
+        <div class="hook-pill">"My job is draining me and I need to talk about it…"</div>
+        <div class="hook-pill">"This week at work had me like…"</div>
+        <div class="hook-pill">"If you hate your job, this video is for you…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-pink"></div><span class="idea-text">Adulting struggles</span><span class="tag tag-viral">Viral</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"Nobody told me adulting would feel like this every day…"</div>
+        <div class="hook-pill">"Being an adult is a scam and I have receipts…"</div>
+        <div class="hook-pill">"Things I wish someone told me before I grew up…"</div>
+        <div class="hook-pill">"I am not okay and adulting is the reason…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-pink"></div><span class="idea-text">Things that made you laugh today</span><span class="tag tag-daily">Daily</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"I cannot make this up, this actually happened…"</div>
+        <div class="hook-pill">"I was minding my business when…"</div>
+        <div class="hook-pill">"Story time because this had me dead…"</div>
+        <div class="hook-pill">"God was really showing off today…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-pink"></div><span class="idea-text">60 second day in my life</span><span class="tag tag-daily">Daily</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"A day in my life in 60 seconds — it's a lot…"</div>
+        <div class="hook-pill">"Come live a day with a Jamaican woman…"</div>
+        <div class="hook-pill">"My day was chaotic. Come see."</div>
+        <div class="hook-pill">"Nobody prepared me for this day. Watch."</div>
+      </div>
+    </div>
+    <div id="custom-ideas-Relatable Content" class="custom-ideas-container"></div>
+    <button class="add-idea-btn" onclick="openIdeaModal('Relatable Content')">＋ Add Your Own Idea</button>
+  </div>
+
+  <!-- YouTube Crossover -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">🎬</span>
+      <h2>YouTube Crossover</h2>
+      <span class="count">Drive traffic</span>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-blue"></div><span class="idea-text">Clip from your weekly vlog — best moment</span><span class="tag tag-easy">Easy</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">Start mid-reaction — no intro, drop straight in</div>
+        <div class="hook-pill">"You have to see what happened in this week's vlog…"</div>
+        <div class="hook-pill">"I filmed this and knew I had to post it…"</div>
+        <div class="hook-pill">"Full video on YouTube but I had to share this part…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-blue"></div><span class="idea-text">Behind the scenes of filming YouTube</span><span class="tag tag-niche">Niche</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"What making a YouTube video actually looks like…"</div>
+        <div class="hook-pill">"The chaos behind my YouTube channel…"</div>
+        <div class="hook-pill">"Nobody shows you this part of being a creator…"</div>
+        <div class="hook-pill">"Come film a YouTube video with me…"</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-blue"></div><span class="idea-text">Horned melon / food teaser clip</span><span class="tag tag-daily">Daily</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">"I tried a horned melon and my reaction says everything…"</div>
+        <div class="hook-pill">"Have you ever seen this fruit? Because I hadn't…"</div>
+        <div class="hook-pill">"I ate something weird and I need to talk about it…"</div>
+        <div class="hook-pill">Drop straight into your first bite — no intro</div>
+      </div>
+    </div>
+    <div class="idea-row">
+      <div class="idea-top"><div class="dot dot-blue"></div><span class="idea-text">Stitch or duet a trending video</span><span class="tag tag-viral">Viral</span></div>
+      <div class="hooks-grid">
+        <div class="hook-pill">Let original play 2 secs, cut to your face</div>
+        <div class="hook-pill">"Wait — I have to respond to this…"</div>
+        <div class="hook-pill">"Jamaican woman's take on this…"</div>
+        <div class="hook-pill">"As a Caribbean woman I cannot stay quiet…"</div>
+      </div>
+    </div>
+    <div id="custom-ideas-YouTube Crossover" class="custom-ideas-container"></div>
+    <button class="add-idea-btn" onclick="openIdeaModal('YouTube Crossover')">＋ Add Your Own Idea</button>
+  </div>
+
+  <!-- Hook Formulas -->
+  <div class="hooks-section">
+    <div class="hooks-section-header">
+      <span style="font-size:1.1rem">⚡</span>
+      <h2>Universal Hook Formulas</h2>
+      <p>Fill in the blanks</p>
+    </div>
+    <div class="hook-cat">
+      <div class="hook-cat-title">🎯 Curiosity</div>
+      <div class="hook-formula-grid">
+        <div class="hook-formula"><span class="hf-num">1</span>"I tried <em>[thing]</em> and was not prepared…"</div>
+        <div class="hook-formula"><span class="hf-num">2</span>"Nobody talks about <em>[topic]</em> but I will…"</div>
+        <div class="hook-formula"><span class="hf-num">3</span>"Wait until you see the end of this…"</div>
+        <div class="hook-formula"><span class="hf-num">4</span>"What happened next had me speechless…"</div>
+        <div class="hook-formula"><span class="hf-num">5</span>"I found out something today and had to share…"</div>
+        <div class="hook-formula"><span class="hf-num">6</span>"If you knew what I know, you'd be shocked too…"</div>
+      </div>
+    </div>
+    <div class="hook-cat">
+      <div class="hook-cat-title">😤 Relatable</div>
+      <div class="hook-formula-grid">
+        <div class="hook-formula"><span class="hf-num">1</span>"Tell me why <em>[thing]</em> happened to me today…"</div>
+        <div class="hook-formula"><span class="hf-num">2</span>"If you've ever dealt with <em>[situation]</em>, this is for you"</div>
+        <div class="hook-formula"><span class="hf-num">3</span>"The audacity. I cannot. Let me explain…"</div>
+        <div class="hook-formula"><span class="hf-num">4</span>"Am I wrong for being upset about this?"</div>
+        <div class="hook-formula"><span class="hf-num">5</span>"The way I be minding my business and then…"</div>
+        <div class="hook-formula"><span class="hf-num">6</span>"Why does this keep happening to me specifically…"</div>
+      </div>
+    </div>
+    <div class="hook-cat">
+      <div class="hook-cat-title">🇯🇲 Culture</div>
+      <div class="hook-formula-grid">
+        <div class="hook-formula"><span class="hf-num">1</span>"POV: you're Jamaican and this is just normal life"</div>
+        <div class="hook-formula"><span class="hf-num">2</span>"Let me teach you something real Jamaicans know…"</div>
+        <div class="hook-formula"><span class="hf-num">3</span>"Growing up Jamaican hits different and here's why…"</div>
+        <div class="hook-formula"><span class="hf-num">4</span>"Jamaican woman reacts to <em>[topic]</em>…"</div>
+        <div class="hook-formula"><span class="hf-num">5</span>"Things my Jamaican parents said that shaped me…"</div>
+        <div class="hook-formula"><span class="hf-num">6</span>"Caribbean girlies will understand this instantly…"</div>
+      </div>
+    </div>
+    <div class="hook-cat">
+      <div class="hook-cat-title">💬 Opinion</div>
+      <div class="hook-formula-grid">
+        <div class="hook-formula"><span class="hf-num">1</span>"Unpopular opinion: <em>[statement]</em> — fight me"</div>
+        <div class="hook-formula"><span class="hf-num">2</span>"Hot take and I stand by every word…"</div>
+        <div class="hook-formula"><span class="hf-num">3</span>"I said what I said. <em>[opinion]</em>."</div>
+        <div class="hook-formula"><span class="hf-num">4</span>"I'm probably going to get hate for this but…"</div>
+        <div class="hook-formula"><span class="hf-num">5</span>"Everyone disagrees with me on this and I don't care…"</div>
+        <div class="hook-formula"><span class="hf-num">6</span>"This is my truth and you can take it or leave it…"</div>
+      </div>
+    </div>
+    <div class="hook-cat">
+      <div class="hook-cat-title">😂 Comedy</div>
+      <div class="hook-formula-grid">
+        <div class="hook-formula"><span class="hf-num">1</span>"God was really testing me today…"</div>
+        <div class="hook-formula"><span class="hf-num">2</span>"I was minding my business when…"</div>
+        <div class="hook-formula"><span class="hf-num">3</span>"This is not what I planned but here we are…"</div>
+        <div class="hook-formula"><span class="hf-num">4</span>"I cannot make this up, this actually happened…"</div>
+        <div class="hook-formula"><span class="hf-num">5</span>"Jamaican chaos for your Thursday…"</div>
+        <div class="hook-formula"><span class="hf-num">6</span>Start mid-laugh or mid-reaction — no words needed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Growth Tips -->
+  <div class="tip-box">
+    <h3>⚡ Growth Reminders</h3>
+    <p>
+      <strong>First 2 seconds:</strong> Start mid-sentence or mid-action — never "hey guys welcome back" ·
+      <strong>Reply to every comment</strong> in the first 30 mins ·
+      <strong>Use trending sounds</strong> — Caribbean/dancehall performs especially well for your niche ·
+      <strong>Post daily</strong> when starting out, even 15 seconds counts ·
+      <strong>Reply to comments WITH a video</strong> — TikTok's biggest engagement hack ·
+      <strong>Check analytics</strong> weekly and double down on what works
+    </p>
+  </div>
+
+  <!-- Hashtags -->
+  <div class="hashtags">
+    <h3># Your 5 Go-To Hashtags</h3>
+    <div class="hashtag-list">
+      <span class="hashtag">#jamaicancreator</span>
+      <span class="hashtag">#dayinmylife</span>
+      <span class="hashtag">#lifevlog</span>
+      <span class="hashtag">#vlogger</span>
+      <span class="hashtag">#contentcreator</span>
+    </div>
+  </div>
+
+</div><!-- end planner page -->
+
+<!-- =================== VIDEO LOG PAGE =================== -->
+<div id="page-log" class="page">
+
+  <div class="log-header-bar">
+    <div>
+      <h2>Video Log 🎬</h2>
+      <p>Every video you post, tracked in one place</p>
+    </div>
+    <span class="save-status" id="save-status" style="display:none"></span>
+    <button class="add-entry-btn" onclick="openModal()">+ Log a Video</button>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterEntries('all', this)">All</button>
+    <button class="filter-btn" onclick="filterEntries('TikTok', this)">TikTok</button>
+    <button class="filter-btn" onclick="filterEntries('Reels', this)">Reels</button>
+    <button class="filter-btn" onclick="filterEntries('YouTube', this)">YouTube</button>
+    <button class="filter-btn" onclick="filterEntries('Everyday Life', this)">Everyday Life</button>
+    <button class="filter-btn" onclick="filterEntries('Jamaican Culture', this)">Jamaican Culture</button>
+    <button class="filter-btn" onclick="filterEntries('Relatable Content', this)">Relatable</button>
+    <button class="filter-btn" onclick="filterEntries('YouTube Crossover', this)">YT Crossover</button>
+  </div>
+
+  <div id="log-loading" class="loading-spinner"><div class="spinner"></div> Loading your videos…</div>
+  <div id="entries-grid" class="entries-grid"></div>
+  <div id="empty-state" class="empty-state" style="display:none">
+    <span class="es-emoji">🎬</span>
+    <h3>No videos logged yet</h3>
+    <p>Hit <strong>+ Log a Video</strong> after every post to start building your record.</p>
+  </div>
+
+</div><!-- end log page -->
+
+<!-- IDEA MODAL -->
+<div class="idea-modal-overlay" id="idea-modal-overlay">
+  <div class="idea-modal">
+    <div class="idea-modal-header">
+      <h3>Add a Content Idea</h3>
+      <span class="idea-modal-section" id="idea-modal-section-label"></span>
+      <button class="idea-modal-close" onclick="closeIdeaModal()">✕</button>
+    </div>
+    <div class="idea-modal-body">
+      <input type="hidden" id="idea-section" />
+      <div class="field-group">
+        <label class="field-label">Your Idea</label>
+        <input type="text" class="field-input" id="idea-text-input" placeholder="e.g. React to a Jamaican recipe trend" />
+      </div>
+      <div class="field-group">
+        <label class="field-label">Tag <span class="field-hint">— optional</span></label>
+        <select class="field-select" id="idea-tag-input">
+          <option value="">No tag</option>
+          <option value="Easy">Easy</option>
+          <option value="Daily">Daily</option>
+          <option value="Viral">Viral</option>
+          <option value="Niche">Niche</option>
+        </select>
+      </div>
+    </div>
+    <div class="idea-modal-footer">
+      <button class="btn-cancel" onclick="closeIdeaModal()">Cancel</button>
+      <button class="btn-save" onclick="saveCustomIdea()">＋ Add Idea</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MODAL =================== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Log a Video</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-id" value="">
+
+      <div class="modal-row">
+        <div class="field-group">
+          <label class="field-label">Date Posted</label>
+          <input type="date" class="field-input" id="f-date" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Platform(s)</label>
+          <div class="platform-toggles">
+            <button class="plat-btn" data-plat="TikTok" onclick="togglePlat(this)">TikTok</button>
+            <button class="plat-btn" data-plat="Reels" onclick="togglePlat(this)">Reels</button>
+            <button class="plat-btn" data-plat="YouTube" onclick="togglePlat(this)">YouTube</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Video Title / Topic</label>
+        <input type="text" class="field-input" id="f-title" placeholder="e.g. Trying a horned melon for the first time" />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Hook Used <span class="field-hint">— what you said in the first 2 seconds</span></label>
+        <input type="text" class="field-input" id="f-hook" placeholder='"I tried something I've never eaten before and I wasn't ready…"' />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Caption / TikTok & Reels Description</label>
+        <textarea class="field-textarea" id="f-caption" rows="2" placeholder="Your short caption…"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">YouTube Description <span class="field-hint">— if applicable</span></label>
+        <textarea class="field-textarea" id="f-yt-desc" rows="3" placeholder="Your full YouTube description with keywords…"></textarea>
+      </div>
+
+      <div class="modal-row">
+        <div class="field-group">
+          <label class="field-label">Hashtags Used</label>
+          <input type="text" class="field-input" id="f-hashtags" placeholder="#jamaicancreator #dayinmylife…" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Trending Sound</label>
+          <input type="text" class="field-input" id="f-sound" placeholder="Name of audio used" />
+        </div>
+      </div>
+
+      <div class="modal-row">
+        <div class="field-group">
+          <label class="field-label">Video Category</label>
+          <select class="field-select" id="f-category">
+            <option value="">Select category…</option>
+            <option>Everyday Life</option>
+            <option>Jamaican Culture</option>
+            <option>Relatable Content</option>
+            <option>YouTube Crossover</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Hook Type</label>
+          <select class="field-select" id="f-hook-type">
+            <option value="">Select hook type…</option>
+            <option>Curiosity</option>
+            <option>Relatable</option>
+            <option>Culture</option>
+            <option>Opinion</option>
+            <option>Comedy</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Notes / What Worked <span class="field-hint">— reflections, engagement, ideas for next time</span></label>
+        <textarea class="field-textarea" id="f-notes" rows="2" placeholder="e.g. This one got more comments than usual. People loved the fruit reaction. Try more food content…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" id="btn-save" onclick="saveEntry()">Save Video</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCqC4lolDe2QDdu9fUCQAtJbn0P3lL-xRY",
+    authDomain: "yaad-content-studio.firebaseapp.com",
+    projectId: "yaad-content-studio",
+    storageBucket: "yaad-content-studio.firebasestorage.app",
+    messagingSenderId: "63018996328",
+    appId: "1:63018996328:web:71cd0a4c98387cda97a1dd"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const colRef = collection(db, "video-log");
+  const ideasRef = collection(db, "custom-ideas");
+
+  // Expose to global scope
+  window._db = db;
+  window._colRef = colRef;
+  window._ideasRef = ideasRef;
+  window._collection = collection;
+  window._addDoc = addDoc;
+  window._getDocs = getDocs;
+  window._updateDoc = updateDoc;
+  window._deleteDoc = deleteDoc;
+  window._doc = doc;
+  window._query = query;
+  window._orderBy = orderBy;
+
+  // Load both on start
+  loadEntries();
+  loadCustomIdeas();
+</script>
+
+<script>
+  let allEntries = [];
+  let currentFilter = 'all';
+
+  // PAGE SWITCHING
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  window.showPage = showPage;
+
+  // MODAL
+  function openModal(entry) {
+    const overlay = document.getElementById('modal-overlay');
+    document.getElementById('modal-title').textContent = entry ? 'Edit Video' : 'Log a Video';
+    document.getElementById('btn-save').textContent = entry ? 'Update Video' : 'Save Video';
+    document.getElementById('edit-id').value = entry ? entry.id : '';
+
+    // Reset
+    document.getElementById('f-date').value = entry ? entry.date : new Date().toISOString().split('T')[0];
+    document.getElementById('f-title').value = entry ? entry.title : '';
+    document.getElementById('f-hook').value = entry ? entry.hook : '';
+    document.getElementById('f-caption').value = entry ? entry.caption : '';
+    document.getElementById('f-yt-desc').value = entry ? entry.ytDesc : '';
+    document.getElementById('f-hashtags').value = entry ? entry.hashtags : '';
+    document.getElementById('f-sound').value = entry ? entry.sound : '';
+    document.getElementById('f-category').value = entry ? entry.category : '';
+    document.getElementById('f-hook-type').value = entry ? entry.hookType : '';
+    document.getElementById('f-notes').value = entry ? entry.notes : '';
+
+    document.querySelectorAll('.plat-btn').forEach(b => {
+      b.classList.toggle('active', entry ? (entry.platforms || []).includes(b.dataset.plat) : false);
+    });
+
+    overlay.classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+  }
+
+  window.openModal = openModal;
+  window.closeModal = closeModal;
+
+  // TOGGLE PLATFORM
+  function togglePlat(btn) { btn.classList.toggle('active'); }
+  window.togglePlat = togglePlat;
+
+  // SAVE STATUS
+  function showStatus(type, msg) {
+    const el = document.getElementById('save-status');
+    el.textContent = msg;
+    el.className = 'save-status ' + type;
+    el.style.display = 'inline-block';
+    if (type === 'saved') setTimeout(() => { el.style.display = 'none'; }, 3000);
+  }
+
+  // SAVE ENTRY
+  async function saveEntry() {
+    const btn = document.getElementById('btn-save');
+    btn.disabled = true;
+    showStatus('saving', '⏳ Saving…');
+
+    const platforms = [...document.querySelectorAll('.plat-btn.active')].map(b => b.dataset.plat);
+
+    const data = {
+      date: document.getElementById('f-date').value,
+      platforms,
+      title: document.getElementById('f-title').value,
+      hook: document.getElementById('f-hook').value,
+      caption: document.getElementById('f-caption').value,
+      ytDesc: document.getElementById('f-yt-desc').value,
+      hashtags: document.getElementById('f-hashtags').value,
+      sound: document.getElementById('f-sound').value,
+      category: document.getElementById('f-category').value,
+      hookType: document.getElementById('f-hook-type').value,
+      notes: document.getElementById('f-notes').value,
+      updatedAt: new Date().toISOString()
+    };
+
+    try {
+      const editId = document.getElementById('edit-id').value;
+      if (editId) {
+        await window._updateDoc(window._doc(window._db, 'video-log', editId), data);
+        const idx = allEntries.findIndex(e => e.id === editId);
+        if (idx > -1) allEntries[idx] = { ...data, id: editId };
+      } else {
+        data.createdAt = new Date().toISOString();
+        const ref = await window._addDoc(window._colRef, data);
+        allEntries.unshift({ ...data, id: ref.id });
+      }
+      showStatus('saved', '✅ Saved!');
+      closeModal();
+      renderEntries();
+    } catch (e) {
+      console.error(e);
+      showStatus('error', '❌ Error saving');
+    }
+
+    btn.disabled = false;
+  }
+
+  window.saveEntry = saveEntry;
+
+  // LOAD ENTRIES
+  async function loadEntries() {
+    try {
+      const q = window._query(window._colRef, window._orderBy('createdAt', 'desc'));
+      const snap = await window._getDocs(q);
+      allEntries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch (e) {
+      allEntries = [];
+    }
+    document.getElementById('log-loading').style.display = 'none';
+    renderEntries();
+  }
+
+  window.loadEntries = loadEntries;
+
+  // DELETE
+  async function deleteEntry(id) {
+    if (!confirm('Delete this video log entry?')) return;
+    try {
+      await window._deleteDoc(window._doc(window._db, 'video-log', id));
+      allEntries = allEntries.filter(e => e.id !== id);
+      showStatus('saved', '🗑️ Deleted');
+      renderEntries();
+    } catch (e) {
+      showStatus('error', '❌ Error deleting');
+    }
+  }
+
+  window.deleteEntry = deleteEntry;
+
+  // FILTER
+  function filterEntries(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderEntries();
+  }
+
+  window.filterEntries = filterEntries;
+
+  // RENDER
+  function renderEntries() {
+    const grid = document.getElementById('entries-grid');
+    const empty = document.getElementById('empty-state');
+
+    let filtered = allEntries;
+    if (currentFilter !== 'all') {
+      filtered = allEntries.filter(e =>
+        (e.platforms || []).includes(currentFilter) || e.category === currentFilter
+      );
+    }
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+
+    empty.style.display = 'none';
+
+    grid.innerHTML = filtered.map(e => `
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <span class="entry-date-badge">${e.date || '—'}</span>
+          <div class="entry-platforms">
+            ${(e.platforms || []).map(p => `<span class="plat-badge ${p}">${p}</span>`).join('')}
+          </div>
+          <span class="entry-title">${e.title || 'Untitled'}</span>
+          <div class="entry-actions">
+            <button class="edit-btn" onclick='openModal(${JSON.stringify(e).replace(/'/g, "&#39;")})'>Edit</button>
+            <button class="delete-btn-card" onclick="deleteEntry('${e.id}')">Delete</button>
+          </div>
+        </div>
+        <div class="entry-body">
+          <div class="entry-field">
+            <span class="entry-field-label">Category</span>
+            <span class="entry-field-value ${!e.category ? 'empty' : ''}">${e.category || 'Not set'}</span>
+          </div>
+          <div class="entry-field">
+            <span class="entry-field-label">Hook Type</span>
+            <span class="entry-field-value ${!e.hookType ? 'empty' : ''}">${e.hookType || 'Not set'}</span>
+          </div>
+          <div class="entry-field full">
+            <span class="entry-field-label">Hook Used</span>
+            <span class="entry-field-value ${!e.hook ? 'empty' : ''}">${e.hook || 'Not recorded'}</span>
+          </div>
+          <div class="entry-field full">
+            <span class="entry-field-label">Caption</span>
+            <span class="entry-field-value ${!e.caption ? 'empty' : ''}">${e.caption || 'Not recorded'}</span>
+          </div>
+          ${e.ytDesc ? `<div class="entry-field full"><span class="entry-field-label">YouTube Description</span><span class="entry-field-value">${e.ytDesc}</span></div>` : ''}
+          <div class="entry-field">
+            <span class="entry-field-label">Hashtags</span>
+            <span class="entry-field-value ${!e.hashtags ? 'empty' : ''}">${e.hashtags || 'Not recorded'}</span>
+          </div>
+          <div class="entry-field">
+            <span class="entry-field-label">Trending Sound</span>
+            <span class="entry-field-value ${!e.sound ? 'empty' : ''}">${e.sound || 'Not recorded'}</span>
+          </div>
+          ${e.notes ? `<div class="entry-field full"><span class="entry-field-label">Notes / What Worked</span><span class="entry-field-value">${e.notes}</span></div>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // =================== CUSTOM IDEAS ===================
+  let allCustomIdeas = [];
+
+  async function loadCustomIdeas() {
+    try {
+      const q = window._query(window._ideasRef, window._orderBy('createdAt', 'asc'));
+      const snap = await window._getDocs(q);
+      allCustomIdeas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch(e) {
+      allCustomIdeas = [];
+    }
+    renderCustomIdeas();
+  }
+
+  window.loadCustomIdeas = loadCustomIdeas;
+
+  function renderCustomIdeas() {
+    const sections = ['Everyday Life', 'Jamaican Culture', 'Relatable Content', 'YouTube Crossover'];
+    sections.forEach(section => {
+      const container = document.getElementById('custom-ideas-' + section);
+      if (!container) return;
+      const ideas = allCustomIdeas.filter(i => i.section === section);
+      container.innerHTML = ideas.map(i => `
+        <div class="custom-idea-row">
+          <div class="custom-idea-dot"></div>
+          <span class="custom-idea-text">${i.text}</span>
+          ${i.tag ? `<span class="custom-idea-badge">${i.tag}</span>` : ''}
+          <button class="custom-idea-delete" onclick="deleteCustomIdea('${i.id}')" title="Delete idea">✕</button>
+        </div>
+      `).join('');
+    });
+  }
+
+  function openIdeaModal(section) {
+    document.getElementById('idea-section').value = section;
+    document.getElementById('idea-modal-section-label').textContent = section;
+    document.getElementById('idea-text-input').value = '';
+    document.getElementById('idea-tag-input').value = '';
+    document.getElementById('idea-modal-overlay').classList.add('open');
+    setTimeout(() => document.getElementById('idea-text-input').focus(), 100);
+  }
+
+  function closeIdeaModal() {
+    document.getElementById('idea-modal-overlay').classList.remove('open');
+  }
+
+  async function saveCustomIdea() {
+    const text = document.getElementById('idea-text-input').value.trim();
+    if (!text) { document.getElementById('idea-text-input').focus(); return; }
+    const section = document.getElementById('idea-section').value;
+    const tag = document.getElementById('idea-tag-input').value;
+    const data = { section, text, tag, createdAt: new Date().toISOString() };
+    try {
+      const ref = await window._addDoc(window._ideasRef, data);
+      allCustomIdeas.push({ ...data, id: ref.id });
+      renderCustomIdeas();
+      closeIdeaModal();
+    } catch(e) {
+      alert('Error saving idea. Please try again.');
+    }
+  }
+
+  async function deleteCustomIdea(id) {
+    if (!confirm('Delete this idea?')) return;
+    try {
+      await window._deleteDoc(window._doc(window._db, 'custom-ideas', id));
+      allCustomIdeas = allCustomIdeas.filter(i => i.id !== id);
+      renderCustomIdeas();
+    } catch(e) {
+      alert('Error deleting. Please try again.');
+    }
+  }
+
+  window.openIdeaModal = openIdeaModal;
+  window.closeIdeaModal = closeIdeaModal;
+  window.saveCustomIdea = saveCustomIdea;
+  window.deleteCustomIdea = deleteCustomIdea;
+
+  document.getElementById('idea-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeIdeaModal();
+  });
+
+  document.getElementById('idea-text-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') saveCustomIdea();
+  });
+</script>
+
+</body>
+</html>
