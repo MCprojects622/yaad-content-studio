@@ -1,1832 +1,1652 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yaad Content Studio 🇯🇲</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --green: #00a846;
-    --green-bg: #f0faf5;
-    --green-border: #b8e8cc;
-    --gold: #c49a00;
-    --pink: #e0457b;
-    --blue: #0099cc;
-    --black: #111;
-    --white: #ffffff;
-    --bg: #f7f7f5;
-    --gray: #f2f2f0;
-    --gray2: #e2e2de;
-    --muted: #888;
-    --text: #1a1a1a;
+    --bg: #0e0c0a;
+    --surface: #1a1612;
+    --surface2: #231f1a;
+    --surface3: #2d2720;
+    --border: #3a3028;
+    --gold: #d4a843;
+    --gold-light: #e8c06a;
+    --gold-dim: rgba(212,168,67,0.15);
+    --green: #4caf7d;
+    --green-dim: rgba(76,175,125,0.15);
+    --coral: #e07055;
+    --coral-dim: rgba(224,112,85,0.15);
+    --purple: #9b7fe8;
+    --purple-dim: rgba(155,127,232,0.15);
+    --blue: #5b9bd5;
+    --blue-dim: rgba(91,155,213,0.15);
+    --text: #f0ebe4;
+    --text-muted: #8a7d6e;
+    --text-dim: #5a4f42;
+    --radius: 12px;
+    --radius-sm: 8px;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
+    font-family: 'DM Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
     min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
   }
 
-  /* NAV */
-  .nav {
-    background: var(--black);
-    padding: 14px 24px;
+  /* AUTH SCREEN */
+  #auth-screen {
+    min-height: 100vh;
     display: flex;
     align-items: center;
-    gap: 16px;
+    justify-content: center;
+    padding: 24px;
+    background: radial-gradient(ellipse at 30% 20%, rgba(212,168,67,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(76,175,125,0.06) 0%, transparent 50%),
+                var(--bg);
+  }
+
+  .auth-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+  }
+
+  .auth-flag { font-size: 40px; margin-bottom: 16px; }
+
+  .auth-title {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .auth-sub {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 36px;
+  }
+
+  .auth-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .auth-input:focus { border-color: var(--gold); }
+  .auth-input::placeholder { color: var(--text-dim); }
+
+  .auth-btn {
+    width: 100%;
+    background: var(--gold);
+    color: #0e0c0a;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .auth-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .auth-error { color: var(--coral); font-size: 13px; margin-top: 10px; }
+  .auth-footer { color: var(--text-dim); font-size: 12px; margin-top: 24px; }
+
+  /* APP LAYOUT */
+  #app { display: none; min-height: 100vh; }
+
+  .top-bar {
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    background: rgba(14,12,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 60px;
   }
 
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
+  .top-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
     font-weight: 900;
-    color: #fff;
+    color: var(--gold);
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .nav-logo span { color: var(--green); }
+  .top-nav { display: flex; gap: 4px; }
 
-  .nav-tabs {
-    display: flex;
-    gap: 4px;
-    margin-left: auto;
-  }
-
-  .nav-tab {
+  .top-nav-btn {
     background: transparent;
     border: none;
-    color: #777;
+    color: var(--text-muted);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    padding: 7px 14px;
-    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.03em;
+    transition: all 0.2s;
   }
 
-  .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.08); }
-  .nav-tab.active { color: #fff; background: var(--green); }
+  .top-nav-btn:hover { color: var(--text); background: var(--surface2); }
+  .top-nav-btn.active { color: var(--gold); background: var(--gold-dim); }
+
+  .sign-out-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .sign-out-btn:hover { color: var(--coral); border-color: var(--coral); }
 
   /* PAGES */
-  .page { display: none; padding: 40px 20px 80px; }
+  .page { display: none; padding: 32px 24px; max-width: 900px; margin: 0 auto; }
   .page.active { display: block; }
 
-  /* HEADER */
-  .header { text-align: center; margin-bottom: 48px; }
-  .flag { font-size: 2rem; margin-bottom: 8px; }
-  .header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 4vw, 3rem);
+  .page-title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
     font-weight: 900;
-    line-height: 1.1;
-    color: var(--black);
+    color: var(--text);
     margin-bottom: 6px;
   }
-  .header h1 span { color: var(--green); }
-  .header p { color: var(--muted); font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; }
 
-  /* RESEARCH PANEL */
-  .research-panel {
-    max-width: 860px;
-    margin: 0 auto 48px;
-    background: var(--black);
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  .page-sub {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 32px;
   }
 
-  .research-header { padding: 20px 28px 16px; border-bottom: 1px solid #222; }
-  .research-header h2 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px; }
-  .research-header p { font-size: 0.78rem; color: #777; letter-spacing: 0.08em; text-transform: uppercase; }
-
-  .research-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-
-  .research-card { padding: 20px 24px; border-right: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e; }
-  .research-card:nth-child(even) { border-right: none; }
-  .research-card .rc-emoji { font-size: 1.3rem; margin-bottom: 10px; display: block; }
-  .research-card h3 { font-size: 0.78rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 7px; }
-  .research-card p { font-size: 0.81rem; color: #aaa; line-height: 1.65; }
-  .research-card strong { color: #fff; }
-
-  /* SECTIONS */
-  .section {
-    max-width: 860px;
-    margin: 0 auto 40px;
-    border: 1px solid var(--gray2);
-    border-radius: 16px;
-    overflow: hidden;
-    background: var(--white);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-  }
-
-  .section-header {
+  /* TABS */
+  .tab-row {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px 24px;
-    background: var(--gray);
-    border-bottom: 1px solid var(--gray2);
-  }
-
-  .section-header .icon { font-size: 1.1rem; }
-  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--black); }
-  .section-header .count { margin-left: auto; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
-
-  .idea-row { border-bottom: 1px solid #f0f0ee; padding: 16px 24px; transition: background 0.12s; }
-  .idea-row:last-of-type { border-bottom: none; }
-  .idea-row:hover { background: #fafaf8; }
-
-  .idea-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-
-  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-green { background: var(--green); }
-  .dot-gold { background: #e6b800; }
-  .dot-pink { background: var(--pink); }
-  .dot-blue { background: var(--blue); }
-
-  .idea-text { font-size: 0.92rem; font-weight: 600; color: var(--text); flex: 1; }
-
-  .tag { font-size: 0.67rem; padding: 3px 9px; border-radius: 20px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; flex-shrink: 0; }
-  .tag-easy { background: #e6f7ee; color: var(--green); }
-  .tag-viral { background: #fff8e0; color: var(--gold); }
-  .tag-niche { background: #fce8f0; color: var(--pink); }
-  .tag-daily { background: #e0f4ff; color: var(--blue); }
-
-  .hooks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 8px; padding-left: 20px; }
-
-  .hook-pill {
-    background: #f8f8f6;
-    border: 1px solid #ebebea;
-    border-radius: 10px;
-    padding: 9px 12px;
-    font-size: 0.77rem;
-    color: #444;
-    line-height: 1.45;
-    font-style: italic;
-  }
-
-  .hook-pill::before { content: '⚡ '; font-style: normal; font-size: 0.68rem; }
-
-  .add-row { display: flex; align-items: center; padding: 11px 24px; border-bottom: 1px dashed #eaeae6; gap: 14px; opacity: 0.45; transition: opacity 0.15s; }
-  .add-row:last-child { border-bottom: none; }
-  .add-row:focus-within { opacity: 1; background: #fafaf8; }
-  .add-dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px dashed #bbb; flex-shrink: 0; }
-  .add-input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.87rem; }
-  .add-input::placeholder { color: #ccc; font-style: italic; }
-
-  /* HOOK FORMULAS */
-  .hooks-section { max-width: 860px; margin: 0 auto 40px; background: var(--white); border: 1px solid var(--gray2); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
-  .hooks-section-header { display: flex; align-items: center; gap: 12px; padding: 15px 24px; background: var(--black); }
-  .hooks-section-header h2 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #fff; }
-  .hooks-section-header p { margin-left: auto; font-size: 0.7rem; color: #666; letter-spacing: 0.08em; text-transform: uppercase; }
-  .hook-cat { border-bottom: 1px solid #f0f0ee; }
-  .hook-cat:last-child { border-bottom: none; }
-  .hook-cat-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 11px 24px 5px; background: #fafaf8; border-bottom: 1px solid #f0f0ee; }
-  .hook-formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-  .hook-formula { padding: 12px 20px; border-right: 1px solid #f0f0ee; border-bottom: 1px solid #f0f0ee; font-size: 0.82rem; color: #444; line-height: 1.5; }
-  .hook-formula:nth-child(3n) { border-right: none; }
-  .hook-formula:hover { background: #fafaf8; }
-  .hook-formula em { color: var(--green); font-style: normal; font-weight: 600; }
-  .hf-num { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--black); color: #fff; font-size: 0.62rem; font-weight: 700; margin-right: 7px; flex-shrink: 0; }
-
-  /* TIP BOX */
-  .tip-box { max-width: 860px; margin: 0 auto 40px; background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 16px; padding: 20px 26px; }
-  .tip-box h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--green); margin-bottom: 10px; }
-  .tip-box p { font-size: 0.86rem; color: #555; line-height: 1.8; }
-  .tip-box strong { color: var(--text); }
-
-  /* HASHTAGS */
-  .hashtags { max-width: 860px; margin: 0 auto 40px; background: var(--white); border: 1px solid var(--gray2); border-radius: 16px; padding: 20px 26px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
-  .hashtags h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--black); margin-bottom: 14px; }
-  .hashtag-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .hashtag { background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 20px; padding: 5px 14px; font-size: 0.82rem; color: var(--green); font-weight: 600; }
-
-  /* =================== VIDEO LOG =================== */
-  .log-header-bar {
-    max-width: 920px;
-    margin: 0 auto 28px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    gap: 4px;
+    margin-bottom: 28px;
     flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
   }
 
-  .log-header-bar h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: var(--black);
-  }
-
-  .log-header-bar p { font-size: 0.82rem; color: var(--muted); }
-
-  .add-entry-btn {
-    margin-left: auto;
-    background: var(--green);
-    color: #fff;
+  .tab-btn {
+    background: transparent;
     border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 16px;
     cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
-    white-space: nowrap;
+    transition: all 0.2s;
+    margin-bottom: -1px;
   }
 
-  .add-entry-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
 
-  /* SAVE STATUS */
-  .save-status {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-weight: 600;
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
   }
 
-  .save-status.saving { background: #fff8e0; color: var(--gold); }
-  .save-status.saved { background: var(--green-bg); color: var(--green); }
-  .save-status.error { background: #fce8f0; color: var(--pink); }
-
-  /* FILTER BAR */
-  .filter-bar {
-    max-width: 920px;
-    margin: 0 auto 24px;
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
   }
 
-  .filter-btn {
-    background: var(--white);
-    border: 1.5px solid var(--gray2);
+  .card-desc {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  /* PILLAR BADGES */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .badge-gold { background: var(--gold-dim); color: var(--gold); }
+  .badge-green { background: var(--green-dim); color: var(--green); }
+  .badge-coral { background: var(--coral-dim); color: var(--coral); }
+  .badge-purple { background: var(--purple-dim); color: var(--purple); }
+  .badge-blue { background: var(--blue-dim); color: var(--blue); }
+
+  /* IDEAS LIST */
+  .ideas-list { list-style: none; }
+
+  .idea-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .idea-item:last-child { border-bottom: none; }
+
+  .idea-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .idea-text { flex: 1; font-size: 14px; color: var(--text); }
+
+  .idea-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tag-viral { background: var(--coral-dim); color: var(--coral); }
+  .tag-daily { background: var(--green-dim); color: var(--green); }
+  .tag-easy { background: var(--blue-dim); color: var(--blue); }
+  .tag-niche { background: var(--purple-dim); color: var(--purple); }
+
+  .add-idea-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.2s;
+  }
+
+  .add-idea-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* HOOKS */
+  .hook-section { margin-bottom: 28px; }
+
+  .hook-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hook-section-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  .hook-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+  .hook-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .hook-item:hover { border-color: var(--gold); background: var(--surface3); }
+
+  .hook-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    min-width: 18px;
+    margin-top: 1px;
+  }
+
+  .hook-text { font-size: 14px; color: var(--text); flex: 1; }
+  .hook-tip { font-size: 12px; color: var(--text-muted); margin-top: 12px; padding: 10px 14px; background: var(--surface3); border-radius: var(--radius-sm); border-left: 3px solid var(--gold); }
+
+  /* VISUAL HOOKS */
+  .visual-hook-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .visual-icon { font-size: 16px; flex-shrink: 0; }
+
+  /* PLATFORM STRATEGY */
+  .platform-card {
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .platform-tiktok {
+    background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(35,25,20,0.8));
+    border: 1px solid rgba(224,112,85,0.3);
+  }
+
+  .platform-ig {
+    background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(20,20,35,0.8));
+    border: 1px solid rgba(155,127,232,0.3);
+  }
+
+  .platform-yt {
+    background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(35,20,20,0.8));
+    border: 1px solid rgba(91,155,213,0.3);
+  }
+
+  .platform-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .platform-role {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.7;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .stat-pill {
+    background: rgba(255,255,255,0.07);
     border-radius: 20px;
     padding: 6px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
+    font-size: 12px;
     font-weight: 600;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
+    color: var(--text);
   }
 
-  .filter-btn:hover { border-color: var(--green); color: var(--green); }
-  .filter-btn.active { background: var(--black); color: #fff; border-color: var(--black); }
+  .rule-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 
-  /* ENTRY CARDS */
-  .entries-grid {
-    max-width: 920px;
-    margin: 0 auto;
-    display: grid;
-    gap: 16px;
-  }
-
-  .entry-card {
-    background: var(--white);
-    border: 1px solid var(--gray2);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-    transition: box-shadow 0.15s;
-  }
-
-  .entry-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-
-  .entry-card-header {
+  .rule-item {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 20px;
-    background: var(--gray);
-    border-bottom: 1px solid var(--gray2);
-    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+    align-items: flex-start;
   }
 
-  .entry-date-badge {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--muted);
-    background: var(--white);
-    border: 1px solid var(--gray2);
-    border-radius: 8px;
-    padding: 4px 10px;
+  .rule-icon { flex-shrink: 0; margin-top: 1px; }
+
+  .ig-format-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 14px;
   }
 
-  .entry-platforms { display: flex; gap: 5px; }
+  .ig-format {
+    background: rgba(255,255,255,0.05);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    text-align: center;
+  }
 
-  .plat-badge {
-    font-size: 0.68rem;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 20px;
+  .ig-format-icon { font-size: 22px; margin-bottom: 6px; }
+  .ig-format-name { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .ig-format-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+  .warning-box {
+    background: rgba(212,168,67,0.08);
+    border: 1px solid rgba(212,168,67,0.2);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--gold-light);
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  /* GROWTH TIPS */
+  .tip-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .tip-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+
+  .tip-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .tip-body { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* HASHTAGS */
+  .hashtag-group { margin-bottom: 24px; }
+
+  .hashtag-group-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
   }
 
-  .plat-badge.TikTok { background: #000; color: #fff; }
-  .plat-badge.Reels { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
-  .plat-badge.YouTube { background: #ff0000; color: #fff; }
+  .hashtag-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 
-  .entry-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--black);
-    flex: 1;
+  .hashtag-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
   }
 
-  .entry-actions { display: flex; gap: 6px; margin-left: auto; }
+  .hashtag-chip:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+  .hashtag-chip.copied { border-color: var(--green); color: var(--green); background: var(--green-dim); }
 
-  .edit-btn, .delete-btn-card {
-    background: none;
-    border: 1px solid var(--gray2);
-    border-radius: 7px;
-    padding: 5px 10px;
-    font-size: 0.72rem;
+  .hashtag-note {
+    background: var(--surface2);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+
+  /* VIDEO LOG */
+  .log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .log-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .filter-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover { color: var(--text); border-color: var(--text-dim); }
+  .filter-btn.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+  .log-btn {
+    background: var(--gold);
+    color: #0e0c0a;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.15s;
-    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
   }
 
-  .edit-btn { color: var(--blue); }
-  .edit-btn:hover { background: #e0f4ff; border-color: var(--blue); }
-  .delete-btn-card { color: #ccc; }
-  .delete-btn-card:hover { background: #fff0f0; color: #e05555; border-color: #fcc; }
+  .log-btn:hover { background: var(--gold-light); }
 
-  .entry-body { padding: 18px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .video-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s;
+  }
 
-  .entry-field { display: flex; flex-direction: column; gap: 4px; }
-  .entry-field.full { grid-column: 1 / -1; }
-  .entry-field-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-  .entry-field-value { font-size: 0.86rem; color: var(--text); line-height: 1.5; white-space: pre-wrap; }
-  .entry-field-value.empty { color: #ccc; font-style: italic; }
+  .video-card:hover { border-color: var(--gold); }
 
-  /* EMPTY STATE */
+  .video-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .video-title-text { font-size: 15px; font-weight: 600; color: var(--text); }
+  .video-date { font-size: 12px; color: var(--text-dim); flex-shrink: 0; }
+
+  .video-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+
+  .platform-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+
+  .pt-tiktok { background: rgba(224,112,85,0.15); color: var(--coral); }
+  .pt-reels { background: rgba(155,127,232,0.15); color: var(--purple); }
+  .pt-youtube { background: rgba(91,155,213,0.15); color: var(--blue); }
+
+  .video-hook { font-size: 13px; color: var(--text-muted); font-style: italic; }
+  .video-notes { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
   .empty-state {
-    max-width: 920px;
-    margin: 60px auto;
     text-align: center;
-    color: var(--muted);
+    padding: 60px 24px;
+    color: var(--text-dim);
   }
 
-  .empty-state .es-emoji { font-size: 3rem; display: block; margin-bottom: 16px; }
-  .empty-state h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--black); margin-bottom: 8px; }
-  .empty-state p { font-size: 0.88rem; color: var(--muted); }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-title { font-size: 16px; color: var(--text-muted); margin-bottom: 6px; }
+  .empty-desc { font-size: 13px; }
 
   /* MODAL */
   .modal-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
     z-index: 200;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: 20px;
+    padding: 24px;
+    overflow-y: auto;
   }
 
   .modal-overlay.open { display: flex; }
 
   .modal {
-    background: var(--white);
-    border-radius: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
     width: 100%;
-    max-width: 660px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    max-width: 560px;
+    margin: auto;
   }
 
-  .modal-header {
+  .modal-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .form-row { margin-bottom: 16px; }
+
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); }
+  .form-textarea { resize: vertical; min-height: 80px; }
+  .form-select option { background: var(--surface2); }
+
+  .platform-check-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .platform-check {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 18px 24px;
-    background: var(--black);
-    border-radius: 18px 18px 0 0;
-    position: sticky;
-    top: 0;
-  }
-
-  .modal-header h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; }
-  .modal-close { margin-left: auto; background: none; border: none; color: #888; font-size: 1.2rem; cursor: pointer; padding: 4px; line-height: 1; }
-  .modal-close:hover { color: #fff; }
-
-  .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-
-  /* MODAL DATE + PLATFORM ROW */
-  .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .modal-row.single { grid-template-columns: 1fr; }
-
-  .field-group { display: flex; flex-direction: column; gap: 6px; }
-  .field-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-  .field-hint { font-weight: 400; text-transform: none; letter-spacing: 0; color: #bbb; font-size: 0.67rem; }
-
-  .field-input, .field-textarea, .field-select {
-    background: var(--bg);
-    border: 1.5px solid var(--gray2);
-    border-radius: 8px;
-    padding: 9px 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.86rem;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.15s;
-    width: 100%;
-  }
-
-  .field-input:focus, .field-textarea:focus, .field-select:focus { border-color: var(--green); background: #fff; }
-  .field-textarea { resize: vertical; }
-
-  .platform-toggles { display: flex; gap: 8px; flex-wrap: wrap; }
-
-  .plat-btn {
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1.5px solid var(--gray2);
-    background: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.77rem;
-    font-weight: 600;
-    color: var(--muted);
+    gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 14px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.2s;
+    font-size: 14px;
+    user-select: none;
   }
 
-  .plat-btn.active { background: var(--black); color: #fff; border-color: var(--black); }
+  .platform-check input { display: none; }
+  .platform-check.checked { border-color: var(--gold); background: var(--gold-dim); color: var(--gold); }
 
-  .modal-footer {
-    padding: 16px 24px;
-    border-top: 1px solid var(--gray2);
+  .modal-actions {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
+    margin-top: 24px;
   }
 
   .btn-cancel {
-    background: none;
-    border: 1.5px solid var(--gray2);
-    border-radius: 10px;
-    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--muted);
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: all 0.15s;
   }
-
-  .btn-cancel:hover { background: var(--gray); }
 
   .btn-save {
-    background: var(--green);
+    background: var(--gold);
+    color: #0e0c0a;
     border: none;
-    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
     padding: 10px 24px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #fff;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: opacity 0.15s;
   }
 
-  .btn-save:hover { opacity: 0.88; }
-  .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  /* LOADING */
-  .loading-spinner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 40px;
-    color: var(--muted);
-    font-size: 0.88rem;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner { width: 20px; height: 20px; border: 2px solid var(--gray2); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
-
-  /* PLANNER TABS */
-  .planner-tabs-wrap {
-    max-width: 860px;
-    margin: 0 auto 28px;
-  }
-
-  .planner-tabs {
-    display: flex;
-    gap: 6px;
-    background: var(--white);
-    border: 1px solid var(--gray2);
-    border-radius: 14px;
-    padding: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-
-  .ptab {
-    flex: 1;
-    padding: 10px 8px;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-
-  .ptab:hover { background: var(--gray); color: var(--text); }
-  .ptab.active { background: var(--black); color: #fff; }
-
-  .ptab-content { display: none; max-width: 860px; margin: 0 auto; }
-  .ptab-content.active { display: block; }
-
-  /* SECTION TABS (inside ideas) */
-  .section-tabs-wrap {
-    margin-bottom: 20px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .section-tabs {
-    display: flex;
-    gap: 6px;
-    min-width: max-content;
-  }
-
-  .stab {
-    padding: 8px 16px;
-    border: 1.5px solid var(--gray2);
-    border-radius: 20px;
-    background: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-
-  .stab:hover { border-color: var(--green); color: var(--green); }
-  .stab.active { background: var(--green); color: #fff; border-color: var(--green); }
-
-  /* IDEA SECTION */
-  .idea-section { display: none; }
-  .idea-section.active { display: block; }
-
-  .idea-section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 0 16px;
-    border-bottom: 2px solid var(--gray2);
-    margin-bottom: 4px;
-  }
-
-  .idea-section-header h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--black);
-    margin-bottom: 3px;
-  }
-
-  .idea-section-header p { font-size: 0.8rem; color: var(--muted); }
-
-  .idea-list { margin-bottom: 4px; }
-
-  .idea-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 4px;
-    border-bottom: 1px solid #f2f2f0;
-    transition: background 0.1s;
-    border-radius: 8px;
-  }
-
-  .idea-item:hover { background: #fafaf8; padding-left: 8px; }
-  .idea-item .idea-text { flex: 1; font-size: 0.92rem; font-weight: 500; color: var(--text); }
-
-  /* HOOK TAB CONTENT */
-  .hooks-intro {
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 20px;
-    font-size: 0.86rem;
-    color: #555;
-    line-height: 1.6;
-  }
-
-  .hook-tab-content { display: none; }
-  .hook-tab-content.active { display: block; }
-
-  .hook-tab-header {
-    padding-bottom: 16px;
-    border-bottom: 2px solid var(--gray2);
-    margin-bottom: 16px;
-  }
-
-  .hook-tab-header h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--black);
-    margin-bottom: 6px;
-  }
-
-  .hook-tab-header p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
-
-  .hook-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-
-  .hook-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    background: var(--white);
-    border: 1px solid var(--gray2);
-    border-radius: 12px;
-    padding: 13px 15px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    transition: box-shadow 0.12s, border-color 0.12s;
-  }
-
-  .hook-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.08); border-color: var(--green-border); }
-
-  .hc-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--black);
-    color: #fff;
-    font-size: 0.62rem;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .hc-text { font-size: 0.85rem; color: var(--text); line-height: 1.5; font-style: italic; }
-  .hc-text em { color: var(--green); font-style: normal; font-weight: 600; }
-
-  .hook-tip {
-    background: #fffbf0;
-    border: 1px solid #ffe8a0;
-    border-radius: 10px;
-    padding: 11px 16px;
-    font-size: 0.82rem;
-    color: #664d00;
-    line-height: 1.5;
-  }
-
-  /* GROWTH GRID */
-  .growth-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 14px;
-  }
-
-  .growth-card {
-    background: var(--white);
-    border: 1px solid var(--gray2);
-    border-radius: 14px;
-    padding: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-
-  .gc-emoji { font-size: 1.4rem; display: block; margin-bottom: 10px; }
-  .growth-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 7px; }
-  .growth-card p { font-size: 0.82rem; color: #666; line-height: 1.6; }
-  .growth-card strong { color: var(--text); }
-
-  /* HASHTAG SECTIONS */
-  .hashtag-section {
-    background: var(--white);
-    border: 1px solid var(--gray2);
-    border-radius: 14px;
-    padding: 18px 20px;
-    margin-bottom: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-
-  .hashtag-section h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--black);
-    margin-bottom: 4px;
-  }
-
-  .hashtag-section p { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; }
-  .hashtag-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .hashtag-list.big .hashtag { font-size: 0.9rem; padding: 7px 16px; }
-
-  .hashtag {
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
-    border-radius: 20px;
-    padding: 5px 13px;
-    font-size: 0.82rem;
-    color: var(--green);
-    font-weight: 600;
-  }
-
-  /* CUSTOM IDEAS */
-  .custom-ideas-container { padding: 0 24px; }
-
-  .custom-idea-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid #f5f5f3;
-    animation: fadeIn 0.2s ease;
-  }
-
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-
-  .custom-idea-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
-  .custom-idea-text { flex: 1; font-size: 0.92rem; font-weight: 500; color: var(--text); }
-  .custom-idea-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 20px; background: var(--green-bg); color: var(--green); font-weight: 700; border: 1px solid var(--green-border); }
-  .custom-idea-delete {
-    background: none; border: none; color: #ddd; font-size: 0.8rem;
-    cursor: pointer; padding: 2px 6px; border-radius: 6px; transition: all 0.15s;
-  }
-  .custom-idea-delete:hover { background: #fff0f0; color: #e05555; }
-
-  .add-idea-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    padding: 13px 24px;
-    background: none;
-    border: none;
-    border-top: 1px dashed var(--gray2);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--green);
-    cursor: pointer;
-    transition: background 0.15s;
-    text-align: left;
-  }
-
-  .add-idea-btn:hover { background: var(--green-bg); }
+  .btn-save:hover { background: var(--gold-light); }
 
   /* IDEA MODAL */
-  .idea-modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    z-index: 300;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .idea-modal-overlay.open { display: flex; }
-
-  .idea-modal {
-    background: var(--white);
-    border-radius: 16px;
+  .idea-modal-input {
     width: 100%;
-    max-width: 480px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-    overflow: hidden;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 12px;
   }
 
-  .idea-modal-header {
-    padding: 16px 20px;
-    background: var(--black);
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  .idea-modal-input:focus { border-color: var(--gold); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
   }
 
-  .idea-modal-header h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: #fff; flex: 1; }
-  .idea-modal-section { font-size: 0.72rem; color: var(--green); font-weight: 700; background: rgba(0,168,70,0.15); padding: 3px 10px; border-radius: 20px; }
-  .idea-modal-close { background: none; border: none; color: #888; font-size: 1.1rem; cursor: pointer; }
-  .idea-modal-close:hover { color: #fff; }
+  /* COPY TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: var(--green);
+    z-index: 300;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
 
-  .idea-modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
-  .idea-modal-footer { padding: 14px 20px; border-top: 1px solid var(--gray2); display: flex; gap: 8px; justify-content: flex-end; }
-
-  @media (max-width: 580px) {
-    .modal-row { grid-template-columns: 1fr; }
-    .entry-body { grid-template-columns: 1fr; }
-    .entry-field.full { grid-column: 1; }
-    .nav-tab { font-size: 0.74rem; padding: 6px 10px; }
+  @media (max-width: 600px) {
+    .top-bar { padding: 0 16px; }
+    .page { padding: 24px 16px; }
+    .ig-format-grid { grid-template-columns: 1fr 1fr; }
+    .auth-card { padding: 36px 24px; }
   }
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="login-screen" style="display:flex; min-height:100vh; align-items:center; justify-content:center; background:var(--black); padding:24px; position:fixed; inset:0; z-index:999;">
-  <div style="width:100%; max-width:400px;">
-    <div style="text-align:center; margin-bottom:32px;">
-      <div style="font-size:2.5rem; margin-bottom:10px;">🇯🇲</div>
-      <h1 style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:#fff; margin-bottom:6px;">Yaad <span style="color:var(--green)">Studios</span></h1>
-      <p style="font-size:0.82rem; color:#666; letter-spacing:0.1em; text-transform:uppercase;">Your private content studio</p>
-    </div>
-    <div style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:16px; padding:28px;">
-      <div style="display:flex; flex-direction:column; gap:14px;">
-        <div style="display:flex; flex-direction:column; gap:6px;">
-          <label style="font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#666;">Email</label>
-          <input type="email" id="login-email" placeholder="your@email.com"
-            style="background:#111; border:1.5px solid #333; border-radius:8px; padding:11px 14px; font-family:'DM Sans',sans-serif; font-size:0.9rem; color:#fff; outline:none; transition:border-color 0.15s;"
-            onfocus="this.style.borderColor='#00a846'" onblur="this.style.borderColor='#333'"
-            onkeydown="if(event.key==='Enter')document.getElementById('login-password').focus()" />
-        </div>
-        <div style="display:flex; flex-direction:column; gap:6px;">
-          <label style="font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#666;">Password</label>
-          <input type="password" id="login-password" placeholder="••••••••"
-            style="background:#111; border:1.5px solid #333; border-radius:8px; padding:11px 14px; font-family:'DM Sans',sans-serif; font-size:0.9rem; color:#fff; outline:none; transition:border-color 0.15s;"
-            onfocus="this.style.borderColor='#00a846'" onblur="this.style.borderColor='#333'"
-            onkeydown="if(event.key==='Enter')handleLogin()" />
-        </div>
-        <div id="login-error" style="display:none; background:#2a1010; border:1px solid #5a2020; border-radius:8px; padding:10px 14px; font-size:0.82rem; color:#ff8080;"></div>
-        <button onclick="handleLogin()" id="login-btn"
-          style="background:#00a846; color:#fff; border:none; border-radius:10px; padding:13px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; margin-top:4px;">
-          Sign In
-        </button>
-      </div>
-    </div>
-    <p style="text-align:center; margin-top:20px; font-size:0.75rem; color:#444;">Private access only · Yaad Studios by Yolanda McLeod</p>
+<!-- AUTH -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-flag">🇯🇲</div>
+    <div class="auth-title">Yaad Studios</div>
+    <div class="auth-sub">Your private content studio</div>
+    <input type="email" class="auth-input" id="auth-email" placeholder="Email" />
+    <input type="password" class="auth-input" id="auth-pass" placeholder="Password" />
+    <button class="auth-btn" onclick="signIn()">Sign In</button>
+    <div class="auth-error" id="auth-error"></div>
+    <div class="auth-footer">Private access only · Yaad Studios by Yolanda McLeod</div>
   </div>
 </div>
 
-<!-- MAIN APP -->
-<div id="app" style="display:none;">
-
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-logo">🇯🇲 <span>Yaad</span> Content Studio</div>
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('planner')">📋 Planner</button>
-    <button class="nav-tab" onclick="showPage('log')">🎬 Video Log</button>
-  </div>
-  <button onclick="handleSignOut()" style="margin-left:8px; background:transparent; border:1px solid #333; border-radius:8px; padding:6px 12px; font-family:'DM Sans',sans-serif; font-size:0.75rem; color:#888; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.borderColor='#666';this.style.color='#fff'" onmouseout="this.style.borderColor='#333';this.style.color='#888'">Sign Out</button>
-</nav>
-
-<!-- =================== PLANNER PAGE =================== -->
-<div id="page-planner" class="page active">
-
-  <div class="header">
-    <div class="flag">🇯🇲</div>
-    <h1>Content <span>Planner</span></h1>
-    <p>Ideas · Hooks · Growth · Hashtags</p>
-  </div>
-
-  <!-- PLANNER TABS -->
-  <div class="planner-tabs-wrap">
-    <div class="planner-tabs">
-      <button class="ptab active" onclick="showPTab('ideas', this)">💡 Ideas</button>
-      <button class="ptab" onclick="showPTab('hooks', this)">⚡ Hooks</button>
-      <button class="ptab" onclick="showPTab('growth', this)">🌱 Growth</button>
-      <button class="ptab" onclick="showPTab('hashtags', this)">＃ Hashtags</button>
+<!-- APP -->
+<div id="app">
+  <div class="top-bar">
+    <div class="top-logo">🇯🇲 Yaad Content Studio</div>
+    <div class="top-nav">
+      <button class="top-nav-btn active" onclick="showPage('planner', this)">📋 Planner</button>
+      <button class="top-nav-btn" onclick="showPage('log', this)">🎬 Video Log</button>
     </div>
+    <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
   </div>
 
-  <!-- ===== IDEAS TAB ===== -->
-  <div id="ptab-ideas" class="ptab-content active">
+  <!-- PLANNER PAGE -->
+  <div class="page active" id="page-planner">
+    <div class="page-title">Content Planner</div>
+    <div class="page-sub">Ideas · Hooks · Platform Strategy · Growth · Hashtags</div>
 
-    <!-- Section tabs -->
-    <div class="section-tabs-wrap">
-      <div class="section-tabs">
-        <button class="stab active" onclick="showSection('everyday', this)">☀️ Everyday Life</button>
-        <button class="stab" onclick="showSection('jamaican', this)">🇯🇲 Jamaican Culture</button>
-        <button class="stab" onclick="showSection('relatable', this)">😭 Relatable</button>
-        <button class="stab" onclick="showSection('youtube', this)">🎬 YouTube Crossover</button>
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showTab('ideas', this)">💡 Ideas</button>
+      <button class="tab-btn" onclick="showTab('hooks', this)">⚡ Hooks</button>
+      <button class="tab-btn" onclick="showTab('platforms', this)">📱 Platforms</button>
+      <button class="tab-btn" onclick="showTab('growth', this)">🌱 Growth</button>
+      <button class="tab-btn" onclick="showTab('hashtags', this)">＃ Hashtags</button>
+    </div>
+
+    <!-- IDEAS TAB -->
+    <div class="tab-content active" id="tab-ideas">
+
+      <!-- LIGHT & JOY -->
+      <div class="card">
+        <div class="card-title">☀️ Light & Joy <span class="badge badge-gold">Core Pillar</span></div>
+        <div class="card-desc">Music, singing, dancing, being unbothered, enjoying life loudly and unapologetically. This is the energy people come for.</div>
+        <ul class="ideas-list" id="ideas-joy">
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Singing in the car — unfiltered, no intro, just start mid-song</div><span class="idea-tag tag-daily">Daily</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Dancing while getting ready for work or doing chores</div><span class="idea-tag tag-daily">Daily</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">React to a song that means something to you — explain why</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">"Songs that changed my life" series — one song per video</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Friday / Saturday night in — unbothered, no apologies, great movie or music</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Recommend a movie or album with genuine, passionate energy</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Playlist that healed a version of me — share and explain</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Singing while putting on makeup / doing nails / getting dressed</div><span class="idea-tag tag-daily">Daily</span></li>
+        </ul>
+        <button class="add-idea-btn" onclick="openIdeaModal('joy')">＋ Add Your Own Idea</button>
       </div>
+
+      <!-- RISE & HEAL -->
+      <div class="card">
+        <div class="card-title">🌿 Rise & Heal <span class="badge badge-green">Core Pillar</span></div>
+        <div class="card-desc">Mindset, self belief, healing, journaling, meditation, growth. Real and honest — not preachy. You're not a guru, you're someone who figured things out and is sharing.</div>
+        <ul class="ideas-list" id="ideas-heal">
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">One thing you learned about yourself this week</div><span class="idea-tag tag-daily">Daily</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">"I used to believe this about myself and then…" story</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Journaling prompts you actually use — carousel on IG, talking head on TikTok</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Morning or evening routine — not aesthetic, just real</div><span class="idea-tag tag-daily">Daily</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">A book page or quote that stopped you in your tracks — what it means to you</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Meditation — not teaching it, just showing you doing it + how it makes you feel</div><span class="idea-tag tag-niche">Niche</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Things I do instead of doom scrolling</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">A song and what it taught you about yourself</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Physical media — why you own movies/music instead of just streaming</div><span class="idea-tag tag-niche">Niche</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Hobbies as healing — what you do to come back to yourself</div><span class="idea-tag tag-easy">Easy</span></li>
+        </ul>
+        <button class="add-idea-btn" onclick="openIdeaModal('heal')">＋ Add Your Own Idea</button>
+      </div>
+
+      <!-- JAMAICAN CULTURE -->
+      <div class="card">
+        <div class="card-title">🇯🇲 Jamaican Culture <span class="badge badge-coral">Differentiator</span></div>
+        <div class="card-desc">Your biggest differentiator — lean into it. Your accent, your humour, your Jamaican lens on life. Nobody else has this combination.</div>
+        <ul class="ideas-list" id="ideas-culture">
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Jamaican phrases & slang explained — with context and humour</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Things only Jamaicans understand</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Jamaica vs where I live now — cultural comparisons</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Reacting to assumptions people make about Jamaica</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Things my Jamaican upbringing taught me about life / healing / joy</div><span class="idea-tag tag-niche">Niche</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Jamaican food reviews or recipes — real reaction, real flavour</div><span class="idea-tag tag-niche">Niche</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Caribbean girlies will understand — relatable culture content</div><span class="idea-tag tag-viral">Viral</span></li>
+        </ul>
+        <button class="add-idea-btn" onclick="openIdeaModal('culture')">＋ Add Your Own Idea</button>
+      </div>
+
+      <!-- RELATABLE -->
+      <div class="card">
+        <div class="card-title">😭 Relatable & Real <span class="badge badge-purple">High Engagement</span></div>
+        <div class="card-desc">Everyday chaos, adulting, honest moments. The more specific and real, the more it resonates. Messy and honest always beats polished and perfect.</div>
+        <ul class="ideas-list" id="ideas-relatable">
+          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Getting ready for work — singing, complaining, chaos, real</div><span class="idea-tag tag-daily">Daily</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Nails / beauty struggles that are very specific (necklaces with acrylics etc)</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Work frustrations — vibes only, no details needed</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Adulting struggles — specific, honest, funny</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">60 second day in my life — unfiltered</div><span class="idea-tag tag-daily">Daily</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">A random strong opinion you have — delivered with conviction</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Things I wish I knew earlier — life, growth, self</div><span class="idea-tag tag-viral">Viral</span></li>
+        </ul>
+        <button class="add-idea-btn" onclick="openIdeaModal('relatable')">＋ Add Your Own Idea</button>
+      </div>
+
+      <!-- YOUTUBE CROSSOVER -->
+      <div class="card">
+        <div class="card-title">🎬 YouTube Crossover <span class="badge badge-blue">Drive Traffic</span></div>
+        <div class="card-desc">Use TikTok and Reels to pull people to The Chaos Files. Tease the longer story, leave them wanting more.</div>
+        <ul class="ideas-list" id="ideas-yt">
+          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">Best moment clip from your latest YouTube vlog</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">"Full video on YouTube" teaser — end with a hook to go watch</div><span class="idea-tag tag-daily">Daily</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">Behind the scenes of filming a YouTube video</div><span class="idea-tag tag-niche">Niche</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">Stitch or duet a trending video with your reaction</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">A teaser that poses a question — answer lives on YouTube</div><span class="idea-tag tag-easy">Easy</span></li>
+        </ul>
+        <button class="add-idea-btn" onclick="openIdeaModal('yt')">＋ Add Your Own Idea</button>
+      </div>
+
     </div>
 
-    <!-- Everyday Life -->
-    <div id="section-everyday" class="idea-section active">
-      <div class="idea-section-header">
-        <div>
-          <h3>Everyday Life</h3>
-          <p>Easy, low-effort daily content from your real life</p>
+    <!-- HOOKS TAB -->
+    <div class="tab-content" id="tab-hooks">
+
+      <div class="card" style="background:var(--gold-dim); border-color:rgba(212,168,67,0.3); margin-bottom:24px;">
+        <div style="font-size:14px; color:var(--gold-light); line-height:1.7;">
+          <strong>The rule:</strong> You have 1–2 seconds. That's it. The hook isn't just what you say — it's what people feel the moment your video starts. Pick verbal hooks when you're talking. Use visual hooks when you're not. Either way, make them stop scrolling.
         </div>
-        <span class="tag tag-daily">Daily</span>
       </div>
-      <div class="idea-list">
-        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">Get ready with me — morning routine</span><span class="tag tag-daily">Daily</span></div>
-        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">A rant about something that annoyed you</span><span class="tag tag-easy">Easy</span></div>
-        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">A random opinion you have</span><span class="tag tag-easy">Easy</span></div>
-        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">Responding to a comment or question</span><span class="tag tag-daily">Daily</span></div>
-        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">Talking to camera while driving or walking</span><span class="tag tag-easy">Easy</span></div>
-        <div class="idea-item"><div class="dot dot-green"></div><span class="idea-text">What I ate today</span><span class="tag tag-easy">Easy</span></div>
+
+      <!-- VISUAL HOOKS -->
+      <div class="hook-section">
+        <div class="hook-section-title">🎥 Visual Hooks — When You're Not Talking</div>
+        <div class="hook-section-desc">Stop the scroll without saying a word. Use these when you're singing, dancing, getting ready, or just living.</div>
+        <div class="visual-hook-item"><span class="visual-icon">🎬</span><div>Start mid-dance or mid-sing — already in it, no intro, no explanation</div></div>
+        <div class="visual-hook-item"><span class="visual-icon">🔍</span><div>Open with a close-up of something interesting — book, nails, outfit detail — then pull back to reveal</div></div>
+        <div class="visual-hook-item"><span class="visual-icon">✍️</span><div>Bold text overlay on screen that makes them read before they scroll — then the video delivers on it</div></div>
+        <div class="visual-hook-item"><span class="visual-icon">😮</span><div>Open on a reaction face — shock, joy, disbelief — before showing what caused it</div></div>
+        <div class="visual-hook-item"><span class="visual-icon">✂️</span><div>A satisfying or unexpected visual transition that makes them rewatch</div></div>
+        <div class="visual-hook-item"><span class="visual-icon">🌀</span><div>Start in the middle of chaos — something is already happening, they have to catch up</div></div>
       </div>
-      <div id="custom-ideas-Everyday Life" class="custom-ideas-container"></div>
-      <button class="add-idea-btn" onclick="openIdeaModal('Everyday Life')">＋ Add Your Own Idea</button>
+
+      <div class="divider"></div>
+
+      <div class="hook-section">
+        <div class="hook-section-title">🎯 Curiosity Hooks</div>
+        <div class="hook-section-desc">Make them need to know what happens next. Best for reactions, trying new things, story-based content.</div>
+        <ul class="hook-list">
+          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"I tried [thing] and was not prepared for what happened…"</span></li>
+          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"Nobody talks about [topic] but I'm going to…"</span></li>
+          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"Wait until you see the end of this…"</span></li>
+          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"I found out something today and I had to share it…"</span></li>
+          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"This song literally changed how I see myself…"</span></li>
+          <li class="hook-item"><span class="hook-num">6</span><span class="hook-text">"You have to see what happened in this week's vlog…"</span></li>
+        </ul>
+        <div class="hook-tip">💡 Best for: reactions, trying new things, story time, YouTube teasers</div>
+      </div>
+
+      <div class="hook-section">
+        <div class="hook-section-title">😤 Relatable Hooks</div>
+        <div class="hook-section-desc">Make them feel seen immediately. Best for rants, adulting, real life moments.</div>
+        <ul class="hook-list">
+          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"Tell me why [thing] happened to me today…"</span></li>
+          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"If you've ever dealt with [situation], this video is for you"</span></li>
+          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"The audacity. I cannot. Let me explain…"</span></li>
+          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"Nobody told me adulting would feel like this every single day…"</span></li>
+          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"The way I be minding my business and then…"</span></li>
+          <li class="hook-item"><span class="hook-num">6</span><span class="hook-text">"Real quick because I need someone else to know this"</span></li>
+        </ul>
+        <div class="hook-tip">💡 Best for: rants, work content, adulting, beauty struggles, day-in-the-life</div>
+      </div>
+
+      <div class="hook-section">
+        <div class="hook-section-title">🌿 Heal & Mindset Hooks</div>
+        <div class="hook-section-desc">Pull people in with vulnerability and truth. Best for growth, self belief, and healing content.</div>
+        <ul class="hook-list">
+          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"I used to be the person who… and then everything changed"</span></li>
+          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"This is not a motivational speech. This is just what worked for me."</span></li>
+          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"Nobody talks about this part of healing but here we go…"</span></li>
+          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"If you're in a season of growth right now, watch this…"</span></li>
+          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"I stopped doing [thing] and everything shifted"</span></li>
+          <li class="hook-item"><span class="hook-num">6</span><span class="hook-text">"One thing I know for certain about self belief…"</span></li>
+        </ul>
+        <div class="hook-tip">💡 Best for: journaling prompts, mindset shifts, healing stories, book/music recommendations</div>
+      </div>
+
+      <div class="hook-section">
+        <div class="hook-section-title">🇯🇲 Culture Hooks</div>
+        <div class="hook-section-desc">Your biggest differentiator. Use your Jamaican identity as the lens for everything.</div>
+        <ul class="hook-list">
+          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"POV: you're Jamaican and this is just normal life"</span></li>
+          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"Growing up Jamaican hits different and here's why…"</span></li>
+          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"Caribbean girlies will understand this instantly…"</span></li>
+          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"Non-Jamaicans, pay attention. Class is in session."</span></li>
+          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"Things my Jamaican upbringing taught me about [topic]…"</span></li>
+          <li class="hook-item"><span class="hook-num">6</span><span class="hook-text">"The things people assume about Jamaica… let me address this"</span></li>
+        </ul>
+        <div class="hook-tip">💡 Best for: slang videos, food, culture comparisons, reaction content</div>
+      </div>
+
+      <div class="hook-section">
+        <div class="hook-section-title">💬 Opinion Hooks</div>
+        <div class="hook-section-desc">Spark debate, drive comments, stand by what you say.</div>
+        <ul class="hook-list">
+          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"Unpopular opinion: [statement] — fight me in the comments"</span></li>
+          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"Hot take and I stand by every single word…"</span></li>
+          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"I said what I said. [opinion]."</span></li>
+          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"Not up for debate. [strong statement]."</span></li>
+          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"I need to say this because nobody else will…"</span></li>
+        </ul>
+        <div class="hook-tip">💡 Best for: hot takes, movie/music opinions, life philosophy, reverse influencer moments</div>
+      </div>
+
+      <div class="hook-section">
+        <div class="hook-section-title">😂 Comedy Hooks</div>
+        <div class="hook-section-desc">Stop the scroll with humour. Your natural wit is a superpower — use it.</div>
+        <ul class="hook-list">
+          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"God was really testing me today…"</span></li>
+          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"I cannot make this up, this actually happened to me today…"</span></li>
+          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"Jamaican chaos for your [day of week]…"</span></li>
+          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"It's giving chaos and I am here for it…"</span></li>
+          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">Start mid-laugh or mid-reaction — no words needed at all</span></li>
+        </ul>
+        <div class="hook-tip">💡 Best for: funny moments, chaos days, story time, personality-first content</div>
+      </div>
+
     </div>
 
-    <!-- Jamaican Culture -->
-    <div id="section-jamaican" class="idea-section">
-      <div class="idea-section-header">
-        <div>
-          <h3>Jamaican Culture</h3>
-          <p>Your biggest differentiator — lean into it every video</p>
+    <!-- PLATFORMS TAB -->
+    <div class="tab-content" id="tab-platforms">
+
+      <div style="background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:24px;">
+        <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:8px;">🗺️ Your Platform Ecosystem</div>
+        <div style="font-size:14px; color:var(--text-muted); line-height:1.7;"><strong style="color:var(--coral)">TikTok</strong> finds your people. <strong style="color:var(--purple)">Instagram</strong> keeps them. <strong style="color:var(--blue)">YouTube</strong> is where they fall in love with you. Everything works together — one brand, three depths.</div>
+      </div>
+
+      <!-- TIKTOK -->
+      <div class="platform-card platform-tiktok">
+        <div class="platform-title" style="color:var(--coral)">🎵 TikTok</div>
+        <div class="platform-role" style="color:var(--coral)">Your Growth Engine — Post Here First, Post Here Most</div>
+        <div class="stat-row">
+          <div class="stat-pill">2–3× more reach for new creators</div>
+          <div class="stat-pill">Zero followers = viral potential</div>
+          <div class="stat-pill">Interest-based algorithm</div>
+          <div class="stat-pill">4–5× per week</div>
         </div>
-        <span class="tag tag-viral">Viral</span>
+        <ul class="rule-list">
+          <li class="rule-item"><span class="rule-icon">✅</span><div>The algorithm is purely interest-based — follower count barely matters. A new account can go viral overnight if the content holds attention.</div></li>
+          <li class="rule-item"><span class="rule-icon">⏱️</span><div>Watch time and completion rate are everything. Make videos people watch all the way through or replay. Shorter (under 60 sec) usually wins.</div></li>
+          <li class="rule-item"><span class="rule-icon">💬</span><div>Engage in the first 60 minutes after posting — posts without early engagement get capped. Reply to every comment when you first post.</div></li>
+          <li class="rule-item"><span class="rule-icon">🎯</span><div>Stay in your niche. Posting across 3+ unrelated topics cuts your reach by 45%. Your pillars are cohesive enough — lean in.</div></li>
+          <li class="rule-item"><span class="rule-icon">🎵</span><div>Check trending audio weekly — especially dancehall and afrobeats. Adding trending sound extends your reach even on non-talking videos.</div></li>
+          <li class="rule-item"><span class="rule-icon">🚫</span><div>Don't go silent for more than a week — recovery takes 2–12 weeks. Batch record so you always have videos ready.</div></li>
+        </ul>
+        <div class="warning-box">⚡ Always export the original clean file to post on both platforms. Never download from TikTok and repost to Instagram — the watermark kills your reach by 30–50%.</div>
       </div>
-      <div class="idea-list">
-        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Jamaican phrases & slang explained</span><span class="tag tag-viral">Viral</span></div>
-        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Things only Jamaicans understand</span><span class="tag tag-viral">Viral</span></div>
-        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Jamaican food reviews or recipes</span><span class="tag tag-niche">Niche</span></div>
-        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Jamaica vs where I live now — comparisons</span><span class="tag tag-viral">Viral</span></div>
-        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Reacting to assumptions about Jamaica</span><span class="tag tag-viral">Viral</span></div>
-        <div class="idea-item"><div class="dot dot-gold"></div><span class="idea-text">Things my Jamaican parents said that shaped me</span><span class="tag tag-niche">Niche</span></div>
-      </div>
-      <div id="custom-ideas-Jamaican Culture" class="custom-ideas-container"></div>
-      <button class="add-idea-btn" onclick="openIdeaModal('Jamaican Culture')">＋ Add Your Own Idea</button>
-    </div>
 
-    <!-- Relatable Content -->
-    <div id="section-relatable" class="idea-section">
-      <div class="idea-section-header">
-        <div>
-          <h3>Relatable Content</h3>
-          <p>Real and honest — the more specific, the more it resonates</p>
+      <!-- INSTAGRAM -->
+      <div class="platform-card platform-ig">
+        <div class="platform-title" style="color:var(--purple)">📸 Instagram</div>
+        <div class="platform-role" style="color:var(--purple)">Your Community & Conversion Platform</div>
+        <div class="stat-row">
+          <div class="stat-pill">Reels: 55% non-follower views</div>
+          <div class="stat-pill">DM shares = strongest signal</div>
+          <div class="stat-pill">Keywords &gt; Hashtags</div>
+          <div class="stat-pill">3× per week Reels</div>
         </div>
-        <span class="tag tag-viral">High Engagement</span>
-      </div>
-      <div class="idea-list">
-        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Work frustrations — just vibes, no details needed</span><span class="tag tag-easy">Easy</span></div>
-        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Adulting struggles</span><span class="tag tag-viral">Viral</span></div>
-        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Things that made you laugh today</span><span class="tag tag-daily">Daily</span></div>
-        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">60 second day in my life</span><span class="tag tag-daily">Daily</span></div>
-        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Something that pleasantly surprised you</span><span class="tag tag-easy">Easy</span></div>
-        <div class="idea-item"><div class="dot dot-pink"></div><span class="idea-text">Things I wish I knew earlier</span><span class="tag tag-viral">Viral</span></div>
-      </div>
-      <div id="custom-ideas-Relatable Content" class="custom-ideas-container"></div>
-      <button class="add-idea-btn" onclick="openIdeaModal('Relatable Content')">＋ Add Your Own Idea</button>
-    </div>
+        <ul class="rule-list">
+          <li class="rule-item"><span class="rule-icon">📤</span><div>DM shares are the most powerful signal on Instagram right now. Content that makes people send it to a friend gets pushed harder. Your joy and healing content is built for this.</div></li>
+          <li class="rule-item"><span class="rule-icon">🔍</span><div>Keywords in captions matter more than hashtags now. Write captions with words people would actually search — "journaling prompts", "self belief", "Jamaican culture".</div></li>
+          <li class="rule-item"><span class="rule-icon">📱</span><div>Reels under 90 seconds get pushed to non-followers. Keep it tight. 30–90 seconds is the sweet spot for reach.</div></li>
+          <li class="rule-item"><span class="rule-icon">✨</span><div>Unpolished and authentic consistently outperforms heavily produced. Your chaos aesthetic is an advantage, not a liability.</div></li>
+          <li class="rule-item"><span class="rule-icon">🔁</span><div>Carousels get a "second chance" — if someone scrolls past, Instagram may show it again from slide 2. Great for healing/mindset content people want to save.</div></li>
+        </ul>
 
-    <!-- YouTube Crossover -->
-    <div id="section-youtube" class="idea-section">
-      <div class="idea-section-header">
-        <div>
-          <h3>YouTube Crossover</h3>
-          <p>Repurpose your YouTube content to drive traffic from TikTok & Reels</p>
-        </div>
-        <span class="tag tag-daily">Drive Traffic</span>
-      </div>
-      <div class="idea-list">
-        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">Clip from your weekly vlog — best moment</span><span class="tag tag-easy">Easy</span></div>
-        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">Behind the scenes of filming YouTube</span><span class="tag tag-niche">Niche</span></div>
-        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">Horned melon / food teaser clip</span><span class="tag tag-daily">Daily</span></div>
-        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">Stitch or duet a trending video with your reaction</span><span class="tag tag-viral">Viral</span></div>
-        <div class="idea-item"><div class="dot dot-blue"></div><span class="idea-text">"Full video on YouTube" teaser clips</span><span class="tag tag-daily">Daily</span></div>
-      </div>
-      <div id="custom-ideas-YouTube Crossover" class="custom-ideas-container"></div>
-      <button class="add-idea-btn" onclick="openIdeaModal('YouTube Crossover')">＋ Add Your Own Idea</button>
-    </div>
-
-  </div><!-- end ideas tab -->
-
-  <!-- ===== HOOKS TAB ===== -->
-  <div id="ptab-hooks" class="ptab-content">
-
-    <div class="hooks-intro">
-      <p>Use these in the <strong>first 2 seconds</strong> of every video. Pick by the feeling you want to create, or by the type of content you're making.</p>
-    </div>
-
-    <!-- Hook type tabs -->
-    <div class="section-tabs-wrap">
-      <div class="section-tabs">
-        <button class="stab active" onclick="showHookTab('curiosity', this)">🎯 Curiosity</button>
-        <button class="stab" onclick="showHookTab('relatable', this)">😤 Relatable</button>
-        <button class="stab" onclick="showHookTab('culture', this)">🇯🇲 Culture</button>
-        <button class="stab" onclick="showHookTab('opinion', this)">💬 Opinion</button>
-        <button class="stab" onclick="showHookTab('comedy', this)">😂 Comedy</button>
-      </div>
-    </div>
-
-    <!-- Curiosity -->
-    <div id="hooktab-curiosity" class="hook-tab-content active">
-      <div class="hook-tab-header">
-        <h3>🎯 Curiosity Hooks</h3>
-        <p>Make them need to know what happens next. Best for food/reaction videos, trying new things, and story-based content.</p>
-      </div>
-      <div class="hook-cards">
-        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"I tried <em>[thing]</em> and was not prepared for what happened…"</span></div>
-        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"Nobody talks about <em>[topic]</em> but I'm going to…"</span></div>
-        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"Wait until you see the end of this…"</span></div>
-        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"What happened next had me absolutely speechless…"</span></div>
-        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"I found out something today and I had to share it…"</span></div>
-        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">"If you knew what I know right now, you'd be shocked too…"</span></div>
-        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"I tried a horned melon for the first time and my reaction says everything…"</span></div>
-        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"You have to see what happened in this week's vlog…"</span></div>
-      </div>
-      <div class="hook-tip">💡 <strong>Best for:</strong> Food reactions, trying new things, story time, vlog teasers</div>
-    </div>
-
-    <!-- Relatable -->
-    <div id="hooktab-relatable" class="hook-tab-content">
-      <div class="hook-tab-header">
-        <h3>😤 Relatable Hooks</h3>
-        <p>Make them feel seen immediately. Best for rants, adulting content, work frustrations, and day-in-the-life videos.</p>
-      </div>
-      <div class="hook-cards">
-        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"Tell me why <em>[thing]</em> happened to me today…"</span></div>
-        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"If you've ever dealt with <em>[situation]</em>, this video is for you"</span></div>
-        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"The audacity. I cannot. Let me explain…"</span></div>
-        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"Am I wrong for being upset about this?"</span></div>
-        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"The way I walked into work today and immediately regretted it…"</span></div>
-        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">"Nobody told me adulting would feel like this every single day…"</span></div>
-        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"Why does this keep happening to me specifically…"</span></div>
-        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"The way I be minding my business and then…"</span></div>
-      </div>
-      <div class="hook-tip">💡 <strong>Best for:</strong> Rants, work content, adulting, day-in-the-life, frustrations</div>
-    </div>
-
-    <!-- Culture -->
-    <div id="hooktab-culture" class="hook-tab-content">
-      <div class="hook-tab-header">
-        <h3>🇯🇲 Culture Hooks</h3>
-        <p>Your biggest differentiator. Use these for Jamaican culture content, comparisons, food, slang, and Caribbean community content.</p>
-      </div>
-      <div class="hook-cards">
-        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"POV: you're Jamaican and this is just normal life"</span></div>
-        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"Let me teach you something real Jamaicans know…"</span></div>
-        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"Growing up Jamaican hits different and here's why…"</span></div>
-        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"Jamaican woman reacts to <em>[topic]</em>…"</span></div>
-        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"Things my Jamaican parents said that shaped me…"</span></div>
-        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">"Caribbean girlies will understand this instantly…"</span></div>
-        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"Non-Jamaicans, pay attention. Class is in session."</span></div>
-        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"The things people assume about Jamaica… let me address this"</span></div>
-      </div>
-      <div class="hook-tip">💡 <strong>Best for:</strong> Slang videos, food, culture comparisons, reaction content, Jamaica vs abroad</div>
-    </div>
-
-    <!-- Opinion -->
-    <div id="hooktab-opinion" class="hook-tab-content">
-      <div class="hook-tab-header">
-        <h3>💬 Opinion Hooks</h3>
-        <p>Spark debate and drive comments. Best for hot takes, unpopular opinions, and anything you feel strongly about.</p>
-      </div>
-      <div class="hook-cards">
-        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"Unpopular opinion: <em>[statement]</em> — fight me in the comments"</span></div>
-        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"Hot take and I stand by every single word…"</span></div>
-        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"I said what I said. <em>[opinion]</em>."</span></div>
-        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"I'm probably going to get hate for this but…"</span></div>
-        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"Everyone disagrees with me on this and I genuinely don't care…"</span></div>
-        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">"This is my truth and you can take it or leave it…"</span></div>
-        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"Nobody agrees with me on this but here we go…"</span></div>
-        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"I need to say this because nobody else will…"</span></div>
-      </div>
-      <div class="hook-tip">💡 <strong>Best for:</strong> Hot takes, opinion pieces, responding to trends, unpopular views</div>
-    </div>
-
-    <!-- Comedy -->
-    <div id="hooktab-comedy" class="hook-tab-content">
-      <div class="hook-tab-header">
-        <h3>😂 Comedy Hooks</h3>
-        <p>Stop the scroll with humour. Best for funny moments, chaos content, and anything where your personality is the whole point.</p>
-      </div>
-      <div class="hook-cards">
-        <div class="hook-card"><span class="hc-num">1</span><span class="hc-text">"God was really testing me today…"</span></div>
-        <div class="hook-card"><span class="hc-num">2</span><span class="hc-text">"I was minding my business when…"</span></div>
-        <div class="hook-card"><span class="hc-num">3</span><span class="hc-text">"This is not what I planned but here we are…"</span></div>
-        <div class="hook-card"><span class="hc-num">4</span><span class="hc-text">"I cannot make this up, this actually happened to me today…"</span></div>
-        <div class="hook-card"><span class="hc-num">5</span><span class="hc-text">"Jamaican chaos for your Thursday…"</span></div>
-        <div class="hook-card"><span class="hc-num">6</span><span class="hc-text">Start mid-laugh or mid-reaction — no words needed at all</span></div>
-        <div class="hook-card"><span class="hc-num">7</span><span class="hc-text">"It's giving chaos and I am here for it…"</span></div>
-        <div class="hook-card"><span class="hc-num">8</span><span class="hc-text">"Story time because this had me absolutely dead…"</span></div>
-      </div>
-      <div class="hook-tip">💡 <strong>Best for:</strong> Funny moments, chaos days, story time, personality-first content</div>
-    </div>
-
-  </div><!-- end hooks tab -->
-
-  <!-- ===== GROWTH TAB ===== -->
-  <div id="ptab-growth" class="ptab-content">
-    <div class="growth-grid">
-      <div class="growth-card">
-        <span class="gc-emoji">🎭</span>
-        <h3>Be Unapologetically You</h3>
-        <p>Your accent, your humour, your bluntness — that IS the content. Never tone yourself down. People subscribe to <strong>people they feel connected to</strong>.</p>
-      </div>
-      <div class="growth-card">
-        <span class="gc-emoji">🪞</span>
-        <h3>Real Life Over Highlight Reel</h3>
-        <p>The messier and more honest, the more it resonates. <strong>Specific and real always outperforms polished and perfect.</strong></p>
-      </div>
-      <div class="growth-card">
-        <span class="gc-emoji">🇯🇲</span>
-        <h3>Your Culture Is Your Superpower</h3>
-        <p>Patois, Jamaican food, cultural comparisons — <strong>your background is your biggest differentiator.</strong> Use it every video.</p>
-      </div>
-      <div class="growth-card">
-        <span class="gc-emoji">🎙️</span>
-        <h3>Tell Stories, Not Just Updates</h3>
-        <p>Build tension, add feeling, land a reaction. <strong>Start in the middle of the story.</strong> Make them feel it.</p>
-      </div>
-      <div class="growth-card">
-        <span class="gc-emoji">💬</span>
-        <h3>Build Community, Not Just Views</h3>
-        <p>Reply to comments with videos. Do Q&As. <strong>Make your audience feel like insiders</strong>, not just viewers.</p>
-      </div>
-      <div class="growth-card">
-        <span class="gc-emoji">🔁</span>
-        <h3>Create Recurring Formats</h3>
-        <p>Build formats your audience expects. <strong>Formats build habit. Habit builds subscribers.</strong></p>
-      </div>
-      <div class="growth-card">
-        <span class="gc-emoji">🎵</span>
-        <h3>Use Trending Audio Weekly</h3>
-        <p><strong>Check TikTok's trending audio every week</strong> — especially dancehall and afrobeats for your niche.</p>
-      </div>
-      <div class="growth-card">
-        <span class="gc-emoji">😂</span>
-        <h3>Humour Makes Everything Land</h3>
-        <p>Comedy makes hard truths easier to share. <strong>Your natural wit is a superpower</strong> — don't hold back.</p>
-      </div>
-      <div class="growth-card">
-        <span class="gc-emoji">⏰</span>
-        <h3>Post Consistently</h3>
-        <p>Once a week on YouTube, daily on TikTok/Reels when starting. <strong>Consistency beats frequency every time.</strong> Pick a schedule you can actually keep.</p>
-      </div>
-      <div class="growth-card">
-        <span class="gc-emoji">📊</span>
-        <h3>Check Analytics Weekly</h3>
-        <p>Look at watch time and click-through rate above everything else. <strong>Double down on what works.</strong> The data will tell you what your audience loves.</p>
-      </div>
-    </div>
-  </div><!-- end growth tab -->
-
-  <!-- ===== HASHTAGS TAB ===== -->
-  <div id="ptab-hashtags" class="ptab-content">
-    <div class="hashtag-section">
-      <h3>Your 5 Go-To Tags</h3>
-      <p>Use these on every single post — TikTok and Reels. Copy and paste every time.</p>
-      <div class="hashtag-list big">
-        <span class="hashtag">#jamaicancreator</span>
-        <span class="hashtag">#dayinmylife</span>
-        <span class="hashtag">#lifevlog</span>
-        <span class="hashtag">#vlogger</span>
-        <span class="hashtag">#contentcreator</span>
-      </div>
-    </div>
-    <div class="hashtag-section">
-      <h3>For Jamaican Culture Videos</h3>
-      <p>Add these when the content is specifically about Jamaica or Caribbean culture.</p>
-      <div class="hashtag-list">
-        <span class="hashtag">#jamaicantiktok</span>
-        <span class="hashtag">#caribbeancreator</span>
-        <span class="hashtag">#jamaicanculture</span>
-        <span class="hashtag">#caribbeangirlsrock</span>
-        <span class="hashtag">#tiktokjamaica</span>
-      </div>
-    </div>
-    <div class="hashtag-section">
-      <h3>For Relatable / Adulting Content</h3>
-      <p>Add these when your content is about real life, struggles, or everyday moments.</p>
-      <div class="hashtag-list">
-        <span class="hashtag">#relatable</span>
-        <span class="hashtag">#adultingishard</span>
-        <span class="hashtag">#blackgirlmagic</span>
-        <span class="hashtag">#reallife</span>
-        <span class="hashtag">#storytime</span>
-      </div>
-    </div>
-    <div class="hashtag-section">
-      <h3>YouTube Channel Tags</h3>
-      <p>Use these when cross-posting clips to drive people to your YouTube.</p>
-      <div class="hashtag-list">
-        <span class="hashtag">#youtuber</span>
-        <span class="hashtag">#youtubevlog</span>
-        <span class="hashtag">#blackgirlswhoyoutube</span>
-        <span class="hashtag">#weeklylifevlog</span>
-        <span class="hashtag">#yolandamcleod</span>
-      </div>
-    </div>
-    <div class="tip-box" style="margin-top:8px">
-      <h3>⚡ Hashtag Reminder</h3>
-      <p><strong>TikTok & Reels only allow 5 hashtags</strong> that really count — always use your 5 go-to tags. Swap one out for a category-specific tag when relevant. Your name <strong>#yolandamcleod</strong> builds searchability over time so include it whenever you can.</p>
-    </div>
-  </div><!-- end hashtags tab -->
-
-</div><!-- end planner page -->
-
-<!-- =================== VIDEO LOG PAGE =================== -->
-<div id="page-log" class="page">
-
-  <div class="log-header-bar">
-    <div>
-      <h2>Video Log 🎬</h2>
-      <p>Every video you post, tracked in one place</p>
-    </div>
-    <span class="save-status" id="save-status" style="display:none"></span>
-    <button class="add-entry-btn" onclick="openModal()">+ Log a Video</button>
-  </div>
-
-  <!-- FILTERS -->
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterEntries('all', this)">All</button>
-    <button class="filter-btn" onclick="filterEntries('TikTok', this)">TikTok</button>
-    <button class="filter-btn" onclick="filterEntries('Reels', this)">Reels</button>
-    <button class="filter-btn" onclick="filterEntries('YouTube', this)">YouTube</button>
-    <button class="filter-btn" onclick="filterEntries('Everyday Life', this)">Everyday Life</button>
-    <button class="filter-btn" onclick="filterEntries('Jamaican Culture', this)">Jamaican Culture</button>
-    <button class="filter-btn" onclick="filterEntries('Relatable Content', this)">Relatable</button>
-    <button class="filter-btn" onclick="filterEntries('YouTube Crossover', this)">YT Crossover</button>
-  </div>
-
-  <div id="log-loading" class="loading-spinner"><div class="spinner"></div> Loading your videos…</div>
-  <div id="entries-grid" class="entries-grid"></div>
-  <div id="empty-state" class="empty-state" style="display:none">
-    <span class="es-emoji">🎬</span>
-    <h3>No videos logged yet</h3>
-    <p>Hit <strong>+ Log a Video</strong> after every post to start building your record.</p>
-  </div>
-
-</div><!-- end log page -->
-
-<!-- IDEA MODAL -->
-<div class="idea-modal-overlay" id="idea-modal-overlay">
-  <div class="idea-modal">
-    <div class="idea-modal-header">
-      <h3>Add a Content Idea</h3>
-      <span class="idea-modal-section" id="idea-modal-section-label"></span>
-      <button class="idea-modal-close" onclick="closeIdeaModal()">✕</button>
-    </div>
-    <div class="idea-modal-body">
-      <input type="hidden" id="idea-section" />
-      <div class="field-group">
-        <label class="field-label">Your Idea</label>
-        <input type="text" class="field-input" id="idea-text-input" placeholder="e.g. React to a Jamaican recipe trend" />
-      </div>
-      <div class="field-group">
-        <label class="field-label">Tag <span class="field-hint">— optional</span></label>
-        <select class="field-select" id="idea-tag-input">
-          <option value="">No tag</option>
-          <option value="Easy">Easy</option>
-          <option value="Daily">Daily</option>
-          <option value="Viral">Viral</option>
-          <option value="Niche">Niche</option>
-        </select>
-      </div>
-    </div>
-    <div class="idea-modal-footer">
-      <button class="btn-cancel" onclick="closeIdeaModal()">Cancel</button>
-      <button class="btn-save" onclick="saveCustomIdea()">＋ Add Idea</button>
-    </div>
-  </div>
-</div>
-
-<!-- =================== MODAL =================== -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="modal-title">Log a Video</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="edit-id" value="">
-
-      <div class="modal-row">
-        <div class="field-group">
-          <label class="field-label">Date Posted</label>
-          <input type="date" class="field-input" id="f-date" />
-        </div>
-        <div class="field-group">
-          <label class="field-label">Platform(s)</label>
-          <div class="platform-toggles">
-            <button class="plat-btn" data-plat="TikTok" onclick="togglePlat(this)">TikTok</button>
-            <button class="plat-btn" data-plat="Reels" onclick="togglePlat(this)">Reels</button>
-            <button class="plat-btn" data-plat="YouTube" onclick="togglePlat(this)">YouTube</button>
+        <div style="margin-top:16px;">
+          <div style="font-size:13px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px;">Content Format Mix</div>
+          <div class="ig-format-grid">
+            <div class="ig-format">
+              <div class="ig-format-icon">🎬</div>
+              <div class="ig-format-name">Reels — 60–70%</div>
+              <div class="ig-format-desc">Repurposed from TikTok. Drives discovery and new followers. Your main growth tool on IG.</div>
+            </div>
+            <div class="ig-format">
+              <div class="ig-format-icon">🎠</div>
+              <div class="ig-format-name">Carousels — 30–40%</div>
+              <div class="ig-format-desc">Journaling prompts, book recs, mindset content, music lists. High saves. People come back to these.</div>
+            </div>
+            <div class="ig-format">
+              <div class="ig-format-icon">📷</div>
+              <div class="ig-format-name">Photos — Sparingly</div>
+              <div class="ig-format-desc">Life moments, personality, aesthetic consistency. Add trending audio to extend reach into the Reels feed.</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="field-group">
-        <label class="field-label">Video Title / Topic</label>
-        <input type="text" class="field-input" id="f-title" placeholder="e.g. Trying a horned melon for the first time" />
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">Hook Used <span class="field-hint">— what you said in the first 2 seconds</span></label>
-        <input type="text" class="field-input" id="f-hook" placeholder='"I tried something I've never eaten before and I wasn't ready…"' />
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">Caption / TikTok & Reels Description</label>
-        <textarea class="field-textarea" id="f-caption" rows="2" placeholder="Your short caption…"></textarea>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">YouTube Description <span class="field-hint">— if applicable</span></label>
-        <textarea class="field-textarea" id="f-yt-desc" rows="3" placeholder="Your full YouTube description with keywords…"></textarea>
-      </div>
-
-      <div class="modal-row">
-        <div class="field-group">
-          <label class="field-label">Hashtags Used</label>
-          <input type="text" class="field-input" id="f-hashtags" placeholder="#jamaicancreator #dayinmylife…" />
+      <!-- YOUTUBE -->
+      <div class="platform-card platform-yt">
+        <div class="platform-title" style="color:var(--blue)">▶️ YouTube — The Chaos Files</div>
+        <div class="platform-role" style="color:var(--blue)">Where They Fall In Love With You — Long Form Home</div>
+        <div class="stat-row">
+          <div class="stat-pill">Tuesday & Thursday uploads</div>
+          <div class="stat-pill">Lifestyle · Vlogs · Real Life</div>
+          <div class="stat-pill">Shorts drive channel growth</div>
         </div>
-        <div class="field-group">
-          <label class="field-label">Trending Sound</label>
-          <input type="text" class="field-input" id="f-sound" placeholder="Name of audio used" />
-        </div>
+        <ul class="rule-list">
+          <li class="rule-item"><span class="rule-icon">🎬</span><div>This is where the full story lives. The depth, the vulnerability, the real conversations. TikTok and Reels tease — YouTube delivers.</div></li>
+          <li class="rule-item"><span class="rule-icon">📎</span><div>Every TikTok and Reel that tells a partial story should end with a pull to YouTube. "Full video on YouTube" is a system, not an afterthought.</div></li>
+          <li class="rule-item"><span class="rule-icon">🔍</span><div>YouTube is a search engine. Write titles and descriptions with keywords people actually search. Think: "how I healed from…", "Jamaican girl tries…", "day in my life vlog".</div></li>
+          <li class="rule-item"><span class="rule-icon">📊</span><div>Watch time and click-through rate matter most. A good thumbnail and a strong first 30 seconds determine whether YouTube pushes your video.</div></li>
+        </ul>
       </div>
 
-      <div class="modal-row">
-        <div class="field-group">
-          <label class="field-label">Video Category</label>
-          <select class="field-select" id="f-category">
-            <option value="">Select category…</option>
-            <option>Everyday Life</option>
-            <option>Jamaican Culture</option>
-            <option>Relatable Content</option>
-            <option>YouTube Crossover</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Hook Type</label>
-          <select class="field-select" id="f-hook-type">
-            <option value="">Select hook type…</option>
-            <option>Curiosity</option>
-            <option>Relatable</option>
-            <option>Culture</option>
-            <option>Opinion</option>
-            <option>Comedy</option>
-          </select>
+    </div>
+
+    <!-- GROWTH TAB -->
+    <div class="tab-content" id="tab-growth">
+
+      <div class="tip-card">
+        <div class="tip-icon">🎭</div>
+        <div>
+          <div class="tip-title">Be It, Don't Just Talk About It</div>
+          <div class="tip-body">You're a reverse influencer — which means you don't lecture, you live it on camera. The getting ready while singing, the Friday night in with LOTR, the necklace struggle with acrylics. That IS the brand. Capture what you already do. The content is your life.</div>
         </div>
       </div>
 
-      <div class="field-group">
-        <label class="field-label">Notes / What Worked <span class="field-hint">— reflections, engagement, ideas for next time</span></label>
-        <textarea class="field-textarea" id="f-notes" rows="2" placeholder="e.g. This one got more comments than usual. People loved the fruit reaction. Try more food content…"></textarea>
+      <div class="tip-card">
+        <div class="tip-icon">🪞</div>
+        <div>
+          <div class="tip-title">Real Over Polished — Always</div>
+          <div class="tip-body">Unpolished, authentic content consistently outperforms heavily produced videos. Good lighting and clear audio are your only non-negotiables. Natural light from a window is enough. Your chaos aesthetic is an advantage — people are exhausted by perfection.</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">📦</div>
+        <div>
+          <div class="tip-title">Batch + Capture Strategy</div>
+          <div class="tip-body">Work in two modes. <strong>Capture mode</strong> — always on, phone ready, film life as it happens. <strong>Batch mode</strong> — once a week, 30–45 minutes, record 3–5 intentional videos. Goal: always have 7–10 videos queued so you never scramble or go silent.</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">⏰</div>
+        <div>
+          <div class="tip-title">Consistency Is the Only Algorithm Hack</div>
+          <div class="tip-body">TikTok: 4–5× per week. Instagram Reels: 3× per week. Going silent for a week costs 2–12 weeks of recovery. Build your buffer first — record 10 videos before you start posting consistently. Consistency beats virality every time.</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">💬</div>
+        <div>
+          <div class="tip-title">The First 60 Minutes Matter</div>
+          <div class="tip-body">After you post, stay active. Reply to every comment in the first hour. The algorithm reads early engagement as a signal to push your video further. Don't post and disappear.</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🔁</div>
+        <div>
+          <div class="tip-title">Build Recurring Formats</div>
+          <div class="tip-body">Formats build habit. When your audience knows what to expect — "Songs That Changed My Life", "Jamaican Girl Reacts", "Friday Night In" — they come back looking for it. Pick 2–3 recurring formats and run them consistently.</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🇯🇲</div>
+        <div>
+          <div class="tip-title">Your Culture Is Your Superpower</div>
+          <div class="tip-body">Your Jamaican identity — the accent, the humour, the perspective — is your biggest differentiator. Nobody else has your combination. Use it as the lens for everything, not just the culture-specific videos. It belongs in every pillar.</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">📊</div>
+        <div>
+          <div class="tip-title">Check Analytics Weekly</div>
+          <div class="tip-body">Look at watch time and completion rate above everything else. When something works, make more of that. When something dies, learn from it and move on. The data will tell you what your audience loves faster than any strategy document will.</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🎵</div>
+        <div>
+          <div class="tip-title">Trending Audio Weekly</div>
+          <div class="tip-body">Check TikTok's trending sounds every week — especially dancehall, afrobeats, and R&B for your niche. Adding trending audio to Reels and even photo posts extends your reach into the Reels feed. Don't force it — only use audio that actually fits.</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🌍</div>
+        <div>
+          <div class="tip-title">You're Building a Movement, Not Just a Following</div>
+          <div class="tip-body">The reverse influencer vision is what makes you different from everyone else. Every video should leave someone feeling something — lighter, more seen, more inspired, more themselves. That's the mission. Stay connected to it when the algorithm feels discouraging.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HASHTAGS TAB -->
+    <div class="tab-content" id="tab-hashtags">
+
+      <div class="card" style="background:var(--coral-dim); border-color:rgba(224,112,85,0.3); margin-bottom:24px;">
+        <div style="font-size:14px; color:#e07055; line-height:1.7;">
+          <strong>2026 reality:</strong> Hashtags no longer drive discovery the way they used to. On Instagram, keywords in your captions now matter more. On TikTok, speech recognition reads your content directly. Use 5 hashtags max — choose them for categorisation, not as your growth strategy.
+        </div>
+      </div>
+
+      <div class="hashtag-group">
+        <div class="hashtag-group-title">Your 5 Go-To Tags — Use on Every Post</div>
+        <div class="hashtag-chips">
+          <div class="hashtag-chip" onclick="copyTag(this)">#jamaicancreator</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#thechaosfiles</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#dayinmylife</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#yolandamcleod</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#contentcreator</div>
+        </div>
+      </div>
+
+      <div class="hashtag-group">
+        <div class="hashtag-group-title">For Light & Joy / Music Content</div>
+        <div class="hashtag-chips">
+          <div class="hashtag-chip" onclick="copyTag(this)">#musicvibes</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#singinmyheart</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#grwm</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#fyp</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#vibes</div>
+        </div>
+      </div>
+
+      <div class="hashtag-group">
+        <div class="hashtag-group-title">For Rise & Heal / Mindset Content</div>
+        <div class="hashtag-chips">
+          <div class="hashtag-chip" onclick="copyTag(this)">#healingjourney</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#selfbelief</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#mindsetshift</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#journaling</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#personalgrowth</div>
+        </div>
+      </div>
+
+      <div class="hashtag-group">
+        <div class="hashtag-group-title">For Jamaican Culture Content</div>
+        <div class="hashtag-chips">
+          <div class="hashtag-chip" onclick="copyTag(this)">#jamaicantiktok</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#caribbeancreator</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#jamaicanculture</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#caribbeangirlsrock</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#tiktokjamaica</div>
+        </div>
+      </div>
+
+      <div class="hashtag-group">
+        <div class="hashtag-group-title">For Relatable / Adulting Content</div>
+        <div class="hashtag-chips">
+          <div class="hashtag-chip" onclick="copyTag(this)">#relatable</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#adultingishard</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#blackgirlmagic</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#reallife</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#storytime</div>
+        </div>
+      </div>
+
+      <div class="hashtag-group">
+        <div class="hashtag-group-title">For YouTube Crossover Posts</div>
+        <div class="hashtag-chips">
+          <div class="hashtag-chip" onclick="copyTag(this)">#youtuber</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#youtubevlog</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#blackgirlswhoyoutube</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#weeklylifevlog</div>
+          <div class="hashtag-chip" onclick="copyTag(this)">#vlogger</div>
+        </div>
+      </div>
+
+      <div class="hashtag-note">
+        💡 Tap any hashtag to copy it. Always use your 5 go-to tags as the base, then swap one for a category-specific tag when relevant. <strong>#yolandamcleod</strong> and <strong>#thechaosfiles</strong> on every single post — builds searchability over time.
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO LOG PAGE -->
+  <div class="page" id="page-log">
+    <div class="log-header">
+      <div>
+        <div class="page-title">Video Log 🎬</div>
+        <div class="page-sub">Every video you post, tracked in one place</div>
+      </div>
+      <button class="log-btn" onclick="openLogModal()">+ Log a Video</button>
+    </div>
+
+    <div class="log-filters">
+      <button class="filter-btn active" onclick="filterLog('all', this)">All</button>
+      <button class="filter-btn" onclick="filterLog('TikTok', this)">TikTok</button>
+      <button class="filter-btn" onclick="filterLog('Reels', this)">Reels</button>
+      <button class="filter-btn" onclick="filterLog('YouTube', this)">YouTube</button>
+      <button class="filter-btn" onclick="filterLog('joy', this)">☀️ Joy</button>
+      <button class="filter-btn" onclick="filterLog('heal', this)">🌿 Heal</button>
+      <button class="filter-btn" onclick="filterLog('culture', this)">🇯🇲 Culture</button>
+      <button class="filter-btn" onclick="filterLog('relatable', this)">😭 Relatable</button>
+      <button class="filter-btn" onclick="filterLog('yt', this)">🎬 YT Crossover</button>
+    </div>
+
+    <div id="video-list"></div>
+  </div>
+</div>
+
+<!-- LOG MODAL -->
+<div class="modal-overlay" id="log-modal">
+  <div class="modal">
+    <div class="modal-title">Log a Video</div>
+
+    <div class="form-row">
+      <label class="form-label">Date Posted</label>
+      <input type="date" class="form-input" id="log-date" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Platform(s)</label>
+      <div class="platform-check-row">
+        <label class="platform-check" id="check-tiktok">
+          <input type="checkbox" value="TikTok" onchange="toggleCheck('check-tiktok')" />
+          🎵 TikTok
+        </label>
+        <label class="platform-check" id="check-reels">
+          <input type="checkbox" value="Reels" onchange="toggleCheck('check-reels')" />
+          📸 Reels
+        </label>
+        <label class="platform-check" id="check-youtube">
+          <input type="checkbox" value="YouTube" onchange="toggleCheck('check-youtube')" />
+          ▶️ YouTube
+        </label>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" id="btn-save" onclick="saveEntry()">Save Video</button>
+
+    <div class="form-row">
+      <label class="form-label">Video Title / Topic</label>
+      <input type="text" class="form-input" id="log-title" placeholder="e.g. Getting ready while singing Tyla" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Hook Used — first 2 seconds</label>
+      <input type="text" class="form-input" id="log-hook" placeholder="What you said or showed in the opening" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Caption</label>
+      <textarea class="form-textarea" id="log-caption" placeholder="TikTok & Reels description"></textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Hashtags Used</label>
+      <input type="text" class="form-input" id="log-hashtags" placeholder="#jamaicancreator #fyp …" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Trending Sound</label>
+      <input type="text" class="form-input" id="log-sound" placeholder="Name of audio used (if any)" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Content Pillar</label>
+      <select class="form-select" id="log-category">
+        <option value="">Select pillar…</option>
+        <option value="joy">☀️ Light & Joy</option>
+        <option value="heal">🌿 Rise & Heal</option>
+        <option value="culture">🇯🇲 Jamaican Culture</option>
+        <option value="relatable">😭 Relatable & Real</option>
+        <option value="yt">🎬 YouTube Crossover</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Hook Type</label>
+      <select class="form-select" id="log-hooktype">
+        <option value="">Select hook type…</option>
+        <option value="Visual">Visual</option>
+        <option value="Curiosity">Curiosity</option>
+        <option value="Relatable">Relatable</option>
+        <option value="Heal">Heal & Mindset</option>
+        <option value="Culture">Culture</option>
+        <option value="Opinion">Opinion</option>
+        <option value="Comedy">Comedy</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Notes / What Worked</label>
+      <textarea class="form-textarea" id="log-notes" placeholder="Reflections, engagement observations, ideas for next time…"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeLogModal()">Cancel</button>
+      <button class="btn-save" onclick="saveLog()">Save Video</button>
     </div>
   </div>
 </div>
 
-<!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+<!-- IDEA MODAL -->
+<div class="modal-overlay" id="idea-modal">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-title">Add a Content Idea</div>
+    <input type="text" class="idea-modal-input" id="idea-text-input" placeholder="Your idea…" />
+    <select class="form-select" id="idea-tag-select">
+      <option value="">No tag</option>
+      <option value="easy">Easy</option>
+      <option value="daily">Daily</option>
+      <option value="viral">Viral</option>
+      <option value="niche">Niche</option>
+    </select>
+    <input type="hidden" id="idea-pillar" />
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeIdeaModal()">Cancel</button>
+      <button class="btn-save" onclick="saveIdea()">Add Idea</button>
+    </div>
+  </div>
+</div>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCqC4lolDe2QDdu9fUCQAtJbn0P3lL-xRY",
-    authDomain: "yaad-content-studio.firebaseapp.com",
-    projectId: "yaad-content-studio",
-    storageBucket: "yaad-content-studio.firebasestorage.app",
-    messagingSenderId: "63018996328",
-    appId: "1:63018996328:web:71cd0a4c98387cda97a1dd"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-  const colRef = collection(db, "video-log");
-  const ideasRef = collection(db, "custom-ideas");
-
-  // Expose to global scope
-  window._db = db;
-  window._auth = auth;
-  window._colRef = colRef;
-  window._ideasRef = ideasRef;
-  window._collection = collection;
-  window._addDoc = addDoc;
-  window._getDocs = getDocs;
-  window._updateDoc = updateDoc;
-  window._deleteDoc = deleteDoc;
-  window._doc = doc;
-  window._query = query;
-  window._orderBy = orderBy;
-  window._signInWithEmailAndPassword = signInWithEmailAndPassword;
-  window._signOut = signOut;
-
-  // Auth state listener — show app or login
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
-      loadEntries();
-      loadCustomIdeas();
-    } else {
-      document.getElementById('login-screen').style.display = 'flex';
-      document.getElementById('app').style.display = 'none';
-    }
-  });
-</script>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
-  let allEntries = [];
-  let currentFilter = 'all';
+  // AUTH
+  const PASS = 'yaadstudios2024';
+  const EMAIL = 'yolanda@yaadstudios.com';
 
-  // PLANNER TAB SWITCHING
-  function showPTab(name, btn) {
-    document.querySelectorAll('.ptab-content').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
-    document.getElementById('ptab-' + name).classList.add('active');
-    btn.classList.add('active');
+  function signIn() {
+    const e = document.getElementById('auth-email').value.trim().toLowerCase();
+    const p = document.getElementById('auth-pass').value;
+    if (e === EMAIL && p === PASS) {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      loadVideos();
+    } else {
+      document.getElementById('auth-error').textContent = 'Incorrect email or password.';
+    }
   }
-  window.showPTab = showPTab;
 
-  // SECTION TAB SWITCHING (ideas)
-  function showSection(name, btn) {
-    document.querySelectorAll('.idea-section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
-    document.getElementById('section-' + name).classList.add('active');
-    btn.classList.add('active');
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && document.getElementById('auth-screen').style.display !== 'none') signIn();
+  });
+
+  function signOut() {
+    document.getElementById('auth-screen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
   }
-  window.showSection = showSection;
 
-  // HOOK TAB SWITCHING
-  function showHookTab(name, btn) {
-    document.querySelectorAll('.hook-tab-content').forEach(h => h.classList.remove('active'));
-    // Only deactivate stabs within the hooks tab
-    document.querySelectorAll('#ptab-hooks .stab').forEach(t => t.classList.remove('active'));
-    document.getElementById('hooktab-' + name).classList.add('active');
-    btn.classList.add('active');
-  }
-  window.showHookTab = showHookTab;
-
-  // PAGE SWITCHING
-  function showPage(name) {
+  // PAGE NAV
+  function showPage(name, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.top-nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('page-' + name).classList.add('active');
-    event.target.classList.add('active');
+    btn.classList.add('active');
+    if (name === 'log') loadVideos();
   }
 
-  window.showPage = showPage;
+  // TABS
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
 
-  // MODAL
-  function openModal(entry) {
-    const overlay = document.getElementById('modal-overlay');
-    document.getElementById('modal-title').textContent = entry ? 'Edit Video' : 'Log a Video';
-    document.getElementById('btn-save').textContent = entry ? 'Update Video' : 'Save Video';
-    document.getElementById('edit-id').value = entry ? entry.id : '';
-
-    // Reset
-    document.getElementById('f-date').value = entry ? entry.date : new Date().toISOString().split('T')[0];
-    document.getElementById('f-title').value = entry ? entry.title : '';
-    document.getElementById('f-hook').value = entry ? entry.hook : '';
-    document.getElementById('f-caption').value = entry ? entry.caption : '';
-    document.getElementById('f-yt-desc').value = entry ? entry.ytDesc : '';
-    document.getElementById('f-hashtags').value = entry ? entry.hashtags : '';
-    document.getElementById('f-sound').value = entry ? entry.sound : '';
-    document.getElementById('f-category').value = entry ? entry.category : '';
-    document.getElementById('f-hook-type').value = entry ? entry.hookType : '';
-    document.getElementById('f-notes').value = entry ? entry.notes : '';
-
-    document.querySelectorAll('.plat-btn').forEach(b => {
-      b.classList.toggle('active', entry ? (entry.platforms || []).includes(b.dataset.plat) : false);
+  // HASHTAG COPY
+  function copyTag(el) {
+    navigator.clipboard.writeText(el.textContent).then(() => {
+      el.classList.add('copied');
+      showToast('Copied ' + el.textContent);
+      setTimeout(() => el.classList.remove('copied'), 1500);
     });
-
-    overlay.classList.add('open');
   }
 
-  function closeModal() {
-    document.getElementById('modal-overlay').classList.remove('open');
+  // TOAST
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
   }
 
-  window.openModal = openModal;
-  window.closeModal = closeModal;
-
-  // TOGGLE PLATFORM
-  function togglePlat(btn) { btn.classList.toggle('active'); }
-  window.togglePlat = togglePlat;
-
-  // SAVE STATUS
-  function showStatus(type, msg) {
-    const el = document.getElementById('save-status');
-    el.textContent = msg;
-    el.className = 'save-status ' + type;
-    el.style.display = 'inline-block';
-    if (type === 'saved') setTimeout(() => { el.style.display = 'none'; }, 3000);
+  // PLATFORM CHECK TOGGLE
+  function toggleCheck(id) {
+    document.getElementById(id).classList.toggle('checked');
   }
 
-  // SAVE ENTRY
-  async function saveEntry() {
-    const btn = document.getElementById('btn-save');
-    btn.disabled = true;
-    showStatus('saving', '⏳ Saving…');
+  // LOG MODAL
+  function openLogModal() {
+    document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('log-modal').classList.add('open');
+  }
 
-    const platforms = [...document.querySelectorAll('.plat-btn.active')].map(b => b.dataset.plat);
+  function closeLogModal() {
+    document.getElementById('log-modal').classList.remove('open');
+    resetLogForm();
+  }
 
-    const data = {
-      date: document.getElementById('f-date').value,
+  function resetLogForm() {
+    ['log-date','log-title','log-hook','log-caption','log-hashtags','log-sound','log-notes'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('log-category').value = '';
+    document.getElementById('log-hooktype').value = '';
+    ['check-tiktok','check-reels','check-youtube'].forEach(id => {
+      document.getElementById(id).classList.remove('checked');
+      document.getElementById(id).querySelector('input').checked = false;
+    });
+  }
+
+  function saveLog() {
+    const title = document.getElementById('log-title').value.trim();
+    if (!title) { showToast('Add a title first'); return; }
+
+    const platforms = [];
+    document.querySelectorAll('.platform-check.checked input').forEach(i => platforms.push(i.value));
+
+    const entry = {
+      id: Date.now(),
+      date: document.getElementById('log-date').value,
+      title,
       platforms,
-      title: document.getElementById('f-title').value,
-      hook: document.getElementById('f-hook').value,
-      caption: document.getElementById('f-caption').value,
-      ytDesc: document.getElementById('f-yt-desc').value,
-      hashtags: document.getElementById('f-hashtags').value,
-      sound: document.getElementById('f-sound').value,
-      category: document.getElementById('f-category').value,
-      hookType: document.getElementById('f-hook-type').value,
-      notes: document.getElementById('f-notes').value,
-      updatedAt: new Date().toISOString()
+      hook: document.getElementById('log-hook').value,
+      caption: document.getElementById('log-caption').value,
+      hashtags: document.getElementById('log-hashtags').value,
+      sound: document.getElementById('log-sound').value,
+      category: document.getElementById('log-category').value,
+      hookType: document.getElementById('log-hooktype').value,
+      notes: document.getElementById('log-notes').value,
     };
 
-    try {
-      const editId = document.getElementById('edit-id').value;
-      if (editId) {
-        await window._updateDoc(window._doc(window._db, 'video-log', editId), data);
-        const idx = allEntries.findIndex(e => e.id === editId);
-        if (idx > -1) allEntries[idx] = { ...data, id: editId };
-      } else {
-        data.createdAt = new Date().toISOString();
-        const ref = await window._addDoc(window._colRef, data);
-        allEntries.unshift({ ...data, id: ref.id });
-      }
-      showStatus('saved', '✅ Saved!');
-      closeModal();
-      renderEntries();
-    } catch (e) {
-      console.error(e);
-      showStatus('error', '❌ Error saving');
-    }
-
-    btn.disabled = false;
+    const videos = JSON.parse(localStorage.getItem('yaad-videos') || '[]');
+    videos.unshift(entry);
+    localStorage.setItem('yaad-videos', JSON.stringify(videos));
+    closeLogModal();
+    loadVideos();
+    showToast('Video logged ✓');
   }
 
-  window.saveEntry = saveEntry;
+  // VIDEO LOG
+  let currentFilter = 'all';
 
-  // LOAD ENTRIES
-  async function loadEntries() {
-    try {
-      const q = window._query(window._colRef, window._orderBy('createdAt', 'desc'));
-      const snap = await window._getDocs(q);
-      allEntries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    } catch (e) {
-      allEntries = [];
-    }
-    document.getElementById('log-loading').style.display = 'none';
-    renderEntries();
-  }
-
-  window.loadEntries = loadEntries;
-
-  // DELETE
-  async function deleteEntry(id) {
-    if (!confirm('Delete this video log entry?')) return;
-    try {
-      await window._deleteDoc(window._doc(window._db, 'video-log', id));
-      allEntries = allEntries.filter(e => e.id !== id);
-      showStatus('saved', '🗑️ Deleted');
-      renderEntries();
-    } catch (e) {
-      showStatus('error', '❌ Error deleting');
-    }
-  }
-
-  window.deleteEntry = deleteEntry;
-
-  // FILTER
-  function filterEntries(filter, btn) {
-    currentFilter = filter;
+  function filterLog(f, btn) {
+    currentFilter = f;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    renderEntries();
+    loadVideos();
   }
 
-  window.filterEntries = filterEntries;
+  const pillarLabels = {
+    joy: '☀️ Joy', heal: '🌿 Heal', culture: '🇯🇲 Culture',
+    relatable: '😭 Relatable', yt: '🎬 YT Crossover', other: 'Other'
+  };
 
-  // RENDER
-  function renderEntries() {
-    const grid = document.getElementById('entries-grid');
-    const empty = document.getElementById('empty-state');
+  function loadVideos() {
+    const videos = JSON.parse(localStorage.getItem('yaad-videos') || '[]');
+    const list = document.getElementById('video-list');
+    if (!list) return;
 
-    let filtered = allEntries;
-    if (currentFilter !== 'all') {
-      filtered = allEntries.filter(e =>
-        (e.platforms || []).includes(currentFilter) || e.category === currentFilter
-      );
-    }
+    const filtered = videos.filter(v => {
+      if (currentFilter === 'all') return true;
+      if (['TikTok','Reels','YouTube'].includes(currentFilter)) return v.platforms.includes(currentFilter);
+      return v.category === currentFilter;
+    });
 
-    if (filtered.length === 0) {
-      grid.innerHTML = '';
-      empty.style.display = 'block';
+    if (!filtered.length) {
+      list.innerHTML = `<div class="empty-state"><div class="empty-icon">🎬</div><div class="empty-title">No videos logged yet</div><div class="empty-desc">Hit <strong>+ Log a Video</strong> after every post to start building your record.</div></div>`;
       return;
     }
 
-    empty.style.display = 'none';
-
-    grid.innerHTML = filtered.map(e => `
-      <div class="entry-card">
-        <div class="entry-card-header">
-          <span class="entry-date-badge">${e.date || '—'}</span>
-          <div class="entry-platforms">
-            ${(e.platforms || []).map(p => `<span class="plat-badge ${p}">${p}</span>`).join('')}
-          </div>
-          <span class="entry-title">${e.title || 'Untitled'}</span>
-          <div class="entry-actions">
-            <button class="edit-btn" onclick='openModal(${JSON.stringify(e).replace(/'/g, "&#39;")})'>Edit</button>
-            <button class="delete-btn-card" onclick="deleteEntry('${e.id}')">Delete</button>
-          </div>
+    list.innerHTML = filtered.map(v => `
+      <div class="video-card">
+        <div class="video-card-top">
+          <div class="video-title-text">${v.title}</div>
+          <div class="video-date">${v.date || ''}</div>
         </div>
-        <div class="entry-body">
-          <div class="entry-field">
-            <span class="entry-field-label">Category</span>
-            <span class="entry-field-value ${!e.category ? 'empty' : ''}">${e.category || 'Not set'}</span>
-          </div>
-          <div class="entry-field">
-            <span class="entry-field-label">Hook Type</span>
-            <span class="entry-field-value ${!e.hookType ? 'empty' : ''}">${e.hookType || 'Not set'}</span>
-          </div>
-          <div class="entry-field full">
-            <span class="entry-field-label">Hook Used</span>
-            <span class="entry-field-value ${!e.hook ? 'empty' : ''}">${e.hook || 'Not recorded'}</span>
-          </div>
-          <div class="entry-field full">
-            <span class="entry-field-label">Caption</span>
-            <span class="entry-field-value ${!e.caption ? 'empty' : ''}">${e.caption || 'Not recorded'}</span>
-          </div>
-          ${e.ytDesc ? `<div class="entry-field full"><span class="entry-field-label">YouTube Description</span><span class="entry-field-value">${e.ytDesc}</span></div>` : ''}
-          <div class="entry-field">
-            <span class="entry-field-label">Hashtags</span>
-            <span class="entry-field-value ${!e.hashtags ? 'empty' : ''}">${e.hashtags || 'Not recorded'}</span>
-          </div>
-          <div class="entry-field">
-            <span class="entry-field-label">Trending Sound</span>
-            <span class="entry-field-value ${!e.sound ? 'empty' : ''}">${e.sound || 'Not recorded'}</span>
-          </div>
-          ${e.notes ? `<div class="entry-field full"><span class="entry-field-label">Notes / What Worked</span><span class="entry-field-value">${e.notes}</span></div>` : ''}
+        <div class="video-meta">
+          ${v.platforms.map(p => `<span class="platform-tag pt-${p.toLowerCase()}">${p}</span>`).join('')}
+          ${v.category ? `<span class="badge badge-gold" style="font-size:11px;">${pillarLabels[v.category] || v.category}</span>` : ''}
+          ${v.hookType ? `<span class="badge badge-purple" style="font-size:11px;">${v.hookType} hook</span>` : ''}
         </div>
+        ${v.hook ? `<div class="video-hook">"${v.hook}"</div>` : ''}
+        ${v.notes ? `<div class="video-notes">📝 ${v.notes}</div>` : ''}
       </div>
     `).join('');
   }
 
-  // =================== CUSTOM IDEAS ===================
-  let allCustomIdeas = [];
-
-  async function loadCustomIdeas() {
-    try {
-      const q = window._query(window._ideasRef, window._orderBy('createdAt', 'asc'));
-      const snap = await window._getDocs(q);
-      allCustomIdeas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    } catch(e) {
-      allCustomIdeas = [];
-    }
-    renderCustomIdeas();
-  }
-
-  window.loadCustomIdeas = loadCustomIdeas;
-
-  function renderCustomIdeas() {
-    const sections = ['Everyday Life', 'Jamaican Culture', 'Relatable Content', 'YouTube Crossover'];
-    sections.forEach(section => {
-      const container = document.getElementById('custom-ideas-' + section);
-      if (!container) return;
-      const ideas = allCustomIdeas.filter(i => i.section === section);
-      container.innerHTML = ideas.map(i => `
-        <div class="custom-idea-row">
-          <div class="custom-idea-dot"></div>
-          <span class="custom-idea-text">${i.text}</span>
-          ${i.tag ? `<span class="custom-idea-badge">${i.tag}</span>` : ''}
-          <button class="custom-idea-delete" onclick="deleteCustomIdea('${i.id}')" title="Delete idea">✕</button>
-        </div>
-      `).join('');
-    });
-  }
-
-  function openIdeaModal(section) {
-    document.getElementById('idea-section').value = section;
-    document.getElementById('idea-modal-section-label').textContent = section;
+  // IDEA MODAL
+  function openIdeaModal(pillar) {
+    document.getElementById('idea-pillar').value = pillar;
     document.getElementById('idea-text-input').value = '';
-    document.getElementById('idea-tag-input').value = '';
-    document.getElementById('idea-modal-overlay').classList.add('open');
-    setTimeout(() => document.getElementById('idea-text-input').focus(), 100);
+    document.getElementById('idea-tag-select').value = '';
+    document.getElementById('idea-modal').classList.add('open');
   }
 
   function closeIdeaModal() {
-    document.getElementById('idea-modal-overlay').classList.remove('open');
+    document.getElementById('idea-modal').classList.remove('open');
   }
 
-  async function saveCustomIdea() {
+  function saveIdea() {
     const text = document.getElementById('idea-text-input').value.trim();
-    if (!text) { document.getElementById('idea-text-input').focus(); return; }
-    const section = document.getElementById('idea-section').value;
-    const tag = document.getElementById('idea-tag-input').value;
-    const data = { section, text, tag, createdAt: new Date().toISOString() };
-    try {
-      const ref = await window._addDoc(window._ideasRef, data);
-      allCustomIdeas.push({ ...data, id: ref.id });
-      renderCustomIdeas();
-      closeIdeaModal();
-    } catch(e) {
-      alert('Error saving idea. Please try again.');
+    if (!text) return;
+    const pillar = document.getElementById('idea-pillar').value;
+    const tag = document.getElementById('idea-tag-select').value;
+
+    const tagClass = tag ? `tag-${tag}` : '';
+    const tagLabel = tag ? tag.charAt(0).toUpperCase() + tag.slice(1) : '';
+    const pillarColors = { joy: 'var(--gold)', heal: 'var(--green)', culture: 'var(--coral)', relatable: 'var(--purple)', yt: 'var(--blue)' };
+    const color = pillarColors[pillar] || 'var(--gold)';
+
+    const li = document.createElement('li');
+    li.className = 'idea-item';
+    li.innerHTML = `<div class="idea-dot" style="background:${color}"></div><div class="idea-text">${text}</div>${tagLabel ? `<span class="idea-tag ${tagClass}">${tagLabel}</span>` : ''}`;
+
+    const list = document.getElementById('ideas-' + pillar);
+    if (list) {
+      const btn = list.parentElement.querySelector('.add-idea-btn');
+      list.insertBefore(li, null);
     }
+
+    closeIdeaModal();
+    showToast('Idea added ✓');
   }
 
-  async function deleteCustomIdea(id) {
-    if (!confirm('Delete this idea?')) return;
-    try {
-      await window._deleteDoc(window._doc(window._db, 'custom-ideas', id));
-      allCustomIdeas = allCustomIdeas.filter(i => i.id !== id);
-      renderCustomIdeas();
-    } catch(e) {
-      alert('Error deleting. Please try again.');
-    }
-  }
-
-  window.openIdeaModal = openIdeaModal;
-  window.closeIdeaModal = closeIdeaModal;
-  window.saveCustomIdea = saveCustomIdea;
-  window.deleteCustomIdea = deleteCustomIdea;
-
-  document.getElementById('idea-modal-overlay').addEventListener('click', function(e) {
-    if (e.target === this) closeIdeaModal();
-  });
-
-  document.getElementById('idea-text-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') saveCustomIdea();
+  // Close modals on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) {
+        overlay.classList.remove('open');
+        if (overlay.id === 'log-modal') resetLogForm();
+      }
+    });
   });
 </script>
-
-</div><!-- end #app -->
-
-<!-- AUTH JS -->
-<script>
-  async function handleLogin() {
-    const email = document.getElementById('login-email').value.trim();
-    const password = document.getElementById('login-password').value;
-    const btn = document.getElementById('login-btn');
-    const errorEl = document.getElementById('login-error');
-
-    if (!email || !password) {
-      errorEl.textContent = 'Please enter your email and password.';
-      errorEl.style.display = 'block';
-      return;
-    }
-
-    btn.textContent = 'Signing in…';
-    btn.disabled = true;
-    errorEl.style.display = 'none';
-
-    try {
-      await window._signInWithEmailAndPassword(window._auth, email, password);
-      // onAuthStateChanged handles the rest
-    } catch(e) {
-      btn.textContent = 'Sign In';
-      btn.disabled = false;
-      const msgs = {
-        'auth/invalid-email': 'Invalid email address.',
-        'auth/user-not-found': 'No account found with that email.',
-        'auth/wrong-password': 'Incorrect password. Please try again.',
-        'auth/invalid-credential': 'Incorrect email or password. Please try again.',
-        'auth/too-many-requests': 'Too many attempts. Please wait a moment and try again.'
-      };
-      errorEl.textContent = msgs[e.code] || 'Login failed. Please check your details.';
-      errorEl.style.display = 'block';
-    }
-  }
-
-  async function handleSignOut() {
-    try {
-      await window._signOut(window._auth);
-    } catch(e) {
-      console.error(e);
-    }
-  }
-
-  window.handleLogin = handleLogin;
-  window.handleSignOut = handleSignOut;
-</script>
-
 </body>
 </html>
