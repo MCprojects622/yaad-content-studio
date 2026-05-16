@@ -1,27 +1,5 @@
-// ── AUTH ──
-const PASS = 'yaadstudios2024';
-const EMAIL = 'yolanda@yaadstudios.com';
-
-function signIn() {
-  const e = document.getElementById('auth-email').value.trim().toLowerCase();
-  const p = document.getElementById('auth-pass').value;
-  if (e === EMAIL && p === PASS) {
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    loadVideos();
-  } else {
-    document.getElementById('auth-error').textContent = 'Incorrect email or password.';
-  }
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && document.getElementById('auth-screen').style.display !== 'none') signIn();
-});
-
-function signOut() {
-  document.getElementById('auth-screen').style.display = 'flex';
-  document.getElementById('app').style.display = 'none';
-}
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', loadVideos);
 
 // ── PAGE NAVIGATION ──
 function showPage(name, btn) {
