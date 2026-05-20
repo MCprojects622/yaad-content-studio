@@ -869,6 +869,8 @@
   ];
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(vlogs));
+  // Trigger display after saving since DOMContentLoaded already fired
+  if (typeof loadVideos === 'function') loadVideos();
 })();
 </script>
 </body>
