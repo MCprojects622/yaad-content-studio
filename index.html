@@ -3,482 +3,476 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yaad Content Studio 🇯🇲</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <title>As Told By Yolanda — YouTube Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0b0a;
+      --surface: #151210;
+      --surface2: #1e1a17;
+      --surface3: #272320;
+      --border: #2e2926;
+      --text: #f2ece4;
+      --text-muted: #8a8078;
+      --text-dim: #4a4440;
+      --gold: #c9a96e;
+      --gold-light: #e8c99a;
+      --gold-dim: rgba(201,169,110,0.12);
+      --coral: #d4705a;
+      --coral-dim: rgba(212,112,90,0.12);
+      --green: #7aaa8a;
+      --green-dim: rgba(122,170,138,0.12);
+      --lavender: #9b8fc0;
+      --lavender-dim: rgba(155,143,192,0.12);
+      --rose: #c07a8a;
+      --rose-dim: rgba(192,122,138,0.12);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    .top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; position: sticky; top: 0; z-index: 100; }
+    .top-logo-main { font-family: 'Playfair Display', serif; font-size: 18px; font-style: italic; color: var(--gold-light); }
+    .top-logo-sub { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+    .top-nav { display: flex; gap: 4px; }
+    .top-nav-btn { background: none; border: 1px solid transparent; color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; }
+    .top-nav-btn:hover { color: var(--text); background: var(--surface2); }
+    .top-nav-btn.active { color: var(--gold-light); background: var(--gold-dim); border-color: rgba(201,169,110,0.25); }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .page-header { padding: 40px 32px 0; max-width: 900px; margin: 0 auto; }
+    .page-title { font-family: 'Playfair Display', serif; font-size: 32px; font-style: italic; color: var(--gold-light); margin-bottom: 6px; }
+    .page-sub { font-size: 13px; color: var(--text-muted); letter-spacing: 0.04em; }
+
+    .tab-row { display: flex; gap: 4px; padding: 24px 32px 0; max-width: 900px; margin: 0 auto; border-bottom: 1px solid var(--border); margin-bottom: 32px; flex-wrap: wrap; }
+    .tab-btn { background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 10px 16px; cursor: pointer; transition: all 0.2s; margin-bottom: -1px; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+
+    .tab-content { display: none; padding: 0 32px 40px; max-width: 900px; margin: 0 auto; }
+    .tab-content.active { display: block; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+
+    .badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .badge-gold { background: var(--gold-dim); color: var(--gold-light); border: 1px solid rgba(201,169,110,0.2); }
+    .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(122,170,138,0.2); }
+    .badge-coral { background: var(--coral-dim); color: var(--coral); border: 1px solid rgba(212,112,90,0.2); }
+    .badge-lavender { background: var(--lavender-dim); color: var(--lavender); border: 1px solid rgba(155,143,192,0.2); }
+    .badge-rose { background: var(--rose-dim); color: var(--rose); border: 1px solid rgba(192,122,138,0.2); }
+
+    .ideas-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .idea-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--surface2); border-radius: var(--radius-sm); border: 1px solid var(--border); transition: border-color 0.2s; }
+    .idea-item:hover { border-color: rgba(201,169,110,0.2); }
+    .idea-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .idea-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; }
+    .idea-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; flex-shrink: 0; }
+    .tag-easy { background: var(--green-dim); color: var(--green); }
+    .tag-series { background: var(--gold-dim); color: var(--gold-light); }
+    .tag-viral { background: var(--coral-dim); color: var(--coral); }
+    .tag-deep { background: var(--lavender-dim); color: var(--lavender); }
+
+    .add-idea-btn { background: none; border: 1px dashed var(--border); color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; width: 100%; }
+    .add-idea-btn:hover { border-color: var(--gold); color: var(--gold-light); }
+
+    .tip-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 16px; }
+    .tip-box-title { font-size: 13px; font-weight: 600; color: var(--gold-light); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .tip-box-body { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+    .tip-box-body strong { color: var(--text); }
+
+    .rule-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .rule-item { display: flex; gap: 12px; font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .rule-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+
+    .formula-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .formula-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+    .formula-label { font-size: 10px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .formula-example { font-size: 12px; color: var(--gold-light); font-style: italic; line-height: 1.4; }
+
+    .desc-template { background: var(--surface2); border: 1px solid rgba(201,169,110,0.2); border-radius: var(--radius); padding: 20px 24px; font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; }
+    .desc-template .highlight { color: var(--gold-light); font-weight: 600; }
+    .desc-template .comment { color: var(--text-dim); font-style: italic; }
+
+    .thumb-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .thumb-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; text-align: center; }
+    .thumb-icon { font-size: 24px; margin-bottom: 8px; }
+    .thumb-label { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .thumb-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+
+    .hashtag-group { margin-bottom: 24px; }
+    .hashtag-group-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+    .hashtag-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .hashtag-chip { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); font-size: 12px; padding: 6px 12px; border-radius: 20px; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+    .hashtag-chip:hover { border-color: var(--gold); color: var(--gold-light); }
+    .hashtag-chip.copied { background: var(--gold-dim); border-color: var(--gold); color: var(--gold-light); }
+
+    .log-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 40px 32px 24px; max-width: 900px; margin: 0 auto; }
+    .log-btn { background: var(--gold-dim); border: 1px solid rgba(201,169,110,0.3); color: var(--gold-light); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; padding: 10px 20px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .log-btn:hover { background: rgba(201,169,110,0.2); }
+
+    .log-filters { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 32px 24px; max-width: 900px; margin: 0 auto; }
+    .filter-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+    .filter-btn:hover { color: var(--text); border-color: var(--text-dim); }
+    .filter-btn.active { background: var(--gold-dim); border-color: rgba(201,169,110,0.3); color: var(--gold-light); }
+
+    .video-list-wrap { padding: 0 32px 40px; max-width: 900px; margin: 0 auto; }
+    .video-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 12px; transition: border-color 0.2s; }
+    .video-card:hover { border-color: rgba(201,169,110,0.2); }
+    .video-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .video-title-text { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--text); line-height: 1.4; flex: 1; }
+    .video-date { font-size: 11px; color: var(--text-dim); white-space: nowrap; margin-top: 3px; }
+    .video-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .platform-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .pt-youtube { background: rgba(224,95,95,0.12); color: #e05f5f; border: 1px solid rgba(224,95,95,0.2); }
+    .video-hook { font-size: 12px; color: var(--text-muted); font-style: italic; line-height: 1.5; margin-bottom: 8px; padding-left: 10px; border-left: 2px solid var(--gold-dim); }
+    .video-notes { font-size: 12px; color: var(--text-dim); line-height: 1.5; background: var(--surface2); padding: 8px 12px; border-radius: var(--radius-sm); }
+
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .empty-icon { font-size: 40px; margin-bottom: 16px; }
+    .empty-title { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: var(--text); margin-bottom: 8px; }
+    .empty-desc { font-size: 13px; line-height: 1.6; }
+    .video-card-actions { display: flex; gap: 6px; margin-top: 12px; }
+    .btn-edit { background: var(--gold-dim); border: 1px solid rgba(201,169,110,0.25); color: var(--gold-light); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; }
+    .btn-edit:hover { background: rgba(201,169,110,0.2); }
+    .btn-delete { background: none; border: 1px solid var(--border); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 11px; padding: 5px 12px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; }
+    .btn-delete:hover { border-color: var(--coral); color: var(--coral); }
+
+    .channel-box { background: linear-gradient(135deg, var(--surface2) 0%, var(--surface) 100%); border: 1px solid rgba(201,169,110,0.2); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; position: relative; overflow: hidden; }
+    .channel-box::before { content: '🇯🇲'; position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-size: 48px; opacity: 0.15; }
+    .channel-name { font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; color: var(--gold-light); margin-bottom: 4px; }
+    .channel-handle { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+    .channel-meta { display: flex; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+    .channel-meta-item { font-size: 12px; color: var(--text-muted); }
+    .channel-meta-item strong { color: var(--gold-light); }
+    .channel-desc { font-size: 13px; color: var(--text-muted); line-height: 1.8; font-style: italic; border-top: 1px solid var(--border); padding-top: 14px; }
+
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: var(--gold-light); margin-bottom: 20px; }
+
+    .form-row { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .form-input, .form-textarea, .form-select { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 12px; transition: border-color 0.2s; outline: none; }
+    .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--gold); }
+    .form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+    .form-select option { background: var(--surface2); }
+
+    .platform-check-row { display: flex; gap: 8px; }
+    .platform-check { display: flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; cursor: pointer; font-size: 12px; color: var(--text-muted); transition: all 0.2s; }
+    .platform-check input { display: none; }
+    .platform-check.checked { background: rgba(224,95,95,0.1); border-color: rgba(224,95,95,0.3); color: #e05f5f; }
+
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+    .btn-cancel { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 20px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; }
+    .btn-cancel:hover { border-color: var(--text-muted); color: var(--text); }
+    .btn-save { background: var(--gold-dim); border: 1px solid rgba(201,169,110,0.3); color: var(--gold-light); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; padding: 9px 20px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; }
+    .btn-save:hover { background: rgba(201,169,110,0.2); }
+
+    .idea-modal-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 12px; margin-bottom: 12px; outline: none; }
+    .idea-modal-input:focus { border-color: var(--gold); }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--border); color: var(--gold-light); font-size: 13px; padding: 10px 18px; border-radius: var(--radius-sm); opacity: 0; transform: translateY(8px); transition: all 0.25s; z-index: 300; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+  </style>
 </head>
 <body>
-
-<!-- APP -->
 <div id="app">
+
   <div class="top-bar">
-    <div class="top-logo">🇯🇲 Yaad Content Studio</div>
+    <div class="top-logo">
+      <div class="top-logo-main">As Told By Yolanda</div>
+      <div class="top-logo-sub">YouTube Content Planner 🇯🇲</div>
+    </div>
     <div class="top-nav">
       <button class="top-nav-btn active" onclick="showPage('planner', this)">📋 Planner</button>
       <button class="top-nav-btn" onclick="showPage('log', this)">🎬 Video Log</button>
     </div>
-
   </div>
 
   <!-- PLANNER PAGE -->
   <div class="page active" id="page-planner">
-    <div class="page-title">Content Planner</div>
-    <div class="page-sub">Ideas · Hooks · Platform Strategy · Growth · Hashtags</div>
+    <div class="page-header">
+      <div class="page-title">YouTube Content Planner</div>
+      <div class="page-sub">Ideas · Titles · Descriptions · Thumbnails · Growth</div>
+    </div>
 
     <div class="tab-row">
-      <button class="tab-btn active" onclick="showTab('ideas', this)">💡 Ideas</button>
-      <button class="tab-btn" onclick="showTab('hooks', this)">⚡ Hooks</button>
-      <button class="tab-btn" onclick="showTab('platforms', this)">📱 Platforms</button>
+      <button class="tab-btn active" onclick="showTab('channel', this)">🇯🇲 Channel</button>
+      <button class="tab-btn" onclick="showTab('ideas', this)">💡 Ideas</button>
+      <button class="tab-btn" onclick="showTab('titles', this)">✍️ Titles & Descriptions</button>
+      <button class="tab-btn" onclick="showTab('thumbnails', this)">🖼️ Thumbnails</button>
       <button class="tab-btn" onclick="showTab('growth', this)">🌱 Growth</button>
-      <button class="tab-btn" onclick="showTab('hashtags', this)">＃ Hashtags</button>
+    </div>
+
+    <!-- CHANNEL TAB -->
+    <div class="tab-content active" id="tab-channel">
+      <div class="channel-box">
+        <div class="channel-name">As Told By Yolanda</div>
+        <div class="channel-handle">@AsToldByYolanda · YouTube</div>
+        <div class="channel-meta">
+          <div class="channel-meta-item">📅 <strong>Tuesday & Thursday</strong> uploads</div>
+          <div class="channel-meta-item">📱 Instagram: <strong>@yolzxo</strong></div>
+          <div class="channel-meta-item">🎵 TikTok: <strong>@yolandamcleod</strong></div>
+        </div>
+        <div class="channel-desc">
+          "Every life has a story worth telling. This one is mine — a Jamaican girl becoming a woman, navigating life, healing, love, culture and everything in between. Honestly? I don't always know what comes next. But I know it'll be real, it'll be honest, and it'll be mine. This is my story — as told by me wid a whole heap a life and nuff nuff vibes 😂🇯🇲✨ Welcome to my story. ❤️"
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Your 5 Content Pillars</div>
+        <div class="card-desc">Every video lives in one of these pillars. Together they tell the full story of who you are.</div>
+        <div class="tip-box" style="border-color:rgba(201,169,110,0.2); margin-bottom:12px;">
+          <div class="tip-box-title">📖 My Story</div>
+          <div class="tip-box-body">Korea, moving abroad, immigrant life, throwbacks, life chapters as they happened. You are literally telling your story — this is the spine of the whole channel.</div>
+        </div>
+        <div class="tip-box" style="border-color:rgba(122,170,138,0.2); margin-bottom:12px;">
+          <div class="tip-box-title" style="color:var(--green);">🌿 Healing & Becoming</div>
+          <div class="tip-box-body">Therapy, self worth, standards, reclaiming joy, tarot, crystals, body awareness, starting over. The emotional heart of your channel — transformation in real time.</div>
+        </div>
+        <div class="tip-box" style="border-color:rgba(58,138,90,0.3); margin-bottom:12px;">
+          <div class="tip-box-title" style="color:#7acd9a;">🇯🇲 Jamaican Life</div>
+          <div class="tip-box-body">Culture, food, your mom, Sunday dinners, Jamaican perspective on American life, immigrant realities. Your biggest differentiator — nobody else has this combination.</div>
+        </div>
+        <div class="tip-box" style="border-color:rgba(212,112,90,0.2); margin-bottom:12px;">
+          <div class="tip-box-title" style="color:var(--coral);">😂 Real & Unfiltered</div>
+          <div class="tip-box-body">The rodeo, natto, horned melon, car engine, duck eggs, $10 popcorn. Everyday life told honestly and hilariously. The most watchable content you make.</div>
+        </div>
+        <div class="tip-box" style="border-color:rgba(155,143,192,0.2);">
+          <div class="tip-box-title" style="color:var(--lavender);">💭 Conversations That Matter</div>
+          <div class="tip-box-body">Relationships, daddy issues, standards, detachment, tipping culture, immigrant realities. The conversations people think but don't say out loud — your drive & talk content.</div>
+        </div>
+      </div>
     </div>
 
     <!-- IDEAS TAB -->
-    <div class="tab-content active" id="tab-ideas">
-
-      <!-- LIGHT & JOY -->
+    <div class="tab-content" id="tab-ideas">
       <div class="card">
-        <div class="card-title">☀️ Light & Joy <span class="badge badge-gold">Core Pillar</span></div>
-        <div class="card-desc">Music, singing, dancing, being unbothered, enjoying life loudly and unapologetically. This is the energy people come for.</div>
-        <ul class="ideas-list" id="ideas-joy">
-          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Singing in the car — unfiltered, no intro, just start mid-song</div><span class="idea-tag tag-daily">Daily</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Dancing while getting ready for work or doing chores</div><span class="idea-tag tag-daily">Daily</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">React to a song that means something to you — explain why</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">"Songs that changed my life" series — one song per video</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Friday / Saturday night in — unbothered, no apologies, great movie or music</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Recommend a movie or album with genuine, passionate energy</div><span class="idea-tag tag-easy">Easy</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Playlist that healed a version of me — share and explain</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Singing while putting on makeup / doing nails / getting dressed</div><span class="idea-tag tag-daily">Daily</span></li>
+        <div class="card-title">📖 My Story <span class="badge badge-gold">Core Pillar</span></div>
+        <div class="card-desc">Your life chapters, told as they happened. People binge story-driven channels — this is your backbone.</div>
+        <ul class="ideas-list" id="ideas-story">
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">More Korea throwbacks — teaching life, friendships, culture shock moments</div><span class="idea-tag tag-series">Series</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">The story of how I ended up in America — what brought me here</div><span class="idea-tag tag-deep">Deep</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">My immigration story — the process, the challenges, the reality</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Growing up in rural Jamaica — what life was actually like</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">The chapter I don't talk about — a vulnerable life story deep dive</div><span class="idea-tag tag-deep">Deep</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Why I cut my hair — the full story behind the decision</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">A year in review — what this chapter of my life has looked like</div><span class="idea-tag tag-series">Series</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--gold)"></div><div class="idea-text">Travel content as it comes — every trip is a new chapter</div><span class="idea-tag tag-viral">Viral</span></li>
         </ul>
-        <button class="add-idea-btn" onclick="openIdeaModal('joy')">＋ Add Your Own Idea</button>
+        <button class="add-idea-btn" onclick="openIdeaModal('story')">＋ Add Your Own Idea</button>
       </div>
 
-      <!-- RISE & HEAL -->
       <div class="card">
-        <div class="card-title">🌿 Rise & Heal <span class="badge badge-green">Core Pillar</span></div>
-        <div class="card-desc">Mindset, self belief, healing, journaling, meditation, growth. Real and honest — not preachy. You're not a guru, you're someone who figured things out and is sharing.</div>
+        <div class="card-title">🌿 Healing & Becoming <span class="badge badge-green">Core Pillar</span></div>
+        <div class="card-desc">The transformation happening in real time. Not a guru — just a woman figuring it out and sharing honestly.</div>
         <ul class="ideas-list" id="ideas-heal">
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">One thing you learned about yourself this week</div><span class="idea-tag tag-daily">Daily</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">"I used to believe this about myself and then…" story</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Journaling prompts you actually use — carousel on IG, talking head on TikTok</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Morning or evening routine — not aesthetic, just real</div><span class="idea-tag tag-daily">Daily</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">A book page or quote that stopped you in your tracks — what it means to you</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Meditation — not teaching it, just showing you doing it + how it makes you feel</div><span class="idea-tag tag-niche">Niche</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Things I do instead of doom scrolling</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">A song and what it taught you about yourself</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Physical media — why you own movies/music instead of just streaming</div><span class="idea-tag tag-niche">Niche</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Hobbies as healing — what you do to come back to yourself</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Tarot series — monthly or seasonal readings on camera</div><span class="idea-tag tag-series">Series</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Weight loss journal update videos — progress, struggles, honest reflection</div><span class="idea-tag tag-series">Series</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Things that actually helped me heal — not a listicle, a real conversation</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">My crystal collection — what I have, what each one means to me</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Getting my period back — the full story and what it meant for my healing</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">New hobbies I picked up while healing and why they helped</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">Book haul + what I'm reading and why — healing through literature</div><span class="idea-tag tag-series">Series</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--green)"></div><div class="idea-text">What reclaiming my joy actually looked like day to day</div><span class="idea-tag tag-deep">Deep</span></li>
         </ul>
         <button class="add-idea-btn" onclick="openIdeaModal('heal')">＋ Add Your Own Idea</button>
       </div>
 
-      <!-- JAMAICAN CULTURE -->
       <div class="card">
-        <div class="card-title">🇯🇲 Jamaican Culture <span class="badge badge-coral">Differentiator</span></div>
-        <div class="card-desc">Your biggest differentiator — lean into it. Your accent, your humour, your Jamaican lens on life. Nobody else has this combination.</div>
+        <div class="card-title">🇯🇲 Jamaican Life <span class="badge badge-coral">Differentiator</span></div>
+        <div class="card-desc">Your biggest differentiator. Nobody else has your combination of Jamaican roots, rural upbringing, Korea and American immigrant life.</div>
         <ul class="ideas-list" id="ideas-culture">
-          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Jamaican phrases & slang explained — with context and humour</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Things only Jamaicans understand</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Jamaica vs where I live now — cultural comparisons</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Reacting to assumptions people make about Jamaica</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Things my Jamaican upbringing taught me about life / healing / joy</div><span class="idea-tag tag-niche">Niche</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Jamaican food reviews or recipes — real reaction, real flavour</div><span class="idea-tag tag-niche">Niche</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Caribbean girlies will understand — relatable culture content</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Jamaican Sunday dinner series — cooking with mom, full recipes, real energy</div><span class="idea-tag tag-series">Series</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Things only Jamaicans understand — specific, funny, cultural</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Jamaica vs America — cultural comparisons from someone who lives both</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">What my Jamaican upbringing taught me about resilience and joy</div><span class="idea-tag tag-deep">Deep</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Mom content — her opinions, her stories, her perspective on life in America</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">The reality of being a Jamaican immigrant in America — honest and unfiltered</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--coral)"></div><div class="idea-text">Trying Jamaican food I haven't had in years — reaction and memory vlog</div><span class="idea-tag tag-easy">Easy</span></li>
         </ul>
         <button class="add-idea-btn" onclick="openIdeaModal('culture')">＋ Add Your Own Idea</button>
       </div>
 
-      <!-- RELATABLE -->
       <div class="card">
-        <div class="card-title">😭 Relatable & Real <span class="badge badge-purple">High Engagement</span></div>
-        <div class="card-desc">Everyday chaos, adulting, honest moments. The more specific and real, the more it resonates. Messy and honest always beats polished and perfect.</div>
-        <ul class="ideas-list" id="ideas-relatable">
-          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Getting ready for work — singing, complaining, chaos, real</div><span class="idea-tag tag-daily">Daily</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Nails / beauty struggles that are very specific (necklaces with acrylics etc)</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Work frustrations — vibes only, no details needed</div><span class="idea-tag tag-easy">Easy</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Adulting struggles — specific, honest, funny</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">60 second day in my life — unfiltered</div><span class="idea-tag tag-daily">Daily</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">A random strong opinion you have — delivered with conviction</div><span class="idea-tag tag-easy">Easy</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--purple)"></div><div class="idea-text">Things I wish I knew earlier — life, growth, self</div><span class="idea-tag tag-viral">Viral</span></li>
+        <div class="card-title">😂 Real & Unfiltered <span class="badge badge-lavender">High Engagement</span></div>
+        <div class="card-desc">The everyday moments that make people feel like they know you. Specific and real always beats polished and perfect.</div>
+        <ul class="ideas-list" id="ideas-real">
+          <li class="idea-item"><div class="idea-dot" style="background:var(--lavender)"></div><div class="idea-text">Trying a new weird food — continue the natto tradition 😂</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--lavender)"></div><div class="idea-text">Shop with me — Target, Ross, 5 Below, TJ Maxx adventures</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--lavender)"></div><div class="idea-text">A week in my life — unfiltered, whatever happens happens</div><span class="idea-tag tag-series">Series</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--lavender)"></div><div class="idea-text">First time experiences — continue trying new things and documenting reactions</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--lavender)"></div><div class="idea-text">Movie or show review — honest opinions with full personality</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--lavender)"></div><div class="idea-text">A day that went completely sideways — honest chaos documentary</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--lavender)"></div><div class="idea-text">Getting ready vlog — singing, talking, real morning energy</div><span class="idea-tag tag-easy">Easy</span></li>
         </ul>
-        <button class="add-idea-btn" onclick="openIdeaModal('relatable')">＋ Add Your Own Idea</button>
+        <button class="add-idea-btn" onclick="openIdeaModal('real')">＋ Add Your Own Idea</button>
       </div>
 
-      <!-- YOUTUBE CROSSOVER -->
       <div class="card">
-        <div class="card-title">🎬 YouTube Crossover <span class="badge badge-blue">Drive Traffic</span></div>
-        <div class="card-desc">Use TikTok and Reels to pull people to The Chaos Files. Tease the longer story, leave them wanting more.</div>
-        <ul class="ideas-list" id="ideas-yt">
-          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">Best moment clip from your latest YouTube vlog</div><span class="idea-tag tag-easy">Easy</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">"Full video on YouTube" teaser — end with a hook to go watch</div><span class="idea-tag tag-daily">Daily</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">Behind the scenes of filming a YouTube video</div><span class="idea-tag tag-niche">Niche</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">Stitch or duet a trending video with your reaction</div><span class="idea-tag tag-viral">Viral</span></li>
-          <li class="idea-item"><div class="idea-dot" style="background:var(--blue)"></div><div class="idea-text">A teaser that poses a question — answer lives on YouTube</div><span class="idea-tag tag-easy">Easy</span></li>
+        <div class="card-title">💭 Conversations That Matter <span class="badge badge-rose">Drive & Talk</span></div>
+        <div class="card-desc">The conversations people think but don't say out loud. Deep, honest, searchable — and you're genuinely good at this.</div>
+        <ul class="ideas-list" id="ideas-convo">
+          <li class="idea-item"><div class="idea-dot" style="background:var(--rose)"></div><div class="idea-text">Returning to love — what that actually looks like after healing</div><span class="idea-tag tag-deep">Deep</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--rose)"></div><div class="idea-text">The man situation update — whatever comes next in that chapter 😂</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--rose)"></div><div class="idea-text">On loneliness — the kind nobody talks about as an immigrant</div><span class="idea-tag tag-deep">Deep</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--rose)"></div><div class="idea-text">What I wish I knew about self worth in my 20s</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--rose)"></div><div class="idea-text">Hot take I genuinely believe — delivered with full conviction</div><span class="idea-tag tag-easy">Easy</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--rose)"></div><div class="idea-text">On friendships as an adult — what changes, what matters</div><span class="idea-tag tag-viral">Viral</span></li>
+          <li class="idea-item"><div class="idea-dot" style="background:var(--rose)"></div><div class="idea-text">My honest thoughts on therapy — what worked, what didn't, what's next</div><span class="idea-tag tag-deep">Deep</span></li>
         </ul>
-        <button class="add-idea-btn" onclick="openIdeaModal('yt')">＋ Add Your Own Idea</button>
+        <button class="add-idea-btn" onclick="openIdeaModal('convo')">＋ Add Your Own Idea</button>
       </div>
-
     </div>
 
-    <!-- HOOKS TAB -->
-    <div class="tab-content" id="tab-hooks">
+    <!-- TITLES & DESCRIPTIONS TAB -->
+    <div class="tab-content" id="tab-titles">
+      <div class="card" style="background:var(--gold-dim); border-color:rgba(201,169,110,0.25); margin-bottom:24px;">
+        <div style="font-size:13px; color:var(--gold-light); line-height:1.8;"><strong>The rule:</strong> Your title is your #1 discovery tool. Lead with the most searchable or emotional hook first. Keep it under 60 characters. Mix curiosity + emotion + keywords. Your description's first 2–3 lines are what YouTube indexes — make them count.</div>
+      </div>
 
-      <div class="card" style="background:var(--gold-dim); border-color:rgba(212,168,67,0.3); margin-bottom:24px;">
-        <div style="font-size:14px; color:var(--gold-light); line-height:1.7;">
-          <strong>The rule:</strong> You have 1–2 seconds. That's it. The hook isn't just what you say — it's what people feel the moment your video starts. Pick verbal hooks when you're talking. Use visual hooks when you're not. Either way, make them stop scrolling.
+      <div class="card">
+        <div class="card-title">✍️ Title Formulas That Work</div>
+        <div class="card-desc">Use these as templates. Always lead with your vlog number (V19, V20…) so the channel feels like a series people want to binge.</div>
+        <div class="formula-grid">
+          <div class="formula-item"><div class="formula-label">Emotional Hook + Payoff</div><div class="formula-example">"I Finally Did It & I'm Not Looking Back | V19 🤍"</div></div>
+          <div class="formula-item"><div class="formula-label">Curiosity Gap</div><div class="formula-example">"What Happened Next Changed Everything | V20 😮"</div></div>
+          <div class="formula-item"><div class="formula-label">Specific + Unexpected</div><div class="formula-example">"I Tried [Thing] & Was NOT Quiet About It 😂 | V21"</div></div>
+          <div class="formula-item"><div class="formula-label">Validating Statement</div><div class="formula-example">"You're Not Asking For Too Much | V22 🤍"</div></div>
+          <div class="formula-item"><div class="formula-label">Cultural + Specific</div><div class="formula-example">"Jamaican Girl Tries [Thing] for the First Time 🇯🇲"</div></div>
+          <div class="formula-item"><div class="formula-label">Story Chapter</div><div class="formula-example">"The Chapter Where Everything Changed | V23 📖"</div></div>
         </div>
       </div>
 
-      <!-- VISUAL HOOKS -->
-      <div class="hook-section">
-        <div class="hook-section-title">🎥 Visual Hooks — When You're Not Talking</div>
-        <div class="hook-section-desc">Stop the scroll without saying a word. Use these when you're singing, dancing, getting ready, or just living.</div>
-        <div class="visual-hook-item"><span class="visual-icon">🎬</span><div>Start mid-dance or mid-sing — already in it, no intro, no explanation</div></div>
-        <div class="visual-hook-item"><span class="visual-icon">🔍</span><div>Open with a close-up of something interesting — book, nails, outfit detail — then pull back to reveal</div></div>
-        <div class="visual-hook-item"><span class="visual-icon">✍️</span><div>Bold text overlay on screen that makes them read before they scroll — then the video delivers on it</div></div>
-        <div class="visual-hook-item"><span class="visual-icon">😮</span><div>Open on a reaction face — shock, joy, disbelief — before showing what caused it</div></div>
-        <div class="visual-hook-item"><span class="visual-icon">✂️</span><div>A satisfying or unexpected visual transition that makes them rewatch</div></div>
-        <div class="visual-hook-item"><span class="visual-icon">🌀</span><div>Start in the middle of chaos — something is already happening, they have to catch up</div></div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="hook-section">
-        <div class="hook-section-title">🎯 Curiosity Hooks</div>
-        <div class="hook-section-desc">Make them need to know what happens next. Best for reactions, trying new things, story-based content.</div>
-        <ul class="hook-list">
-          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"I tried [thing] and was not prepared for what happened…"</span></li>
-          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"Nobody talks about [topic] but I'm going to…"</span></li>
-          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"Wait until you see the end of this…"</span></li>
-          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"I found out something today and I had to share it…"</span></li>
-          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"This song literally changed how I see myself…"</span></li>
-          <li class="hook-item"><span class="hook-num">6</span><span class="hook-text">"You have to see what happened in this week's vlog…"</span></li>
-        </ul>
-        <div class="hook-tip">💡 Best for: reactions, trying new things, story time, YouTube teasers</div>
-      </div>
-
-      <div class="hook-section">
-        <div class="hook-section-title">😤 Relatable Hooks</div>
-        <div class="hook-section-desc">Make them feel seen immediately. Best for rants, adulting, real life moments.</div>
-        <ul class="hook-list">
-          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"Tell me why [thing] happened to me today…"</span></li>
-          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"If you've ever dealt with [situation], this video is for you"</span></li>
-          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"The audacity. I cannot. Let me explain…"</span></li>
-          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"Nobody told me adulting would feel like this every single day…"</span></li>
-          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"The way I be minding my business and then…"</span></li>
-          <li class="hook-item"><span class="hook-num">6</span><span class="hook-text">"Real quick because I need someone else to know this"</span></li>
-        </ul>
-        <div class="hook-tip">💡 Best for: rants, work content, adulting, beauty struggles, day-in-the-life</div>
-      </div>
-
-      <div class="hook-section">
-        <div class="hook-section-title">🌿 Heal & Mindset Hooks</div>
-        <div class="hook-section-desc">Pull people in with vulnerability and truth. Best for growth, self belief, and healing content.</div>
-        <ul class="hook-list">
-          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"I used to be the person who… and then everything changed"</span></li>
-          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"This is not a motivational speech. This is just what worked for me."</span></li>
-          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"Nobody talks about this part of healing but here we go…"</span></li>
-          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"If you're in a season of growth right now, watch this…"</span></li>
-          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"I stopped doing [thing] and everything shifted"</span></li>
-          <li class="hook-item"><span class="hook-num">6</span><span class="hook-text">"One thing I know for certain about self belief…"</span></li>
-        </ul>
-        <div class="hook-tip">💡 Best for: journaling prompts, mindset shifts, healing stories, book/music recommendations</div>
-      </div>
-
-      <div class="hook-section">
-        <div class="hook-section-title">🇯🇲 Culture Hooks</div>
-        <div class="hook-section-desc">Your biggest differentiator. Use your Jamaican identity as the lens for everything.</div>
-        <ul class="hook-list">
-          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"POV: you're Jamaican and this is just normal life"</span></li>
-          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"Growing up Jamaican hits different and here's why…"</span></li>
-          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"Caribbean girlies will understand this instantly…"</span></li>
-          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"Non-Jamaicans, pay attention. Class is in session."</span></li>
-          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"Things my Jamaican upbringing taught me about [topic]…"</span></li>
-          <li class="hook-item"><span class="hook-num">6</span><span class="hook-text">"The things people assume about Jamaica… let me address this"</span></li>
-        </ul>
-        <div class="hook-tip">💡 Best for: slang videos, food, culture comparisons, reaction content</div>
-      </div>
-
-      <div class="hook-section">
-        <div class="hook-section-title">💬 Opinion Hooks</div>
-        <div class="hook-section-desc">Spark debate, drive comments, stand by what you say.</div>
-        <ul class="hook-list">
-          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"Unpopular opinion: [statement] — fight me in the comments"</span></li>
-          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"Hot take and I stand by every single word…"</span></li>
-          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"I said what I said. [opinion]."</span></li>
-          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"Not up for debate. [strong statement]."</span></li>
-          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">"I need to say this because nobody else will…"</span></li>
-        </ul>
-        <div class="hook-tip">💡 Best for: hot takes, movie/music opinions, life philosophy, reverse influencer moments</div>
-      </div>
-
-      <div class="hook-section">
-        <div class="hook-section-title">😂 Comedy Hooks</div>
-        <div class="hook-section-desc">Stop the scroll with humour. Your natural wit is a superpower — use it.</div>
-        <ul class="hook-list">
-          <li class="hook-item"><span class="hook-num">1</span><span class="hook-text">"God was really testing me today…"</span></li>
-          <li class="hook-item"><span class="hook-num">2</span><span class="hook-text">"I cannot make this up, this actually happened to me today…"</span></li>
-          <li class="hook-item"><span class="hook-num">3</span><span class="hook-text">"Jamaican chaos for your [day of week]…"</span></li>
-          <li class="hook-item"><span class="hook-num">4</span><span class="hook-text">"It's giving chaos and I am here for it…"</span></li>
-          <li class="hook-item"><span class="hook-num">5</span><span class="hook-text">Start mid-laugh or mid-reaction — no words needed at all</span></li>
-        </ul>
-        <div class="hook-tip">💡 Best for: funny moments, chaos days, story time, personality-first content</div>
-      </div>
-
-    </div>
-
-    <!-- PLATFORMS TAB -->
-    <div class="tab-content" id="tab-platforms">
-
-      <div style="background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:24px;">
-        <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:8px;">🗺️ Your Platform Ecosystem</div>
-        <div style="font-size:14px; color:var(--text-muted); line-height:1.7;"><strong style="color:var(--coral)">TikTok</strong> finds your people. <strong style="color:var(--purple)">Instagram</strong> keeps them. <strong style="color:var(--blue)">YouTube</strong> is where they fall in love with you. Everything works together — one brand, three depths.</div>
-      </div>
-
-      <!-- TIKTOK -->
-      <div class="platform-card platform-tiktok">
-        <div class="platform-title" style="color:var(--coral)">🎵 TikTok</div>
-        <div class="platform-role" style="color:var(--coral)">Your Growth Engine — Post Here First, Post Here Most</div>
-        <div class="stat-row">
-          <div class="stat-pill">2–3× more reach for new creators</div>
-          <div class="stat-pill">Zero followers = viral potential</div>
-          <div class="stat-pill">Interest-based algorithm</div>
-          <div class="stat-pill">4–5× per week</div>
+      <div class="card">
+        <div class="card-title">📝 Your Description Template</div>
+        <div class="card-desc">Same structure every time. SEO first, your warm voice second, links and hashtags last.</div>
+        <div class="desc-template">
+          <span class="highlight">[SEO LINE — keyword rich, 1–2 sentences, what this video is actually about]</span><br/><br/>
+          <span class="comment">// e.g. "In this vlog I'm getting real about [topic] — and yes, [funny/unexpected thing] also happened."</span><br/><br/>
+          <span class="highlight">hey, welcome back! 🤍 [your warm personal voice — 2–3 sentences about this specific vlog]</span><br/><br/>
+          if you're new here, welcome! don't forget to like &amp; subscribe 🙏🏾<br/><br/>
+          — — —<br/><br/>
+          Want to see more of me?<br/>
+          👇 Find me here:<br/>
+          Instagram: @yolzxo<br/>
+          TikTok: @yolandamcleod<br/><br/>
+          <span class="highlight">#hashtag1 #hashtag2 #hashtag3 #hashtag4 #hashtag5</span>
         </div>
-        <ul class="rule-list">
-          <li class="rule-item"><span class="rule-icon">✅</span><div>The algorithm is purely interest-based — follower count barely matters. A new account can go viral overnight if the content holds attention.</div></li>
-          <li class="rule-item"><span class="rule-icon">⏱️</span><div>Watch time and completion rate are everything. Make videos people watch all the way through or replay. Shorter (under 60 sec) usually wins.</div></li>
-          <li class="rule-item"><span class="rule-icon">💬</span><div>Engage in the first 60 minutes after posting — posts without early engagement get capped. Reply to every comment when you first post.</div></li>
-          <li class="rule-item"><span class="rule-icon">🎯</span><div>Stay in your niche. Posting across 3+ unrelated topics cuts your reach by 45%. Your pillars are cohesive enough — lean in.</div></li>
-          <li class="rule-item"><span class="rule-icon">🎵</span><div>Check trending audio weekly — especially dancehall and afrobeats. Adding trending sound extends your reach even on non-talking videos.</div></li>
-          <li class="rule-item"><span class="rule-icon">🚫</span><div>Don't go silent for more than a week — recovery takes 2–12 weeks. Batch record so you always have videos ready.</div></li>
-        </ul>
-        <div class="warning-box">⚡ Always export the original clean file to post on both platforms. Never download from TikTok and repost to Instagram — the watermark kills your reach by 30–50%.</div>
+        <div class="tip-box">
+          <div class="tip-box-title">💡 Description Rules</div>
+          <ul class="rule-list">
+            <li class="rule-item"><span class="rule-icon">🔍</span><div>First 2–3 lines are indexed by YouTube — put your strongest keywords here naturally</div></li>
+            <li class="rule-item"><span class="rule-icon">🤍</span><div>After the SEO lines, drop into your real voice — warm, personal, like you're talking to a friend</div></li>
+            <li class="rule-item"><span class="rule-icon">#️⃣</span><div>3–5 hashtags at the bottom — specific beats broad every time</div></li>
+            <li class="rule-item"><span class="rule-icon">🔗</span><div>Your Instagram and TikTok links every single time — builds cross-platform audience consistently</div></li>
+          </ul>
+        </div>
       </div>
 
-      <!-- INSTAGRAM -->
-      <div class="platform-card platform-ig">
-        <div class="platform-title" style="color:var(--purple)">📸 Instagram</div>
-        <div class="platform-role" style="color:var(--purple)">Your Community & Conversion Platform</div>
-        <div class="stat-row">
-          <div class="stat-pill">Reels: 55% non-follower views</div>
-          <div class="stat-pill">DM shares = strongest signal</div>
-          <div class="stat-pill">Keywords &gt; Hashtags</div>
-          <div class="stat-pill">3× per week Reels</div>
+      <div class="card">
+        <div class="card-title">＃ Your YouTube Hashtags</div>
+        <div class="card-desc">Tap any hashtag to copy it. Use 3–5 per video. Always use your brand tags as the base.</div>
+        <div class="hashtag-group">
+          <div class="hashtag-group-title">Brand Tags — Every Video</div>
+          <div class="hashtag-chips">
+            <div class="hashtag-chip" onclick="copyTag(this)">#AsToldByYolanda</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#dayinmylife</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#blackgirlvlog</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#yolandamcleod</div>
+          </div>
         </div>
-        <ul class="rule-list">
-          <li class="rule-item"><span class="rule-icon">📤</span><div>DM shares are the most powerful signal on Instagram right now. Content that makes people send it to a friend gets pushed harder. Your joy and healing content is built for this.</div></li>
-          <li class="rule-item"><span class="rule-icon">🔍</span><div>Keywords in captions matter more than hashtags now. Write captions with words people would actually search — "journaling prompts", "self belief", "Jamaican culture".</div></li>
-          <li class="rule-item"><span class="rule-icon">📱</span><div>Reels under 90 seconds get pushed to non-followers. Keep it tight. 30–90 seconds is the sweet spot for reach.</div></li>
-          <li class="rule-item"><span class="rule-icon">✨</span><div>Unpolished and authentic consistently outperforms heavily produced. Your chaos aesthetic is an advantage, not a liability.</div></li>
-          <li class="rule-item"><span class="rule-icon">🔁</span><div>Carousels get a "second chance" — if someone scrolls past, Instagram may show it again from slide 2. Great for healing/mindset content people want to save.</div></li>
-        </ul>
-
-        <div style="margin-top:16px;">
-          <div style="font-size:13px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px;">Content Format Mix</div>
-          <div class="ig-format-grid">
-            <div class="ig-format">
-              <div class="ig-format-icon">🎬</div>
-              <div class="ig-format-name">Reels — 60–70%</div>
-              <div class="ig-format-desc">Repurposed from TikTok. Drives discovery and new followers. Your main growth tool on IG.</div>
-            </div>
-            <div class="ig-format">
-              <div class="ig-format-icon">🎠</div>
-              <div class="ig-format-name">Carousels — 30–40%</div>
-              <div class="ig-format-desc">Journaling prompts, book recs, mindset content, music lists. High saves. People come back to these.</div>
-            </div>
-            <div class="ig-format">
-              <div class="ig-format-icon">📷</div>
-              <div class="ig-format-name">Photos — Sparingly</div>
-              <div class="ig-format-desc">Life moments, personality, aesthetic consistency. Add trending audio to extend reach into the Reels feed.</div>
-            </div>
+        <div class="hashtag-group">
+          <div class="hashtag-group-title">📖 My Story / Travel</div>
+          <div class="hashtag-chips">
+            <div class="hashtag-chip" onclick="copyTag(this)">#koreavlog</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#teachingenglishabroad</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#expatlife</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#blackgirlinkorea</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#immigrantlife</div>
+          </div>
+        </div>
+        <div class="hashtag-group">
+          <div class="hashtag-group-title">🌿 Healing & Becoming</div>
+          <div class="hashtag-chips">
+            <div class="hashtag-chip" onclick="copyTag(this)">#healingjourney</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#selflove</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#selfworth</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#slowliving</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#tarotreading</div>
+          </div>
+        </div>
+        <div class="hashtag-group">
+          <div class="hashtag-group-title">🇯🇲 Jamaican Life</div>
+          <div class="hashtag-chips">
+            <div class="hashtag-chip" onclick="copyTag(this)">#jamaicanamerican</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#jamaicanculture</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#caribbeancreator</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#sundaydinner</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#jamaicanfood</div>
+          </div>
+        </div>
+        <div class="hashtag-group">
+          <div class="hashtag-group-title">💭 Conversations / Relationships</div>
+          <div class="hashtag-chips">
+            <div class="hashtag-chip" onclick="copyTag(this)">#relationships</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#standards</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#reallifestruggles</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#mentalhealthvlog</div>
+            <div class="hashtag-chip" onclick="copyTag(this)">#storytime</div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- YOUTUBE -->
-      <div class="platform-card platform-yt">
-        <div class="platform-title" style="color:var(--blue)">▶️ YouTube — The Chaos Files</div>
-        <div class="platform-role" style="color:var(--blue)">Where They Fall In Love With You — Long Form Home</div>
-        <div class="stat-row">
-          <div class="stat-pill">Tuesday & Thursday uploads</div>
-          <div class="stat-pill">Lifestyle · Vlogs · Real Life</div>
-          <div class="stat-pill">Shorts drive channel growth</div>
+    <!-- THUMBNAILS TAB -->
+    <div class="tab-content" id="tab-thumbnails">
+      <div class="card" style="background:var(--gold-dim); border-color:rgba(201,169,110,0.25); margin-bottom:24px;">
+        <div style="font-size:13px; color:var(--gold-light); line-height:1.8;"><strong>The truth:</strong> Your thumbnail is the single biggest lever for clicks. A great video with a bad thumbnail will underperform every time. Your face, one emotion, five words max. Design in Canva. Always preview at small size before uploading.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🖼️ The Golden Rules</div>
+        <div class="thumb-grid">
+          <div class="thumb-card"><div class="thumb-icon">👤</div><div class="thumb-label">Your Face Always</div><div class="thumb-desc">Emotion drives clicks. Your face should take up at least 40% of the thumbnail.</div></div>
+          <div class="thumb-card"><div class="thumb-icon">📝</div><div class="thumb-label">5 Words Max</div><div class="thumb-desc">Bold, high contrast, readable on a phone screen. More than 5 words — cut it.</div></div>
+          <div class="thumb-card"><div class="thumb-icon">😮</div><div class="thumb-label">One Emotion</div><div class="thumb-desc">Curiosity, shock, joy, drama or sass. Don't tell the whole story — just make them click.</div></div>
+          <div class="thumb-card"><div class="thumb-icon">🎨</div><div class="thumb-label">High Contrast</div><div class="thumb-desc">Your thumbnail competes with thousands. Bright colors, strong contrast.</div></div>
+          <div class="thumb-card"><div class="thumb-icon">📱</div><div class="thumb-label">Preview Small</div><div class="thumb-desc">Most people find you on phones. Check your thumbnail at thumbnail size first.</div></div>
+          <div class="thumb-card"><div class="thumb-icon">🎨</div><div class="thumb-label">Use Canva</div><div class="thumb-desc">Free, easy, YouTube templates built in. Use Background Remover to cut yourself out cleanly.</div></div>
         </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎭 Thumbnail Style By Pillar</div>
         <ul class="rule-list">
-          <li class="rule-item"><span class="rule-icon">🎬</span><div>This is where the full story lives. The depth, the vulnerability, the real conversations. TikTok and Reels tease — YouTube delivers.</div></li>
-          <li class="rule-item"><span class="rule-icon">📎</span><div>Every TikTok and Reel that tells a partial story should end with a pull to YouTube. "Full video on YouTube" is a system, not an afterthought.</div></li>
-          <li class="rule-item"><span class="rule-icon">🔍</span><div>YouTube is a search engine. Write titles and descriptions with keywords people actually search. Think: "how I healed from…", "Jamaican girl tries…", "day in my life vlog".</div></li>
-          <li class="rule-item"><span class="rule-icon">📊</span><div>Watch time and click-through rate matter most. A good thumbnail and a strong first 30 seconds determine whether YouTube pushes your video.</div></li>
+          <li class="rule-item"><span class="rule-icon">📖</span><div><strong style="color:var(--gold-light)">My Story</strong> — Emotional, nostalgic or significant. Text that teases without giving it away. e.g. "I CRIED IN THE AIRPORT"</div></li>
+          <li class="rule-item"><span class="rule-icon">🌿</span><div><strong style="color:var(--green)">Healing & Becoming</strong> — Soft, glowy, intentional. You looking radiant or holding something meaningful. e.g. "HEALING LOOKS GOOD ON ME"</div></li>
+          <li class="rule-item"><span class="rule-icon">🇯🇲</span><div><strong style="color:#7acd9a">Jamaican Life</strong> — You and mom, food, reaction shots. Cultural warmth or comedic horror. e.g. "WHY IS THE FOOD SO BIG?!"</div></li>
+          <li class="rule-item"><span class="rule-icon">😂</span><div><strong style="color:var(--lavender)">Real & Unfiltered</strong> — Your most dramatic or expressive reaction face. Let the expression do all the work.</div></li>
+          <li class="rule-item"><span class="rule-icon">💭</span><div><strong style="color:var(--rose)">Conversations</strong> — Direct to camera, soft but serious. Text that makes people feel seen. e.g. "YOU'RE NOT ASKING FOR TOO MUCH"</div></li>
         </ul>
       </div>
-
     </div>
 
     <!-- GROWTH TAB -->
     <div class="tab-content" id="tab-growth">
-
-      <div class="tip-card">
-        <div class="tip-icon">🎭</div>
-        <div>
-          <div class="tip-title">Be It, Don't Just Talk About It</div>
-          <div class="tip-body">You're a reverse influencer — which means you don't lecture, you live it on camera. The getting ready while singing, the Friday night in with LOTR, the necklace struggle with acrylics. That IS the brand. Capture what you already do. The content is your life.</div>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">🪞</div>
-        <div>
-          <div class="tip-title">Real Over Polished — Always</div>
-          <div class="tip-body">Unpolished, authentic content consistently outperforms heavily produced videos. Good lighting and clear audio are your only non-negotiables. Natural light from a window is enough. Your chaos aesthetic is an advantage — people are exhausted by perfection.</div>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">📦</div>
-        <div>
-          <div class="tip-title">Batch + Capture Strategy</div>
-          <div class="tip-body">Work in two modes. <strong>Capture mode</strong> — always on, phone ready, film life as it happens. <strong>Batch mode</strong> — once a week, 30–45 minutes, record 3–5 intentional videos. Goal: always have 7–10 videos queued so you never scramble or go silent.</div>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">⏰</div>
-        <div>
-          <div class="tip-title">Consistency Is the Only Algorithm Hack</div>
-          <div class="tip-body">TikTok: 4–5× per week. Instagram Reels: 3× per week. Going silent for a week costs 2–12 weeks of recovery. Build your buffer first — record 10 videos before you start posting consistently. Consistency beats virality every time.</div>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">💬</div>
-        <div>
-          <div class="tip-title">The First 60 Minutes Matter</div>
-          <div class="tip-body">After you post, stay active. Reply to every comment in the first hour. The algorithm reads early engagement as a signal to push your video further. Don't post and disappear.</div>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">🔁</div>
-        <div>
-          <div class="tip-title">Build Recurring Formats</div>
-          <div class="tip-body">Formats build habit. When your audience knows what to expect — "Songs That Changed My Life", "Jamaican Girl Reacts", "Friday Night In" — they come back looking for it. Pick 2–3 recurring formats and run them consistently.</div>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">🇯🇲</div>
-        <div>
-          <div class="tip-title">Your Culture Is Your Superpower</div>
-          <div class="tip-body">Your Jamaican identity — the accent, the humour, the perspective — is your biggest differentiator. Nobody else has your combination. Use it as the lens for everything, not just the culture-specific videos. It belongs in every pillar.</div>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">📊</div>
-        <div>
-          <div class="tip-title">Check Analytics Weekly</div>
-          <div class="tip-body">Look at watch time and completion rate above everything else. When something works, make more of that. When something dies, learn from it and move on. The data will tell you what your audience loves faster than any strategy document will.</div>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">🎵</div>
-        <div>
-          <div class="tip-title">Trending Audio Weekly</div>
-          <div class="tip-body">Check TikTok's trending sounds every week — especially dancehall, afrobeats, and R&B for your niche. Adding trending audio to Reels and even photo posts extends your reach into the Reels feed. Don't force it — only use audio that actually fits.</div>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">🌍</div>
-        <div>
-          <div class="tip-title">You're Building a Movement, Not Just a Following</div>
-          <div class="tip-body">The reverse influencer vision is what makes you different from everyone else. Every video should leave someone feeling something — lighter, more seen, more inspired, more themselves. That's the mission. Stay connected to it when the algorithm feels discouraging.</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- HASHTAGS TAB -->
-    <div class="tab-content" id="tab-hashtags">
-
-      <div class="card" style="background:var(--coral-dim); border-color:rgba(224,112,85,0.3); margin-bottom:24px;">
-        <div style="font-size:14px; color:#e07055; line-height:1.7;">
-          <strong>2026 reality:</strong> Hashtags no longer drive discovery the way they used to. On Instagram, keywords in your captions now matter more. On TikTok, speech recognition reads your content directly. Use 5 hashtags max — choose them for categorisation, not as your growth strategy.
-        </div>
-      </div>
-
-      <div class="hashtag-group">
-        <div class="hashtag-group-title">Your 5 Go-To Tags — Use on Every Post</div>
-        <div class="hashtag-chips">
-          <div class="hashtag-chip" onclick="copyTag(this)">#jamaicancreator</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#thechaosfiles</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#dayinmylife</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#yolandamcleod</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#contentcreator</div>
-        </div>
-      </div>
-
-      <div class="hashtag-group">
-        <div class="hashtag-group-title">For Light & Joy / Music Content</div>
-        <div class="hashtag-chips">
-          <div class="hashtag-chip" onclick="copyTag(this)">#musicvibes</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#singinmyheart</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#grwm</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#fyp</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#vibes</div>
-        </div>
-      </div>
-
-      <div class="hashtag-group">
-        <div class="hashtag-group-title">For Rise & Heal / Mindset Content</div>
-        <div class="hashtag-chips">
-          <div class="hashtag-chip" onclick="copyTag(this)">#healingjourney</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#selfbelief</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#mindsetshift</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#journaling</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#personalgrowth</div>
-        </div>
-      </div>
-
-      <div class="hashtag-group">
-        <div class="hashtag-group-title">For Jamaican Culture Content</div>
-        <div class="hashtag-chips">
-          <div class="hashtag-chip" onclick="copyTag(this)">#jamaicantiktok</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#caribbeancreator</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#jamaicanculture</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#caribbeangirlsrock</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#tiktokjamaica</div>
-        </div>
-      </div>
-
-      <div class="hashtag-group">
-        <div class="hashtag-group-title">For Relatable / Adulting Content</div>
-        <div class="hashtag-chips">
-          <div class="hashtag-chip" onclick="copyTag(this)">#relatable</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#adultingishard</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#blackgirlmagic</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#reallife</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#storytime</div>
-        </div>
-      </div>
-
-      <div class="hashtag-group">
-        <div class="hashtag-group-title">For YouTube Crossover Posts</div>
-        <div class="hashtag-chips">
-          <div class="hashtag-chip" onclick="copyTag(this)">#youtuber</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#youtubevlog</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#blackgirlswhoyoutube</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#weeklylifevlog</div>
-          <div class="hashtag-chip" onclick="copyTag(this)">#vlogger</div>
-        </div>
-      </div>
-
-      <div class="hashtag-note">
-        💡 Tap any hashtag to copy it. Always use your 5 go-to tags as the base, then swap one for a category-specific tag when relevant. <strong>#yolandamcleod</strong> and <strong>#thechaosfiles</strong> on every single post — builds searchability over time.
-      </div>
-
+      <div class="tip-box" style="margin-bottom:16px;"><div class="tip-box-title">📖 Tell the Story, Don't Just Document</div><div class="tip-box-body">As Told By Yolanda is a storytelling channel. The best vloggers don't just film their day — they <strong>frame it as a chapter</strong>. Every video should feel like it belongs to a larger story. What chapter is this? What came before? What comes next? When viewers feel like they're following a story, they become invested and they come back.</div></div>
+      <div class="tip-box" style="margin-bottom:16px;"><div class="tip-box-title">⏰ Consistency Is Everything</div><div class="tip-box-body">Tuesday and Thursday uploads, every week. Going silent costs momentum that takes weeks to rebuild. <strong>Batch record</strong> — film 3–4 videos in one session so you always have a buffer. Always have 2–3 videos ready to go before you need them.</div></div>
+      <div class="tip-box" style="margin-bottom:16px;"><div class="tip-box-title">🎬 The First 30 Seconds Are Everything</div><div class="tip-box-body">YouTube measures <strong>audience retention</strong> heavily. If people leave in the first 30 seconds YouTube stops pushing your video. Don't do long intros — just START. Drop them into the most interesting moment first, then pull back.</div></div>
+      <div class="tip-box" style="margin-bottom:16px;"><div class="tip-box-title">🖼️ Thumbnail + Title = 90% of Your Clicks</div><div class="tip-box-body">Before you edit a single frame, decide your thumbnail and title. If you can't make a compelling thumbnail from this content, <strong>film something specifically for the thumbnail</strong>. The thumbnail is not an afterthought. It's the first edit.</div></div>
+      <div class="tip-box" style="margin-bottom:16px;"><div class="tip-box-title">🇯🇲 Your Culture Is Your Algorithm Advantage</div><div class="tip-box-body">There are millions of lifestyle vloggers. There are very few Jamaican immigrant women telling their story with this level of honesty and humor. <strong>Lean into your specificity</strong> — the more specifically Jamaican, the more universally it resonates. Niche is not a limitation, it's a superpower.</div></div>
+      <div class="tip-box" style="margin-bottom:16px;"><div class="tip-box-title">📊 Watch Time Over Everything</div><div class="tip-box-body">YouTube's most important metric is <strong>average view duration</strong>. Check your analytics weekly. Find the timestamps where people drop off and ask why. Keep your videos moving — every minute should earn the next one.</div></div>
+      <div class="tip-box" style="margin-bottom:16px;"><div class="tip-box-title">🔁 Build Series That Make People Binge</div><div class="tip-box-body">Your numbered vlogs (V1, V2, V3…) are already a series. Reference past chapters, tease future ones. <strong>Series create loyal subscribers</strong> who feel like they're watching a show. Consider dedicated series: Korea Throwbacks, Sunday Dinners with Mom, Weight Loss Journal Updates.</div></div>
+      <div class="tip-box"><div class="tip-box-title">🌍 You're Building a Legacy, Not Just a Following</div><div class="tip-box-body">As Told By Yolanda is a record of a life being lived fully and honestly. Every video you make is a chapter that will exist forever. <strong>Post as if you're building an archive</strong> — someday people will binge from V1 to V100 and watch you become who you're becoming. That's the real mission. 🤍🇯🇲</div></div>
     </div>
   </div>
 
@@ -486,113 +480,53 @@
   <div class="page" id="page-log">
     <div class="log-header">
       <div>
-        <div class="page-title">Video Log 🎬</div>
-        <div class="page-sub">Every video you post, tracked in one place</div>
+        <div class="page-title">Video Log</div>
+        <div class="page-sub">Every video you post, tracked in one place 🎬</div>
       </div>
       <button class="log-btn" onclick="openLogModal()">+ Log a Video</button>
     </div>
-
     <div class="log-filters">
       <button class="filter-btn active" onclick="filterLog('all', this)">All</button>
-      <button class="filter-btn" onclick="filterLog('TikTok', this)">TikTok</button>
-      <button class="filter-btn" onclick="filterLog('Reels', this)">Reels</button>
-      <button class="filter-btn" onclick="filterLog('YouTube', this)">YouTube</button>
-      <button class="filter-btn" onclick="filterLog('joy', this)">☀️ Joy</button>
-      <button class="filter-btn" onclick="filterLog('heal', this)">🌿 Heal</button>
-      <button class="filter-btn" onclick="filterLog('culture', this)">🇯🇲 Culture</button>
-      <button class="filter-btn" onclick="filterLog('relatable', this)">😭 Relatable</button>
-      <button class="filter-btn" onclick="filterLog('yt', this)">🎬 YT Crossover</button>
+      <button class="filter-btn" onclick="filterLog('YouTube', this)">▶️ YouTube</button>
+      <button class="filter-btn" onclick="filterLog('story', this)">📖 My Story</button>
+      <button class="filter-btn" onclick="filterLog('heal', this)">🌿 Healing</button>
+      <button class="filter-btn" onclick="filterLog('culture', this)">🇯🇲 Jamaican Life</button>
+      <button class="filter-btn" onclick="filterLog('real', this)">😂 Real & Unfiltered</button>
+      <button class="filter-btn" onclick="filterLog('convo', this)">💭 Conversations</button>
     </div>
-
-    <div id="video-list"></div>
+    <div class="video-list-wrap" id="video-list"></div>
   </div>
 </div>
 
 <!-- LOG MODAL -->
 <div class="modal-overlay" id="log-modal">
   <div class="modal">
-    <div class="modal-title">Log a Video</div>
-
+    <div class="modal-title" id="log-modal-title">Log a Video</div>
+    <input type="hidden" id="log-edit-id" value="" />
+    <div class="form-row"><label class="form-label">Date Posted</label><input type="date" class="form-input" id="log-date" /></div>
     <div class="form-row">
-      <label class="form-label">Date Posted</label>
-      <input type="date" class="form-input" id="log-date" />
-    </div>
-
-    <div class="form-row">
-      <label class="form-label">Platform(s)</label>
+      <label class="form-label">Platform</label>
       <div class="platform-check-row">
-        <label class="platform-check" id="check-tiktok">
-          <input type="checkbox" value="TikTok" onchange="toggleCheck('check-tiktok')" />
-          🎵 TikTok
-        </label>
-        <label class="platform-check" id="check-reels">
-          <input type="checkbox" value="Reels" onchange="toggleCheck('check-reels')" />
-          📸 Reels
-        </label>
-        <label class="platform-check" id="check-youtube">
-          <input type="checkbox" value="YouTube" onchange="toggleCheck('check-youtube')" />
-          ▶️ YouTube
-        </label>
+        <label class="platform-check" id="check-youtube"><input type="checkbox" value="YouTube" onchange="toggleCheck('check-youtube')" />▶️ YouTube</label>
       </div>
     </div>
-
-    <div class="form-row">
-      <label class="form-label">Video Title / Topic</label>
-      <input type="text" class="form-input" id="log-title" placeholder="e.g. Getting ready while singing Tyla" />
-    </div>
-
-    <div class="form-row">
-      <label class="form-label">Hook Used — first 2 seconds</label>
-      <input type="text" class="form-input" id="log-hook" placeholder="What you said or showed in the opening" />
-    </div>
-
-    <div class="form-row">
-      <label class="form-label">Caption</label>
-      <textarea class="form-textarea" id="log-caption" placeholder="TikTok & Reels description"></textarea>
-    </div>
-
-    <div class="form-row">
-      <label class="form-label">Hashtags Used</label>
-      <input type="text" class="form-input" id="log-hashtags" placeholder="#jamaicancreator #fyp …" />
-    </div>
-
-    <div class="form-row">
-      <label class="form-label">Trending Sound</label>
-      <input type="text" class="form-input" id="log-sound" placeholder="Name of audio used (if any)" />
-    </div>
-
+    <div class="form-row"><label class="form-label">Video Title</label><input type="text" class="form-input" id="log-title" placeholder="e.g. V19 | My First Time Trying… 🇯🇲" /></div>
+    <div class="form-row"><label class="form-label">Opening Hook — first 30 seconds</label><input type="text" class="form-input" id="log-hook" placeholder="How does the video open?" /></div>
+    <div class="form-row"><label class="form-label">Description</label><textarea class="form-textarea" id="log-caption" placeholder="Your full YouTube description…"></textarea></div>
+    <div class="form-row"><label class="form-label">Hashtags Used</label><input type="text" class="form-input" id="log-hashtags" placeholder="#AsToldByYolanda #dayinmylife …" /></div>
     <div class="form-row">
       <label class="form-label">Content Pillar</label>
       <select class="form-select" id="log-category">
         <option value="">Select pillar…</option>
-        <option value="joy">☀️ Light & Joy</option>
-        <option value="heal">🌿 Rise & Heal</option>
-        <option value="culture">🇯🇲 Jamaican Culture</option>
-        <option value="relatable">😭 Relatable & Real</option>
-        <option value="yt">🎬 YouTube Crossover</option>
-        <option value="other">Other</option>
+        <option value="story">📖 My Story</option>
+        <option value="heal">🌿 Healing & Becoming</option>
+        <option value="culture">🇯🇲 Jamaican Life</option>
+        <option value="real">😂 Real & Unfiltered</option>
+        <option value="convo">💭 Conversations That Matter</option>
       </select>
     </div>
-
-    <div class="form-row">
-      <label class="form-label">Hook Type</label>
-      <select class="form-select" id="log-hooktype">
-        <option value="">Select hook type…</option>
-        <option value="Visual">Visual</option>
-        <option value="Curiosity">Curiosity</option>
-        <option value="Relatable">Relatable</option>
-        <option value="Heal">Heal & Mindset</option>
-        <option value="Culture">Culture</option>
-        <option value="Opinion">Opinion</option>
-        <option value="Comedy">Comedy</option>
-      </select>
-    </div>
-
-    <div class="form-row">
-      <label class="form-label">Notes / What Worked</label>
-      <textarea class="form-textarea" id="log-notes" placeholder="Reflections, engagement observations, ideas for next time…"></textarea>
-    </div>
-
+    <div class="form-row"><label class="form-label">Thumbnail Concept</label><input type="text" class="form-input" id="log-sound" placeholder="What's on the thumbnail? What does it say?" /></div>
+    <div class="form-row"><label class="form-label">Notes / What Worked</label><textarea class="form-textarea" id="log-notes" placeholder="Reflections, what performed well, ideas for next time…"></textarea></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeLogModal()">Cancel</button>
       <button class="btn-save" onclick="saveLog()">Save Video</button>
@@ -605,12 +539,12 @@
   <div class="modal" style="max-width:420px;">
     <div class="modal-title">Add a Content Idea</div>
     <input type="text" class="idea-modal-input" id="idea-text-input" placeholder="Your idea…" />
-    <select class="form-select" id="idea-tag-select">
+    <select class="form-select" id="idea-tag-select" style="margin-bottom:12px;">
       <option value="">No tag</option>
       <option value="easy">Easy</option>
-      <option value="daily">Daily</option>
+      <option value="series">Series</option>
       <option value="viral">Viral</option>
-      <option value="niche">Niche</option>
+      <option value="deep">Deep</option>
     </select>
     <input type="hidden" id="idea-pillar" />
     <div class="modal-actions">
@@ -620,258 +554,226 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script src="app.js"></script>
 <script>
-// Pre-load all 18 vlogs into the video log on first run
-(function() {
-  const STORAGE_KEY = 'yaad-videos';
-  const existing = localStorage.getItem(STORAGE_KEY);
-  if (existing && JSON.parse(existing).length > 0) return;
+document.addEventListener('DOMContentLoaded', () => { seedVlogs(); loadVideos(); });
 
-  const vlogs = [
-    {
-      id: 1700000001,
-      date: '2016-01-01',
-      platforms: ['YouTube'],
-      title: 'V1 | I Packed Up My Life & Moved to Korea | Teaching English Abroad 2016 🇰🇷',
-      hook: 'In 2016 I packed up my life and moved to South Korea to teach English…',
-      caption: 'In 2016 I packed up my life and moved to South Korea to teach English — and this is how my first month went. From the food on the flight over, settling into campus during training, celebrating Chuseok in Busan with new friends, and exploring Nampo Traditional Market — this month changed everything for me.\n\nhey, welcome back! This throwback vlog is so special to me — I was so young, so nervous and so excited all at once. If you\'ve ever dreamed about moving abroad or teaching English overseas, I hope this inspires you to just go for it. Come watch!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#teachingenglishabroad #koreavlog #blackgirlinkorea #livinginkorea #expatlife',
-      sound: '',
-      category: 'yt',
-      hookType: 'Curiosity',
-      notes: 'Throwback 2016. Thumbnail: face looking happy/in awe. Bold text: I MOVED TO KOREA'
-    },
-    {
-      id: 1700000002,
-      date: '2016-02-01',
-      platforms: ['YouTube'],
-      title: 'V2 | Living in Korea | Wearing a Hanbok, Seoul Street Food & the Famous Poop Cafe 💩🇰🇷',
-      hook: 'Living in Korea gave me some of the most unforgettable experiences of my life…',
-      caption: 'Living in Korea gave me some of the most unforgettable experiences of my life — and this vlog proves it. From visiting Hanok Village and getting to wear a traditional Hanbok, exploring Myeongdong for some of the best street food in Seoul, getting a free palace tour in the heart of the city, to visiting the infamous Poop Cafe — yes it\'s a real place, no it\'s not what you think lol.\n\nhey, welcome back! This era of my life was so full and so fun and I love that I captured it all on camera. Come watch!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#livinginkorea #seoulfoodtour #koreavlog #blackgirlinkorea #teachingenglishabroad',
-      sound: '',
-      category: 'yt',
-      hookType: 'Curiosity',
-      notes: 'Throwback 2016. Thumbnail: split — hanbok + poop cafe. Text: LIFE IN KOREA 💩'
-    },
-    {
-      id: 1700000003,
-      date: '2016-01-15',
-      platforms: ['YouTube'],
-      title: 'V3 | I Cried in the Airport on My Way to Korea | The Craziest Travel Day of My Life 😭🇰🇷',
-      hook: 'Moving to Korea was the biggest decision of my life — and the travel day almost took me out…',
-      caption: 'Moving to Korea was the biggest decision of my life — and the travel day almost took me out before I even got there. In this vlog I\'m recounting the full story of my crazy travel day, the moment I broke down crying in the airport, and how I made it to South Korea in one piece. If you\'ve ever had a travel day go completely sideways, you\'ll feel every single second of this.\n\nhey, welcome back! This story is so wild to me looking back now — I was terrified, exhausted and emotional but I made it and I\'d do it all over again. Grab a snack because storytime is HERE. Come watch!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#travelstorytime #movingtokorea #teachingenglishabroad #blackgirlinkorea #travelday',
-      sound: '',
-      category: 'yt',
-      hookType: 'Curiosity',
-      notes: 'Storytime — no footage. Thumbnail: expressive/emotional face. Text: I CRIED IN THE AIRPORT'
-    },
-    {
-      id: 1700000004,
-      date: '2024-01-01',
-      platforms: ['YouTube'],
-      title: 'V4 | I Cut All My Hair Off, Started Over & Partied With My Mom 🎉✂️',
-      hook: 'From making a big decision to cut all my hair off, to reflecting on how hard starting over really is…',
-      caption: 'From making a big decision to cut all my hair off, to reflecting on how hard starting over really is — this vlog gets real before the night even begins. Then we shift gears completely because we\'re getting ready, pregaming and hitting the party with my mom — and yes she showed out. Chick-fil-A in the car, after party munchies and honest post party thoughts to close it all out.\n\nhey, welcome back! This one is a whole vibe from start to finish — vulnerable, fun, chaotic and real. My mom is everything and I love that we get to do life like this together. Come party with us!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#dayinmylife #cuttingmyhairoff #startingover #blackgirlvlog #momanddaughter',
-      sound: '',
-      category: 'relatable',
-      hookType: 'Relatable',
-      notes: 'Thumbnail: you + mom mid laugh at party. Text: PARTYING WITH MY MOM 🎉'
-    },
-    {
-      id: 1700000005,
-      date: '2024-01-08',
-      platforms: ['YouTube'],
-      title: 'V5 | Our First Rodeo Ever & We Were NOT Ready 😂🤠',
-      hook: 'Our first time ever at an American rodeo and let\'s just say… we were absolutely not prepared.',
-      caption: 'Our first time ever at an American rodeo and let\'s just say… we were absolutely not prepared. This vlog picks up right where we left off — recapping the night before, getting my mom\'s hilariously honest version of events, hitting up Saturday brunch, a Target run, and then somehow ending up at the rodeo scared for our lives. Two women from rural Jamaica at their first American rodeo is exactly as chaotic as it sounds. Oh and the men on horses? We noticed. We close it out with a real conversation about why we should try new things and actually enjoy life.\n\nhey, welcome back! My mom and I do life together and it is never boring — I love that we keep saying yes to new experiences together. Come laugh with us!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#dayinmylife #rodeovlog #momanddaughter #blackgirlvlog #firstrodeo',
-      sound: '',
-      category: 'culture',
-      hookType: 'Comedy',
-      notes: 'Thumbnail: you + mom at rodeo looking scared/shocked. Text: WE WERE NOT READY 🤠'
-    },
-    {
-      id: 1700000006,
-      date: '2024-01-15',
-      platforms: ['YouTube'],
-      title: 'V6 | Healing in Pink, Jamaican Pride & Why I\'m Learning Chinese 😂🇯🇲',
-      hook: 'Why am I considering learning Chinese? You\'ll have to watch to understand.',
-      caption: 'From reflecting on a healing journey and what the color pink means to me right now, to a real conversation about Jamaicans — our humor, our pride, our quirks and why we\'re still the best people on earth. Then we hit a mini rant on tipping culture, get caught in the rain, and I explain exactly why I\'m considering learning Chinese. You\'ll have to watch to understand.\n\nhey, welcome back! This one is a little bit of everything — vulnerable, funny, opinionated and real. Just me in the car doing what I do best, talking your ear off. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#dayinmylife #jamaicanpride #healingjourney #tippingculture #blackgirlvlog',
-      sound: '',
-      category: 'culture',
-      hookType: 'Curiosity',
-      notes: 'Car vlog. Thumbnail: confident in car. Text: WHY I\'M LEARNING CHINESE 😂'
-    },
-    {
-      id: 1700000007,
-      date: '2024-01-22',
-      platforms: ['YouTube'],
-      title: 'V7 | She\'s Healing, She\'s Gorgeous & She\'s Determined 😌✨',
-      hook: 'Reclaiming joy after trauma is not a straight line — but this season I\'m choosing me.',
-      caption: 'Reclaiming joy after trauma is not a straight line — but this season I\'m choosing me, fully and unapologetically. In this vlog I\'m reflecting on getting my laughter back, the power of music in my healing journey, showing off my crystal collection, and talking about how hard I\'ve worked and my absolute determination to succeed. We close it out with a beautiful family walk in the park because life is good and we\'re going to notice it.\n\nhey, welcome back! This one felt really good to film — just me in the car, the sun hitting just right, marvelling at my own gorgeousness and being genuinely grateful for how far I\'ve come. I hope this one finds you right when you need it.\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#healingjourney #reclaimingjoy #selflove #crystalhealing #dayinmylife',
-      sound: '',
-      category: 'heal',
-      hookType: 'Heal',
-      notes: 'Car vlog. Thumbnail: sun hitting just right, glowy shot. Text: SHE\'S HEALING & SHE\'S GORGEOUS 😌✨'
-    },
-    {
-      id: 1700000008,
-      date: '2024-01-29',
-      platforms: ['YouTube'],
-      title: 'V8 | Honest Thoughts About My Job, Phone Company Drama & a Horned Melon 😅🍈',
-      hook: 'Some weeks call for honesty. I\'m getting real about how I truly feel about my job right now.',
-      caption: 'Some weeks call for honesty. I\'m getting real about how I truly feel about my job right now — no filter. Then I finally hit my limit with my phone company and let\'s just say that conversation did NOT go smoothly. And because life is random and beautiful, I tried a horned melon for the very first time and honestly had no idea what to expect.\n\nhey, welcome back! This is one of those real, unfiltered weeks where everything is a lot but you push through anyway. Come sit with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#dayinmylife #weekinmylife #hornedmelon #phonedrama #reallifestruggles',
-      sound: '',
-      category: 'relatable',
-      hookType: 'Relatable',
-      notes: 'Thumbnail: split — frustrated face + shocked holding horned melon. Text: THAT KIND OF WEEK 😅'
-    },
-    {
-      id: 1700000009,
-      date: '2024-02-05',
-      platforms: ['YouTube'],
-      title: 'V9 | I Broke Up With My Therapist & Other Important Announcements 😂🤍',
-      hook: 'Yes you read that right — I finally broke up with my therapist and I\'m explaining everything.',
-      caption: 'Yes you read that right — I finally broke up with my therapist and I\'m explaining everything. But first we\'re talking about wanting to try new foods, I\'ve got an important PSA about my channel and where it\'s headed, I picked up some prepared meals from Whole Foods, and we\'re having a real conversation about why we need to be kinder to call center workers — because they deserve better and I will die on this hill.\n\nhey, welcome back! This one is a little bit of everything — food, real talk, channel updates and one very overdue breakup. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#breakingupwithmytherapist #dayinmylife #mentalhealthvlog #wholefoodshaul #blackgirlvlog',
-      sound: '',
-      category: 'heal',
-      hookType: 'Curiosity',
-      notes: 'Thumbnail: dramatically unbothered face. Text: I BROKE UP WITH MY THERAPIST'
-    },
-    {
-      id: 1700000010,
-      date: '2024-02-12',
-      platforms: ['YouTube'],
-      title: 'V10 | Getting Vulnerable, Going Blonde & Why I\'m Relieved My Eggs Were Just Eggs 😂🦆',
-      hook: 'Should I be more vulnerable on my channel? I\'m thinking out loud about that at the top of this one.',
-      caption: 'Should I be more vulnerable on my channel? I\'m thinking out loud about that at the top of this one and honestly the conversation goes deep. We also talk about why deleting memories of people from your past might not always be the right move, the struggle of working Sundays, a beauty supply and Publix run, and then — I dyed my hair blonde again! Oh and I found a sourdough starter kit in TJ Maxx because of course I did, had some incredibly yummy strawberries, and let\'s just say I was very relieved to find out my duck eggs were just… eggs.\n\nhey, welcome back! This vlog is all over the place in the best way possible — deep thoughts, hair transformations, random TJ Maxx finds and duck eggs. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#dyingmyhairblonde #dayinmylife #gettingvulnerable #tjmaxxfinds #blackgirlvlog',
-      sound: '',
-      category: 'relatable',
-      hookType: 'Curiosity',
-      notes: 'Thumbnail: blonde hair reveal. Text: I WENT BLONDE AGAIN + the duck egg situation 😂🦆'
-    },
-    {
-      id: 1700000011,
-      date: '2024-02-19',
-      platforms: ['YouTube'],
-      title: 'V11 | I Tried Natto & I Was NOT Quiet About It | Chair Build & Weight Loss Update 😂🪑',
-      hook: 'If you\'ve ever wanted to watch someone dramatically lose their mind over a Japanese fermented soybean…',
-      caption: 'If you\'ve ever wanted to watch someone dramatically lose their mind over a Japanese fermented soybean — today is your lucky day. I tried natto for the very first time and gave my most honest, unfiltered reaction. We also built my new office chair, I got real about overthinking my YouTube content and where my head is at, shared an update on my weight loss journal, and yes — there are two music breaks featuring my actual voice because why not. Oh and apparently I look like a downtown market woman and I have no notes about that.\n\nhey, welcome back! This one is so me — chaotic, honest, a little dramatic and full of random moments. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#nattochallenge #weightlossjourney #dayinmylife #buildwithme #blackgirlvlog',
-      sound: '',
-      category: 'relatable',
-      hookType: 'Comedy',
-      notes: 'Thumbnail: most dramatic natto reaction face. Text: I TRIED NATTO'
-    },
-    {
-      id: 1700000012,
-      date: '2024-02-26',
-      platforms: ['YouTube'],
-      title: 'V12 | Should I Tone My Blonde, Healing Confidence & Yes the Car Engine Did Something 😂✨',
-      hook: 'Is my blonde too bright or should I tone it down? We\'re starting there and it goes absolutely everywhere.',
-      caption: 'Is my blonde too bright or should I tone it down? We\'re starting there and it goes absolutely everywhere from there. From learning to mind the business that pays me, cleaning out my underwear drawer, a Ross shopping run, and a real conversation about how healing has made me more confident and self assured — this one has layers. I also found the baggies, share my honest thoughts on You Me & Tuscany, talk about why I\'m taking a break from active and conscious healing, discovered the library as my new work spot, survived $10 popcorn at the movies, caught the moon being gorgeous and went to see the Michael movie!\n\nhey, welcome back! This vlog is chaotic and cozy and so very me — oh and the car engine? I\'ll let you watch that part yourself. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#dayinmylife #healingjourney #blackgirlvlog #rosshaul #naturalconfidence',
-      sound: '',
-      category: 'heal',
-      hookType: 'Curiosity',
-      notes: 'Thumbnail: glowing blonde confident shot. Text: HEALING LOOKS GOOD ON ME ✨'
-    },
-    {
-      id: 1700000013,
-      date: '2024-03-04',
-      platforms: ['YouTube'],
-      title: 'V13 | Why is American Food So Scary Big?! | Immigrant Life, Family & Sunday Dinner 😂🇯🇲',
-      hook: 'If you\'ve ever moved to America and stood in a grocery store genuinely frightened by the size of the food…',
-      caption: 'If you\'ve ever moved to America and stood in a grocery store genuinely frightened by the size of the food — this one is for you. We\'re getting into the real realities of life in America as an immigrant, stopping by to see family, making another Target run because it\'s basically a personality trait at this point, doing a grocery run, and then my mom and I cooking Sunday dinner together to close out the day the right way.\n\nhey, welcome back! This one felt really real and really fun at the same time — talking about the immigrant experience is something I don\'t take lightly but the food size thing?? Genuinely terrifying and we need to discuss it. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#immigrantlife #jamaicanamerican #dayinmylife #sundaydinner #blackgirlvlog',
-      sound: '',
-      category: 'culture',
-      hookType: 'Comedy',
-      notes: 'Thumbnail: holding oversized American food looking horrified. Text: WHY IS THE FOOD SO BIG?! 😂'
-    },
-    {
-      id: 1700000014,
-      date: '2024-03-11',
-      platforms: ['YouTube'],
-      title: 'V14 | I Took My Nose Ring Out, Stopped Chasing & Started Living | ft. Dairy Queen 😂🤍',
-      hook: 'After years of trying to get my nose piercing to heal — it was time to let it go.',
-      caption: 'After years of trying to get my nose piercing to heal — it was time to let it go. This vlog gets really real really fast. We talk about my desire for data privacy and owning physical media, learning to actually experience life through my body instead of just rushing past it, feeling safe with my mom and how far our relationship has evolved, and an honest conversation about how I haven\'t actually been living — just chasing the next thing. Oh and we finally got that Dairy Queen because some things are non negotiable.\n\nhey, welcome back! This one felt like a turning point to film — vulnerable, honest and surprisingly freeing. Come sit with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#dayinmylife #slowliving #healingjourney #motherdaughter #blackgirlvlog',
-      sound: '',
-      category: 'heal',
-      hookType: 'Heal',
-      notes: 'Thumbnail: reflective emotional shot. Text: I STOPPED CHASING & STARTED LIVING + DQ cup in corner 😂'
-    },
-    {
-      id: 1700000015,
-      date: '2024-03-18',
-      platforms: ['YouTube'],
-      title: 'V15 | You\'re Not Asking for Too Much | Self Love, Standards & Why You Should Be Picky 🤍',
-      hook: 'You are not asking for too much. Let\'s start there.',
-      caption: 'You are not asking for too much. Let\'s start there. In this drive and talk I\'m getting into why we need people to actually show up for us in relationships, how settling for less is connected to how the universe responds to us, what self love really looks like beyond the bubble baths and buzzwords, why being picky is actually a form of self respect, the importance of friendships, and what self sabotage really looks like in our everyday lives. This one goes deep and we\'re not done — continued in the next vlog.\n\nhey, welcome back! This conversation has been on my heart for a while and I just had to get it out. Come ride with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#selflove #relationships #standards #selfworth #blackgirlvlog',
-      sound: '',
-      category: 'heal',
-      hookType: 'Heal',
-      notes: 'Drive & talk. Part 1 of 2. Thumbnail: direct to camera, soft + confident. Text: YOU\'RE NOT ASKING FOR TOO MUCH 🤍'
-    },
-    {
-      id: 1700000016,
-      date: '2024-03-25',
-      platforms: ['YouTube'],
-      title: 'V16 | Daddy Issues, Detachment & I Got a Man…I Think? 😂🤍 | Not Settling Part 2',
-      hook: 'Class is back in session and we are NOT settling for less — part two is here.',
-      caption: 'Class is back in session and we are NOT settling for less — part two is here. We pick up right where we left off with a conversation about daddy issues and how they show up in our relationships, the art of detachment and why it\'s actually a superpower, why you should NEVER change your wants just to accommodate someone else, and… I think I got a man? Maybe? We\'ll discuss. Oh and I almost hit a bird, found cheap gas AND once hit an iguana with my car — yes that\'s in here too.\n\nhey, welcome back! This one goes deep and then gets chaotic real fast — just how we like it. If you missed part one go watch V15 first! Come ride with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#daddyissues #notsettling #detachment #selfworth #blackgirlvlog',
-      sound: '',
-      category: 'heal',
-      hookType: 'Opinion',
-      notes: 'Drive & talk. Part 2 of 2. Thumbnail: dramatically unbothered. Text: DADDY ISSUES & I THINK I GOT A MAN 😂'
-    },
-    {
-      id: 1700000017,
-      date: '2024-04-01',
-      platforms: ['YouTube'],
-      title: 'V17 | My First Tarot Deck, Getting My Period Back & a Slow Return to Love 🌙🤍',
-      hook: 'Some chapters of healing are quieter and more sacred than others — and this is one of them.',
-      caption: 'Some chapters of healing are quieter and more sacred than others — and this is one of them. I got my very first tarot deck and then immediately got a new one because apparently that\'s how this goes. We do a card reading, I talk about why tarot resonates with me, share the exciting news that I got my period back, explore what discovering yourself really looks and feels like, talk about finding new hobbies, visit my favorite place ever, do a book haul, reflect on my slow and intentional return to love, and make a quick stop at 5 Below and Ross because balance.\n\nhey, welcome back! This one felt really sacred and soft to film — I hope it finds you right where you need it. This is a safe space and you are so welcome here.\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#tarotreading #healingjourney #bookhaul #slowliving #blackgirlvlog',
-      sound: '',
-      category: 'heal',
-      hookType: 'Heal',
-      notes: 'Thumbnail: holding tarot deck, soft + glowing. Text: MY FIRST TAROT READING & I\'M RETURNING TO LOVE 🌙'
-    },
-    {
-      id: 1700000018,
-      date: '2024-04-08',
-      platforms: ['YouTube'],
-      title: 'V18 | I Complimented a Man in Best Buy & I\'d Do It Again 😏🤍 | Baddie Era',
-      hook: 'A new era is coming and she\'s blonde, confident and completely unbothered.',
-      caption: 'A new era is coming and she\'s blonde, confident and completely unbothered. I\'m talking about my plans to dye my hair blonde and fully become on the outside what I already feel on the inside — because the baddie era is not optional, it\'s necessary. Then I did something I never do — I complimented a man in Best Buy. And I\'m not even sorry. We get into why men are also victims of society, why they\'re not all bad and why I\'m going to keep complimenting them freely and unapologetically when I want to. Came home and made stew chicken and rice because the soul needed it, and we close out with a real conversation about my cats and how deeply connected we are.\n\nhey, welcome back! This one has layers — confidence, compassion, stew chicken and cats. Just another day in The Chaos Files. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#baddieera #goingblonde #dayinmylife #jamaicanfood #blackgirlvlog',
-      sound: '',
-      category: 'yt',
-      hookType: 'Curiosity',
-      notes: 'Baddie era begins! Thumbnail: confident + mischievous. Text: THE BADDIE ERA BEGINS 😏'
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.top-nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'log') loadVideos();
+}
+
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function copyTag(el) {
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    el.classList.add('copied');
+    showToast('Copied ' + el.textContent);
+    setTimeout(() => el.classList.remove('copied'), 1500);
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function toggleCheck(id) { document.getElementById(id).classList.toggle('checked'); }
+
+function openLogModal() {
+  document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('log-modal').classList.add('open');
+}
+
+function closeLogModal() { document.getElementById('log-modal').classList.remove('open'); resetLogForm(); }
+
+function resetLogForm() {
+  ['log-date','log-title','log-hook','log-caption','log-hashtags','log-sound','log-notes'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('log-category').value = '';
+  document.getElementById('log-edit-id').value = '';
+  document.getElementById('log-modal-title').textContent = 'Log a Video';
+  document.getElementById('check-youtube').classList.remove('checked');
+  document.getElementById('check-youtube').querySelector('input').checked = false;
+}
+
+function saveLog() {
+  const title = document.getElementById('log-title').value.trim();
+  if (!title) { showToast('Add a title first'); return; }
+  const platforms = [];
+  document.querySelectorAll('.platform-check.checked input').forEach(i => platforms.push(i.value));
+  const editId = document.getElementById('log-edit-id').value;
+  const videos = JSON.parse(localStorage.getItem('yaad-videos') || '[]');
+
+  if (editId) {
+    const idx = videos.findIndex(v => String(v.id) === String(editId));
+    if (idx > -1) {
+      videos[idx] = { ...videos[idx],
+        date: document.getElementById('log-date').value, title, platforms,
+        hook: document.getElementById('log-hook').value, caption: document.getElementById('log-caption').value,
+        hashtags: document.getElementById('log-hashtags').value, sound: document.getElementById('log-sound').value,
+        category: document.getElementById('log-category').value,
+        notes: document.getElementById('log-notes').value,
+      };
     }
-  ];
+    localStorage.setItem('yaad-videos', JSON.stringify(videos));
+    closeLogModal(); loadVideos(); showToast('Video updated ✓');
+  } else {
+    const entry = {
+      id: Date.now(), date: document.getElementById('log-date').value, title, platforms,
+      hook: document.getElementById('log-hook').value, caption: document.getElementById('log-caption').value,
+      hashtags: document.getElementById('log-hashtags').value, sound: document.getElementById('log-sound').value,
+      category: document.getElementById('log-category').value, hookType: '',
+      notes: document.getElementById('log-notes').value,
+    };
+    videos.unshift(entry);
+    localStorage.setItem('yaad-videos', JSON.stringify(videos));
+    closeLogModal(); loadVideos(); showToast('Video logged ✓');
+  }
+}
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(vlogs));
-  // Trigger display after saving since DOMContentLoaded already fired
-  if (typeof loadVideos === 'function') loadVideos();
-})();
+function openEditModal(id) {
+  const videos = JSON.parse(localStorage.getItem('yaad-videos') || '[]');
+  const v = videos.find(v => String(v.id) === String(id));
+  if (!v) return;
+  document.getElementById('log-edit-id').value = v.id;
+  document.getElementById('log-modal-title').textContent = 'Edit Video';
+  document.getElementById('log-date').value = v.date || '';
+  document.getElementById('log-title').value = v.title || '';
+  document.getElementById('log-hook').value = v.hook || '';
+  document.getElementById('log-caption').value = v.caption || '';
+  document.getElementById('log-hashtags').value = v.hashtags || '';
+  document.getElementById('log-sound').value = v.sound || '';
+  document.getElementById('log-category').value = v.category || '';
+  document.getElementById('log-notes').value = v.notes || '';
+  if (v.platforms && v.platforms.includes('YouTube')) {
+    document.getElementById('check-youtube').classList.add('checked');
+    document.getElementById('check-youtube').querySelector('input').checked = true;
+  }
+  document.getElementById('log-modal').classList.add('open');
+}
+
+function deleteVideo(id) {
+  if (!confirm('Delete this video from the log?')) return;
+  const videos = JSON.parse(localStorage.getItem('yaad-videos') || '[]');
+  const updated = videos.filter(v => String(v.id) !== String(id));
+  localStorage.setItem('yaad-videos', JSON.stringify(updated));
+  loadVideos();
+  showToast('Video deleted');
+}
+
+let currentFilter = 'all';
+
+function filterLog(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadVideos();
+}
+
+const pillarLabels = { story:'📖 My Story', heal:'🌿 Healing', culture:'🇯🇲 Jamaican Life', real:'😂 Real & Unfiltered', convo:'💭 Conversations', yt:'▶️ YouTube', other:'Other' };
+
+function loadVideos() {
+  const videos = JSON.parse(localStorage.getItem('yaad-videos') || '[]');
+  const list = document.getElementById('video-list');
+  if (!list) return;
+  const filtered = videos.filter(v => {
+    if (currentFilter === 'all') return true;
+    if (currentFilter === 'YouTube') return v.platforms && v.platforms.includes('YouTube');
+    return v.category === currentFilter;
+  });
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🎬</div><div class="empty-title">No videos here yet</div><div class="empty-desc">Hit <strong>+ Log a Video</strong> after every upload to build your record.</div></div>`;
+    return;
+  }
+  list.innerHTML = filtered.map(v => `
+    <div class="video-card">
+      <div class="video-card-top">
+        <div class="video-title-text">${v.title}</div>
+        <div class="video-date">${v.date || ''}</div>
+      </div>
+      <div class="video-meta">
+        ${(v.platforms||[]).map(p => `<span class="platform-tag pt-${p.toLowerCase()}">${p}</span>`).join('')}
+        ${v.category ? `<span class="badge badge-gold" style="font-size:11px;">${pillarLabels[v.category]||v.category}</span>` : ''}
+      </div>
+      ${v.hook ? `<div class="video-hook">"${v.hook}"</div>` : ''}
+      ${v.notes ? `<div class="video-notes">📝 ${v.notes}</div>` : ''}
+      <div class="video-card-actions">
+        <button class="btn-edit" onclick="openEditModal(${v.id})">✏️ Edit</button>
+        <button class="btn-delete" onclick="deleteVideo(${v.id})">🗑 Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function openIdeaModal(pillar) {
+  document.getElementById('idea-pillar').value = pillar;
+  document.getElementById('idea-text-input').value = '';
+  document.getElementById('idea-tag-select').value = '';
+  document.getElementById('idea-modal').classList.add('open');
+}
+
+function closeIdeaModal() { document.getElementById('idea-modal').classList.remove('open'); }
+
+function saveIdea() {
+  const text = document.getElementById('idea-text-input').value.trim();
+  if (!text) return;
+  const pillar = document.getElementById('idea-pillar').value;
+  const tag = document.getElementById('idea-tag-select').value;
+  const tagClass = tag ? `tag-${tag}` : '';
+  const tagLabel = tag ? tag.charAt(0).toUpperCase() + tag.slice(1) : '';
+  const pillarColors = { story:'var(--gold)', heal:'var(--green)', culture:'var(--coral)', real:'var(--lavender)', convo:'var(--rose)' };
+  const color = pillarColors[pillar] || 'var(--gold)';
+  const li = document.createElement('li');
+  li.className = 'idea-item';
+  li.innerHTML = `<div class="idea-dot" style="background:${color}"></div><div class="idea-text">${text}</div>${tagLabel ? `<span class="idea-tag ${tagClass}">${tagLabel}</span>` : ''}`;
+  const listEl = document.getElementById('ideas-' + pillar);
+  if (listEl) listEl.appendChild(li);
+  closeIdeaModal();
+  showToast('Idea added ✓');
+}
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) { overlay.classList.remove('open'); if (overlay.id === 'log-modal') resetLogForm(); }
+  });
+});
+
+function seedVlogs() {
+  const KEY = 'yaad-videos';
+  const existing = localStorage.getItem(KEY);
+  if (existing && JSON.parse(existing).length > 0) return;
+  const vlogs = [
+    {id:1700000001,date:'2016-01-01',platforms:['YouTube'],title:'V1 | I Packed Up My Life & Moved to Korea | Teaching English Abroad 2016 🇰🇷',hook:'In 2016 I packed up my life and moved to South Korea to teach English…',caption:'In 2016 I packed up my life and moved to South Korea to teach English — and this is how my first month went. From the food on the flight over, settling into campus during training, celebrating Chuseok in Busan with new friends, and exploring Nampo Traditional Market — this month changed everything for me.\n\nhey, welcome back! This throwback vlog is so special to me. Come watch!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#teachingenglishabroad #koreavlog #blackgirlinkorea #livinginkorea #AsToldByYolanda',sound:'Thumbnail: happy/in awe face. Text: I MOVED TO KOREA',category:'story',hookType:'Curiosity',notes:'Throwback 2016. Korea series — V1.'},
+    {id:1700000002,date:'2016-02-01',platforms:['YouTube'],title:'V2 | Living in Korea | Wearing a Hanbok, Seoul Street Food & the Famous Poop Cafe 💩🇰🇷',hook:'Living in Korea gave me some of the most unforgettable experiences of my life…',caption:'Living in Korea gave me some of the most unforgettable experiences of my life — and this vlog proves it. Hanok Village, wearing a traditional Hanbok, Myeongdong street food, a free palace tour, and the infamous Poop Cafe.\n\nhey, welcome back! This era of my life was so full and so fun. Come watch!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#livinginkorea #seoulfoodtour #koreavlog #blackgirlinkorea #AsToldByYolanda',sound:'Thumbnail: split — hanbok + poop cafe. Text: LIFE IN KOREA 💩',category:'story',hookType:'Curiosity',notes:'Throwback 2016. Korea series — V2.'},
+    {id:1700000003,date:'2016-01-15',platforms:['YouTube'],title:'V3 | I Cried in the Airport on My Way to Korea | The Craziest Travel Day of My Life 😭🇰🇷',hook:'Moving to Korea was the biggest decision of my life — and the travel day almost took me out…',caption:'Moving to Korea was the biggest decision of my life — and the travel day almost took me out before I even got there. The full story of my crazy travel day, crying in the airport, and making it to South Korea in one piece.\n\nhey, welcome back! This story is so wild looking back. Grab a snack — storytime is HERE. Come watch!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#travelstorytime #movingtokorea #teachingenglishabroad #blackgirlinkorea #AsToldByYolanda',sound:'Thumbnail: emotional/expressive face. Text: I CRIED IN THE AIRPORT',category:'story',hookType:'Curiosity',notes:'Storytime — no footage. Korea series — V3.'},
+    {id:1700000004,date:'2024-01-01',platforms:['YouTube'],title:'V4 | I Cut All My Hair Off, Started Over & Partied With My Mom 🎉✂️',hook:'From making a big decision to cut all my hair off, to reflecting on how hard starting over really is…',caption:'From cutting my hair off to reflecting on starting over — this vlog gets real before the night begins. Then getting ready, pregaming and hitting the party with my mom — and yes she showed out.\n\nhey, welcome back! A whole vibe from start to finish. My mom is everything. Come party with us!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#dayinmylife #cuttingmyhairoff #startingover #blackgirlvlog #AsToldByYolanda',sound:'Thumbnail: you + mom mid laugh at party. Text: PARTYING WITH MY MOM 🎉',category:'real',hookType:'Relatable',notes:'2024 content begins. V4.'},
+    {id:1700000005,date:'2024-01-08',platforms:['YouTube'],title:'V5 | Our First Rodeo Ever & We Were NOT Ready 😂🤠',hook:'Our first time ever at an American rodeo and let\'s just say… we were absolutely not prepared.',caption:'Our first time ever at an American rodeo and we were absolutely not prepared. Two women from rural Jamaica at their first American rodeo. Oh and the men on horses? We noticed.\n\nhey, welcome back! My mom and I do life together and it is never boring. Come laugh with us!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#dayinmylife #rodeovlog #momanddaughter #blackgirlvlog #AsToldByYolanda',sound:'Thumbnail: you + mom at rodeo looking scared. Text: WE WERE NOT READY 🤠',category:'culture',hookType:'Comedy',notes:'V5. Mom content performs really well.'},
+    {id:1700000006,date:'2024-01-15',platforms:['YouTube'],title:'V6 | Healing in Pink, Jamaican Pride & Why I\'m Learning Chinese 😂🇯🇲',hook:'Why am I considering learning Chinese? You\'ll have to watch to understand.',caption:'Reflecting on what the color pink means in my healing, a real conversation about Jamaicans and our pride, a mini rant on tipping culture, getting caught in the rain, and why I\'m considering learning Chinese.\n\nhey, welcome back! A little bit of everything — vulnerable, funny, opinionated and real. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#dayinmylife #jamaicanpride #healingjourney #tippingculture #AsToldByYolanda',sound:'Thumbnail: confident in car. Text: WHY I\'M LEARNING CHINESE 😂',category:'culture',hookType:'Curiosity',notes:'Car vlog. V6.'},
+    {id:1700000007,date:'2024-01-22',platforms:['YouTube'],title:'V7 | She\'s Healing, She\'s Gorgeous & She\'s Determined 😌✨',hook:'Reclaiming joy after trauma is not a straight line — but this season I\'m choosing me.',caption:'Reclaiming joy after trauma is not a straight line — but this season I\'m choosing me, fully and unapologetically. Music in my healing, my crystal collection, determination to succeed, and a family walk in the park.\n\nhey, welcome back! Just me in the car, the sun hitting just right, marvelling at my own gorgeousness. I hope this finds you when you need it.\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#healingjourney #reclaimingjoy #selflove #crystalhealing #AsToldByYolanda',sound:'Thumbnail: glowy sun shot in car. Text: SHE\'S HEALING & SHE\'S GORGEOUS 😌✨',category:'heal',hookType:'Heal',notes:'Car vlog. V7.'},
+    {id:1700000008,date:'2024-01-29',platforms:['YouTube'],title:'V8 | Honest Thoughts About My Job, Phone Company Drama & a Horned Melon 😅🍈',hook:'Some weeks call for honesty. I\'m getting real about how I truly feel about my job right now.',caption:'Getting real about how I truly feel about my job — no filter. Phone company drama that did NOT go smoothly. And I tried a horned melon for the very first time.\n\nhey, welcome back! One of those real, unfiltered weeks. Come sit with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#dayinmylife #hornedmelon #phonedrama #reallifestruggles #AsToldByYolanda',sound:'Thumbnail: split — frustrated + shocked holding melon. Text: THAT KIND OF WEEK 😅',category:'real',hookType:'Relatable',notes:'V8.'},
+    {id:1700000009,date:'2024-02-05',platforms:['YouTube'],title:'V9 | I Broke Up With My Therapist & Other Important Announcements 😂🤍',hook:'Yes you read that right — I finally broke up with my therapist and I\'m explaining everything.',caption:'I finally broke up with my therapist and I\'m explaining everything. Plus a PSA about my channel, Whole Foods prepared meals, and why we need to be kinder to call center workers.\n\nhey, welcome back! Food, real talk, channel updates and one very overdue breakup. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#breakingupwithmytherapist #dayinmylife #mentalhealthvlog #AsToldByYolanda #blackgirlvlog',sound:'Thumbnail: dramatically unbothered face. Text: I BROKE UP WITH MY THERAPIST',category:'heal',hookType:'Curiosity',notes:'V9.'},
+    {id:1700000010,date:'2024-02-12',platforms:['YouTube'],title:'V10 | Getting Vulnerable, Going Blonde & Why I\'m Relieved My Eggs Were Just Eggs 😂🦆',hook:'Should I be more vulnerable on my channel? I\'m thinking out loud about that at the top of this one.',caption:'Should I be more vulnerable? Thinking out loud — the conversation goes deep. Deleting memories, working Sundays, beauty supply run, dyeing my hair blonde again, sourdough starter from TJ Maxx, and the duck egg situation.\n\nhey, welcome back! Deep thoughts, hair transformations, random TJ Maxx finds and duck eggs. Come hang!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#dyingmyhairblonde #dayinmylife #gettingvulnerable #tjmaxxfinds #AsToldByYolanda',sound:'Thumbnail: blonde hair reveal. Text: I WENT BLONDE AGAIN + duck egg situation 😂🦆',category:'real',hookType:'Curiosity',notes:'V10.'},
+    {id:1700000011,date:'2024-02-19',platforms:['YouTube'],title:'V11 | I Tried Natto & I Was NOT Quiet About It | Chair Build & Weight Loss Update 😂🪑',hook:'If you\'ve ever wanted to watch someone dramatically lose their mind over a Japanese fermented soybean…',caption:'If you\'ve ever wanted to watch someone dramatically lose their mind over natto — today is your lucky day. Plus building my new office chair, overthinking YouTube, weight loss journal update, two music breaks, and I look like a downtown market woman.\n\nhey, welcome back! Chaotic, honest, a little dramatic. Come hang!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#nattochallenge #weightlossjourney #dayinmylife #AsToldByYolanda #blackgirlvlog',sound:'Thumbnail: most dramatic natto reaction face. Text: I TRIED NATTO',category:'real',hookType:'Comedy',notes:'V11. Food reaction content performs really well.'},
+    {id:1700000012,date:'2024-02-26',platforms:['YouTube'],title:'V12 | Should I Tone My Blonde, Healing Confidence & Yes the Car Engine Did Something 😂✨',hook:'Is my blonde too bright or should I tone it down? We\'re starting there and it goes absolutely everywhere.',caption:'Is my blonde too bright? From minding my business, cleaning out my underwear drawer, a Ross run, healing confidence, the baggies, You Me & Tuscany, a break from conscious healing, the library as my work spot, $10 popcorn, the moon, and the Michael movie!\n\nhey, welcome back! Chaotic and cozy — oh and the car engine? I\'ll let you watch that yourself. Come hang!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#dayinmylife #healingjourney #blackgirlvlog #rosshaul #AsToldByYolanda',sound:'Thumbnail: glowing blonde confident shot. Text: HEALING LOOKS GOOD ON ME ✨',category:'heal',hookType:'Curiosity',notes:'V12.'},
+    {id:1700000013,date:'2024-03-04',platforms:['YouTube'],title:'V13 | Why is American Food So Scary Big?! | Immigrant Life, Family & Sunday Dinner 😂🇯🇲',hook:'If you\'ve ever moved to America and stood in a grocery store genuinely frightened by the size of the food…',caption:'If you\'ve ever moved to America and been genuinely frightened by the size of the food — this one is for you. Immigrant realities, family visit, Target run, grocery run, and mom and I cooking Sunday dinner together.\n\nhey, welcome back! Real and fun — the food size thing is genuinely terrifying. Come hang!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#immigrantlife #jamaicanamerican #dayinmylife #sundaydinner #AsToldByYolanda',sound:'Thumbnail: holding oversized food looking horrified. Text: WHY IS THE FOOD SO BIG?! 😂',category:'culture',hookType:'Comedy',notes:'V13. Immigrant content pulls a very engaged audience.'},
+    {id:1700000014,date:'2024-03-11',platforms:['YouTube'],title:'V14 | I Took My Nose Ring Out, Stopped Chasing & Started Living | ft. Dairy Queen 😂🤍',hook:'After years of trying to get my nose piercing to heal — it was time to let it go.',caption:'After years of trying to get my nose piercing to heal — it was time to let it go. Data privacy, physical media, experiencing life through my body, feeling safe with my mom, how I\'ve been chasing not living. And finally, Dairy Queen.\n\nhey, welcome back! This felt like a turning point to film. Come sit with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#dayinmylife #slowliving #healingjourney #motherdaughter #AsToldByYolanda',sound:'Thumbnail: reflective shot. Text: I STOPPED CHASING & STARTED LIVING + DQ cup corner 😂',category:'heal',hookType:'Heal',notes:'V14.'},
+    {id:1700000015,date:'2024-03-18',platforms:['YouTube'],title:'V15 | You\'re Not Asking for Too Much | Self Love, Standards & Why You Should Be Picky 🤍',hook:'You are not asking for too much. Let\'s start there.',caption:'You are not asking for too much. Let\'s start there. Why we need people to show up for us, how settling connects to self worth, what self love really looks like, why being picky is self respect, friendships, and what self sabotage looks like. Continued in V16.\n\nhey, welcome back! This conversation has been on my heart. Come ride with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#selflove #relationships #standards #selfworth #AsToldByYolanda',sound:'Thumbnail: direct to camera, soft + confident. Text: YOU\'RE NOT ASKING FOR TOO MUCH 🤍',category:'convo',hookType:'Heal',notes:'V15. Drive & talk. Part 1 of 2.'},
+    {id:1700000016,date:'2024-03-25',platforms:['YouTube'],title:'V16 | Daddy Issues, Detachment & I Got a Man…I Think? 😂🤍 | Not Settling Part 2',hook:'Class is back in session and we are NOT settling for less — part two is here.',caption:'Not settling part two is here. Daddy issues in relationships, the art of detachment, why you should NEVER change your wants, and I think I got a man? Plus almost hitting a bird, cheap gas, and the iguana incident.\n\nhey, welcome back! Goes deep then gets chaotic — watch V15 first! Come ride with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#daddyissues #notsettling #detachment #selfworth #AsToldByYolanda',sound:'Thumbnail: dramatically unbothered. Text: DADDY ISSUES & I THINK I GOT A MAN 😂',category:'convo',hookType:'Opinion',notes:'V16. Drive & talk. Part 2 of 2.'},
+    {id:1700000017,date:'2024-04-01',platforms:['YouTube'],title:'V17 | My First Tarot Deck, Getting My Period Back & a Slow Return to Love 🌙🤍',hook:'Some chapters of healing are quieter and more sacred than others — and this is one of them.',caption:'Some chapters of healing are quieter and more sacred. My first tarot deck, a card reading, why tarot resonates, getting my period back, discovering self, new hobbies, my favorite place, a book haul, slow return to love, and 5 Below and Ross.\n\nhey, welcome back! This one felt really sacred and soft to film. This is a safe space. 🌙\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#tarotreading #healingjourney #bookhaul #slowliving #AsToldByYolanda',sound:'Thumbnail: holding tarot deck, soft + glowing. Text: MY FIRST TAROT READING & I\'M RETURNING TO LOVE 🌙',category:'heal',hookType:'Heal',notes:'V17.'},
+    {id:1700000018,date:'2024-04-08',platforms:['YouTube'],title:'V18 | I Complimented a Man in Best Buy & I\'d Do It Again 😏🤍 | Baddie Era',hook:'A new era is coming and she\'s blonde, confident and completely unbothered.',caption:'A new era is coming — blonde, confident and completely unbothered. Plans to go blonde, complimenting a man in Best Buy and not being sorry, why men are also victims of society, stew chicken and rice, and my cats changing as I change.\n\nhey, welcome back! Confidence, compassion, stew chicken and cats. Just another chapter. Come hang!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',hashtags:'#baddieera #goingblonde #dayinmylife #jamaicanfood #AsToldByYolanda',sound:'Thumbnail: confident + mischievous. Text: THE BADDIE ERA BEGINS 😏',category:'real',hookType:'Curiosity',notes:'V18. Baddie era begins!'}
+  ];
+  localStorage.setItem('yaad-videos', JSON.stringify(vlogs));
+}
 </script>
 </body>
 </html>
