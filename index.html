@@ -627,13 +627,13 @@
 <script>
 // Pre-load all 18 vlogs into the video log on first run
 (function() {
-  const STORAGE_KEY = 'chaosfiles_logs';
+  const STORAGE_KEY = 'yaad-videos';
   const existing = localStorage.getItem(STORAGE_KEY);
-  if (existing && JSON.parse(existing).length > 0) return; // don't overwrite if logs exist
+  if (existing && JSON.parse(existing).length > 0) return;
 
   const vlogs = [
     {
-      id: Date.now() + 1,
+      id: 1700000001,
       date: '2016-01-01',
       platforms: ['YouTube'],
       title: 'V1 | I Packed Up My Life & Moved to Korea | Teaching English Abroad 2016 🇰🇷',
@@ -642,11 +642,11 @@
       hashtags: '#teachingenglishabroad #koreavlog #blackgirlinkorea #livinginkorea #expatlife',
       sound: '',
       category: 'yt',
-      hooktype: 'Curiosity',
+      hookType: 'Curiosity',
       notes: 'Throwback 2016. Thumbnail: face looking happy/in awe. Bold text: I MOVED TO KOREA'
     },
     {
-      id: Date.now() + 2,
+      id: 1700000002,
       date: '2016-02-01',
       platforms: ['YouTube'],
       title: 'V2 | Living in Korea | Wearing a Hanbok, Seoul Street Food & the Famous Poop Cafe 💩🇰🇷',
@@ -655,24 +655,24 @@
       hashtags: '#livinginkorea #seoulfoodtour #koreavlog #blackgirlinkorea #teachingenglishabroad',
       sound: '',
       category: 'yt',
-      hooktype: 'Curiosity',
+      hookType: 'Curiosity',
       notes: 'Throwback 2016. Thumbnail: split — hanbok + poop cafe. Text: LIFE IN KOREA 💩'
     },
     {
-      id: Date.now() + 3,
+      id: 1700000003,
       date: '2016-01-15',
       platforms: ['YouTube'],
       title: 'V3 | I Cried in the Airport on My Way to Korea | The Craziest Travel Day of My Life 😭🇰🇷',
       hook: 'Moving to Korea was the biggest decision of my life — and the travel day almost took me out…',
       caption: 'Moving to Korea was the biggest decision of my life — and the travel day almost took me out before I even got there. In this vlog I\'m recounting the full story of my crazy travel day, the moment I broke down crying in the airport, and how I made it to South Korea in one piece. If you\'ve ever had a travel day go completely sideways, you\'ll feel every single second of this.\n\nhey, welcome back! This story is so wild to me looking back now — I was terrified, exhausted and emotional but I made it and I\'d do it all over again. Grab a snack because storytime is HERE. Come watch!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
-      hashtags: '#travelstorytime #movingtkorea #teachingenglishabroad #blackgirlinkorea #travelday',
+      hashtags: '#travelstorytime #movingtokorea #teachingenglishabroad #blackgirlinkorea #travelday',
       sound: '',
       category: 'yt',
-      hooktype: 'Curiosity',
+      hookType: 'Curiosity',
       notes: 'Storytime — no footage. Thumbnail: expressive/emotional face. Text: I CRIED IN THE AIRPORT'
     },
     {
-      id: Date.now() + 4,
+      id: 1700000004,
       date: '2024-01-01',
       platforms: ['YouTube'],
       title: 'V4 | I Cut All My Hair Off, Started Over & Partied With My Mom 🎉✂️',
@@ -681,11 +681,11 @@
       hashtags: '#dayinmylife #cuttingmyhairoff #startingover #blackgirlvlog #momanddaughter',
       sound: '',
       category: 'relatable',
-      hooktype: 'Relatable',
+      hookType: 'Relatable',
       notes: 'Thumbnail: you + mom mid laugh at party. Text: PARTYING WITH MY MOM 🎉'
     },
     {
-      id: Date.now() + 5,
+      id: 1700000005,
       date: '2024-01-08',
       platforms: ['YouTube'],
       title: 'V5 | Our First Rodeo Ever & We Were NOT Ready 😂🤠',
@@ -694,11 +694,11 @@
       hashtags: '#dayinmylife #rodeovlog #momanddaughter #blackgirlvlog #firstrodeo',
       sound: '',
       category: 'culture',
-      hooktype: 'Comedy',
+      hookType: 'Comedy',
       notes: 'Thumbnail: you + mom at rodeo looking scared/shocked. Text: WE WERE NOT READY 🤠'
     },
     {
-      id: Date.now() + 6,
+      id: 1700000006,
       date: '2024-01-15',
       platforms: ['YouTube'],
       title: 'V6 | Healing in Pink, Jamaican Pride & Why I\'m Learning Chinese 😂🇯🇲',
@@ -707,11 +707,11 @@
       hashtags: '#dayinmylife #jamaicanpride #healingjourney #tippingculture #blackgirlvlog',
       sound: '',
       category: 'culture',
-      hooktype: 'Curiosity',
+      hookType: 'Curiosity',
       notes: 'Car vlog. Thumbnail: confident in car. Text: WHY I\'M LEARNING CHINESE 😂'
     },
     {
-      id: Date.now() + 7,
+      id: 1700000007,
       date: '2024-01-22',
       platforms: ['YouTube'],
       title: 'V7 | She\'s Healing, She\'s Gorgeous & She\'s Determined 😌✨',
@@ -720,24 +720,24 @@
       hashtags: '#healingjourney #reclaimingjoy #selflove #crystalhealing #dayinmylife',
       sound: '',
       category: 'heal',
-      hooktype: 'Heal',
+      hookType: 'Heal',
       notes: 'Car vlog. Thumbnail: sun hitting just right, glowy shot. Text: SHE\'S HEALING & SHE\'S GORGEOUS 😌✨'
     },
     {
-      id: Date.now() + 8,
+      id: 1700000008,
       date: '2024-01-29',
       platforms: ['YouTube'],
       title: 'V8 | Honest Thoughts About My Job, Phone Company Drama & a Horned Melon 😅🍈',
       hook: 'Some weeks call for honesty. I\'m getting real about how I truly feel about my job right now.',
-      caption: 'Some weeks call for honesty. I\'m getting real about how I truly feel about my job right now — no filter. Then I finally hit my limit with my phone company and let\'s just say that conversation did NOT go smoothly. And because life is random and beautiful, I tried a horned melon for the very first time and honestly had no idea what to expect.\n\nhey, welcome back! This is one of those real, unfiltered weeks where everything is a lot but you push through anyway. If you\'ve ever felt frustrated at work or ready to lose your mind with customer service — this one is for you. Come sit with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
+      caption: 'Some weeks call for honesty. I\'m getting real about how I truly feel about my job right now — no filter. Then I finally hit my limit with my phone company and let\'s just say that conversation did NOT go smoothly. And because life is random and beautiful, I tried a horned melon for the very first time and honestly had no idea what to expect.\n\nhey, welcome back! This is one of those real, unfiltered weeks where everything is a lot but you push through anyway. Come sit with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
       hashtags: '#dayinmylife #weekinmylife #hornedmelon #phonedrama #reallifestruggles',
       sound: '',
       category: 'relatable',
-      hooktype: 'Relatable',
+      hookType: 'Relatable',
       notes: 'Thumbnail: split — frustrated face + shocked holding horned melon. Text: THAT KIND OF WEEK 😅'
     },
     {
-      id: Date.now() + 9,
+      id: 1700000009,
       date: '2024-02-05',
       platforms: ['YouTube'],
       title: 'V9 | I Broke Up With My Therapist & Other Important Announcements 😂🤍',
@@ -746,11 +746,11 @@
       hashtags: '#breakingupwithmytherapist #dayinmylife #mentalhealthvlog #wholefoodshaul #blackgirlvlog',
       sound: '',
       category: 'heal',
-      hooktype: 'Curiosity',
-      notes: 'Thumbnail: dramatically unbothered face. Text: I BROKE UP WITH MY THERAPIST — no emoji needed'
+      hookType: 'Curiosity',
+      notes: 'Thumbnail: dramatically unbothered face. Text: I BROKE UP WITH MY THERAPIST'
     },
     {
-      id: Date.now() + 10,
+      id: 1700000010,
       date: '2024-02-12',
       platforms: ['YouTube'],
       title: 'V10 | Getting Vulnerable, Going Blonde & Why I\'m Relieved My Eggs Were Just Eggs 😂🦆',
@@ -759,24 +759,24 @@
       hashtags: '#dyingmyhairblonde #dayinmylife #gettingvulnerable #tjmaxxfinds #blackgirlvlog',
       sound: '',
       category: 'relatable',
-      hooktype: 'Curiosity',
+      hookType: 'Curiosity',
       notes: 'Thumbnail: blonde hair reveal. Text: I WENT BLONDE AGAIN + the duck egg situation 😂🦆'
     },
     {
-      id: Date.now() + 11,
+      id: 1700000011,
       date: '2024-02-19',
       platforms: ['YouTube'],
       title: 'V11 | I Tried Natto & I Was NOT Quiet About It | Chair Build & Weight Loss Update 😂🪑',
       hook: 'If you\'ve ever wanted to watch someone dramatically lose their mind over a Japanese fermented soybean…',
-      caption: 'If you\'ve ever wanted to watch someone dramatically lose their mind over a Japanese fermented soybean — today is your lucky day. I tried natto for the very first time and gave my most honest, unfiltered reaction. We also built my new office chair, I got real about overthinking my YouTube content and where my head is at, shared an update on my weight loss journal, and yes — there are two music breaks featuring my actual voice because why not. Oh and apparently I look like a downtown market woman and I have no notes about that.\n\nhey, welcome back! This one is so me — chaotic, honest, a little dramatic and full of random moments. I hope it makes you smile. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
+      caption: 'If you\'ve ever wanted to watch someone dramatically lose their mind over a Japanese fermented soybean — today is your lucky day. I tried natto for the very first time and gave my most honest, unfiltered reaction. We also built my new office chair, I got real about overthinking my YouTube content and where my head is at, shared an update on my weight loss journal, and yes — there are two music breaks featuring my actual voice because why not. Oh and apparently I look like a downtown market woman and I have no notes about that.\n\nhey, welcome back! This one is so me — chaotic, honest, a little dramatic and full of random moments. Come hang with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
       hashtags: '#nattochallenge #weightlossjourney #dayinmylife #buildwithme #blackgirlvlog',
       sound: '',
       category: 'relatable',
-      hooktype: 'Comedy',
+      hookType: 'Comedy',
       notes: 'Thumbnail: most dramatic natto reaction face. Text: I TRIED NATTO'
     },
     {
-      id: Date.now() + 12,
+      id: 1700000012,
       date: '2024-02-26',
       platforms: ['YouTube'],
       title: 'V12 | Should I Tone My Blonde, Healing Confidence & Yes the Car Engine Did Something 😂✨',
@@ -785,11 +785,11 @@
       hashtags: '#dayinmylife #healingjourney #blackgirlvlog #rosshaul #naturalconfidence',
       sound: '',
       category: 'heal',
-      hooktype: 'Curiosity',
+      hookType: 'Curiosity',
       notes: 'Thumbnail: glowing blonde confident shot. Text: HEALING LOOKS GOOD ON ME ✨'
     },
     {
-      id: Date.now() + 13,
+      id: 1700000013,
       date: '2024-03-04',
       platforms: ['YouTube'],
       title: 'V13 | Why is American Food So Scary Big?! | Immigrant Life, Family & Sunday Dinner 😂🇯🇲',
@@ -798,37 +798,37 @@
       hashtags: '#immigrantlife #jamaicanamerican #dayinmylife #sundaydinner #blackgirlvlog',
       sound: '',
       category: 'culture',
-      hooktype: 'Comedy',
+      hookType: 'Comedy',
       notes: 'Thumbnail: holding oversized American food looking horrified. Text: WHY IS THE FOOD SO BIG?! 😂'
     },
     {
-      id: Date.now() + 14,
+      id: 1700000014,
       date: '2024-03-11',
       platforms: ['YouTube'],
       title: 'V14 | I Took My Nose Ring Out, Stopped Chasing & Started Living | ft. Dairy Queen 😂🤍',
       hook: 'After years of trying to get my nose piercing to heal — it was time to let it go.',
-      caption: 'After years of trying to get my nose piercing to heal — it was time to let it go. This vlog gets really real really fast. We talk about my desire for data privacy and owning physical media, learning to actually experience life through my body instead of just rushing past it, feeling safe with my mom and how far our relationship has evolved, and an honest conversation about how I haven\'t actually been living — just chasing the next thing. Oh and we finally got that Dairy Queen because some things are non negotiable.\n\nhey, welcome back! This one felt like a turning point to film — vulnerable, honest and surprisingly freeing. If you\'ve ever felt like you\'ve been going through the motions instead of actually living, I think this one will hit home. Come sit with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
+      caption: 'After years of trying to get my nose piercing to heal — it was time to let it go. This vlog gets really real really fast. We talk about my desire for data privacy and owning physical media, learning to actually experience life through my body instead of just rushing past it, feeling safe with my mom and how far our relationship has evolved, and an honest conversation about how I haven\'t actually been living — just chasing the next thing. Oh and we finally got that Dairy Queen because some things are non negotiable.\n\nhey, welcome back! This one felt like a turning point to film — vulnerable, honest and surprisingly freeing. Come sit with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
       hashtags: '#dayinmylife #slowliving #healingjourney #motherdaughter #blackgirlvlog',
       sound: '',
       category: 'heal',
-      hooktype: 'Heal',
+      hookType: 'Heal',
       notes: 'Thumbnail: reflective emotional shot. Text: I STOPPED CHASING & STARTED LIVING + DQ cup in corner 😂'
     },
     {
-      id: Date.now() + 15,
+      id: 1700000015,
       date: '2024-03-18',
       platforms: ['YouTube'],
       title: 'V15 | You\'re Not Asking for Too Much | Self Love, Standards & Why You Should Be Picky 🤍',
       hook: 'You are not asking for too much. Let\'s start there.',
-      caption: 'You are not asking for too much. Let\'s start there. In this drive and talk I\'m getting into why we need people to actually show up for us in relationships, how settling for less is connected to how the universe responds to us, what self love really looks like beyond the bubble baths and buzzwords, why being picky is actually a form of self respect, the importance of friendships, and what self sabotage really looks like in our everyday lives. This one goes deep and we\'re not done — continued in the next vlog.\n\nhey, welcome back! This conversation has been on my heart for a while and I just had to get it out. If you\'ve ever questioned your standards or felt guilty for wanting more — this one is for you. Come ride with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
+      caption: 'You are not asking for too much. Let\'s start there. In this drive and talk I\'m getting into why we need people to actually show up for us in relationships, how settling for less is connected to how the universe responds to us, what self love really looks like beyond the bubble baths and buzzwords, why being picky is actually a form of self respect, the importance of friendships, and what self sabotage really looks like in our everyday lives. This one goes deep and we\'re not done — continued in the next vlog.\n\nhey, welcome back! This conversation has been on my heart for a while and I just had to get it out. Come ride with me!\n\nIf you\'re new here, welcome! Don\'t forget to like & subscribe.\n\nWant to see more of me?\nInstagram: @yolzxo | TikTok: @yolandamcleod',
       hashtags: '#selflove #relationships #standards #selfworth #blackgirlvlog',
       sound: '',
       category: 'heal',
-      hooktype: 'Heal',
+      hookType: 'Heal',
       notes: 'Drive & talk. Part 1 of 2. Thumbnail: direct to camera, soft + confident. Text: YOU\'RE NOT ASKING FOR TOO MUCH 🤍'
     },
     {
-      id: Date.now() + 16,
+      id: 1700000016,
       date: '2024-03-25',
       platforms: ['YouTube'],
       title: 'V16 | Daddy Issues, Detachment & I Got a Man…I Think? 😂🤍 | Not Settling Part 2',
@@ -837,11 +837,11 @@
       hashtags: '#daddyissues #notsettling #detachment #selfworth #blackgirlvlog',
       sound: '',
       category: 'heal',
-      hooktype: 'Opinion',
+      hookType: 'Opinion',
       notes: 'Drive & talk. Part 2 of 2. Thumbnail: dramatically unbothered. Text: DADDY ISSUES & I THINK I GOT A MAN 😂'
     },
     {
-      id: Date.now() + 17,
+      id: 1700000017,
       date: '2024-04-01',
       platforms: ['YouTube'],
       title: 'V17 | My First Tarot Deck, Getting My Period Back & a Slow Return to Love 🌙🤍',
@@ -850,11 +850,11 @@
       hashtags: '#tarotreading #healingjourney #bookhaul #slowliving #blackgirlvlog',
       sound: '',
       category: 'heal',
-      hooktype: 'Heal',
+      hookType: 'Heal',
       notes: 'Thumbnail: holding tarot deck, soft + glowing. Text: MY FIRST TAROT READING & I\'M RETURNING TO LOVE 🌙'
     },
     {
-      id: Date.now() + 18,
+      id: 1700000018,
       date: '2024-04-08',
       platforms: ['YouTube'],
       title: 'V18 | I Complimented a Man in Best Buy & I\'d Do It Again 😏🤍 | Baddie Era',
@@ -863,13 +863,12 @@
       hashtags: '#baddieera #goingblonde #dayinmylife #jamaicanfood #blackgirlvlog',
       sound: '',
       category: 'yt',
-      hooktype: 'Curiosity',
+      hookType: 'Curiosity',
       notes: 'Baddie era begins! Thumbnail: confident + mischievous. Text: THE BADDIE ERA BEGINS 😏'
     }
   ];
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(vlogs));
-  console.log('✅ All 18 vlogs pre-loaded into The Chaos Files Video Log!');
 })();
 </script>
 </body>
